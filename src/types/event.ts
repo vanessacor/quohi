@@ -1,11 +1,11 @@
 export interface HistoricalEvent {
-  id: string
-  title: string
-  year: number
-  month?: number
-  day?: number
-  endYear?: number
-  lat: number
-  lng: number
-  description: string
+  readonly id: string
+  readonly title: string
+  readonly year: number
+  readonly month?: number
+  readonly day?: number
+  readonly endYear?: number
+  readonly lat: number
+  readonly lng: number
+  readonly description: string
 }

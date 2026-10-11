@@ -1,10 +1,10 @@
 import type { Bounds, LatLng } from '../types/map'
 
 export interface CityConfig {
-  name: string
-  center: LatLng
-  zoom: number
-  bounds: Bounds
+  readonly name: string
+  readonly center: LatLng
+  readonly zoom: number
+  readonly bounds: Bounds
 }
 
 export const city: CityConfig = {
