@@ -14,7 +14,7 @@ Every non-trivial task moves through three phases. Each phase writes a short art
 
 ## 3. Implement (`/implement <task>`)
 - Execute the approved plan only; note deviations
-- Work one plan step at a time: after each step, stop and report, wait for the user's approval, then commit that step's changes before starting the next
+- Work one plan step at a time: after each step, stop and report, wait for the user's approval, then commit that step's changes, with the matching `TASKS.md` items ticked in the same commit, before starting the next
 - Run lint/tests/build
 - Run the `code-reviewer` agent on the diff and address findings
 - Tick the matching items in `TASKS.md`
