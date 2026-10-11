@@ -1,4 +1,5 @@
 import 'leaflet/dist/leaflet.css'
+import './setupLeafletIcons'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import type { MapProps } from '../Map'
 
