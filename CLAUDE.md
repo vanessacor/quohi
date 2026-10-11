@@ -31,7 +31,7 @@ Source docs: `PRD.md` (what), `TRD.md` (how), `product-vision.md` (direction). D
 
 ## Event schema
 
-Single unified schema (see `docs/code-standards.md`). Dates are a signed `year` (negative = BCE) with optional `month` and `day`. Do not add fields without an ADR.
+Single unified schema (see `docs/business-rules.md`). Dates are a signed `year` (negative = BCE) with optional `month` and `day`. Do not add fields without an ADR.
 
 ## Architecture decisions
 
@@ -45,4 +45,4 @@ Progress is tracked in `TASKS.md`; tick items as they are completed.
 
 ## Conventions
 
-Follow `docs/code-standards.md`.
+Follow `docs/code-standards.md` for code and `docs/business-rules.md` for domain and data rules.
