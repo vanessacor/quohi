@@ -19,6 +19,7 @@ Source docs: `PRD.md` (what), `TRD.md` (how), `product-vision.md` (direction). D
 - `npm run build` - production build
 - `npm run lint` - oxlint
 - `npm run typecheck` - TypeScript check
+- `npm test` - unit tests (Vitest)
 - `npm run format` - Prettier (code only; docs are excluded)
 
 ## Hard constraints (MVP)
@@ -35,7 +36,7 @@ Single unified schema (see `docs/business-rules.md`). Dates are a signed `year` 
 
 ## Architecture decisions
 
-See `docs/adr/`: 001 GitHub Pages, 002 flexible date schema, 003 React + Vite + Leaflet + npm, 004 TypeScript, 005 map adapter boundary.
+See `docs/adr/`: 001 GitHub Pages, 002 flexible date schema, 003 React + Vite + Leaflet + npm, 004 TypeScript, 005 map adapter boundary, 006 Vitest.
 
 ## Workflow
 

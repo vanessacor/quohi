@@ -48,7 +48,8 @@ Each component lives in its own folder with `Name.tsx` and `Name.module.css`.
 - Components stay presentational where possible
 
 ## Testing
-- Unit test every function in `utils/`
+- Unit test every function in `utils/` with Vitest (ADR-006); `npm test` must pass
+- Test files sit next to the code as `name.test.ts` and import `describe`, `it`, `expect` from `vitest`
 - Manually verify map interactions
 
 ## Git
