@@ -1,0 +1,141 @@
+[
+  {
+    "id": "banpo-village-inhabited",
+    "title": "Banpo Neolithic village inhabited",
+    "year": -4700,
+    "endYear": -3600,
+    "lat": 34.273,
+    "lng": 109.051,
+    "description": "A farming village of the Yangshao culture on the Wei River plain, occupied for roughly a thousand years. Its excavated houses, pottery and burials are among the best-known evidence of early settled life in the region."
+  },
+  {
+    "id": "qin-capital-moves-to-xianyang",
+    "title": "Qin moves its capital to Xianyang",
+    "year": -350,
+    "lat": 34.4139,
+    "lng": 108.8578,
+    "description": "Duke Xiao of Qin, advised by the reformer Shang Yang, relocates the Qin capital to Xianyang on the Wei River. It stays the capital until Qin's fall, and after unification in 221 BCE becomes the imperial capital until it is burned in 206 BCE."
+  },
+  {
+    "id": "qin-shi-huang-mausoleum-built",
+    "title": "Mausoleum of the First Qin Emperor built",
+    "year": -246,
+    "endYear": -208,
+    "lat": 34.3817,
+    "lng": 109.2539,
+    "description": "Work on the tomb of Qin Shi Huang begins early in his reign and continues for about 38 years, finishing two years after his death. The burial chamber lies beneath a tomb mound some 76 metres tall."
+  },
+  {
+    "id": "weiyang-palace-built",
+    "title": "Weiyang Palace built at Chang'an",
+    "year": -200,
+    "lat": 34.3044,
+    "lng": 108.8572,
+    "description": "Emperor Gaozu of Han has the Weiyang Palace built, with the chancellor Xiao He supervising. It becomes the main palace of Western Han Chang'an, and its ruins are part of a UNESCO World Heritage listing."
+  },
+  {
+    "id": "zhang-qian-departs-chang-an",
+    "title": "Zhang Qian departs on his mission to the west",
+    "year": -138,
+    "lat": 34.29,
+    "lng": 108.89,
+    "description": "Emperor Wu of Han sends Zhang Qian from Chang'an to seek an alliance with the Yuezhi against the Xiongnu. He is held by the Xiongnu for about ten years, but his reports on Central Asia open the way for overland trade later known as the Silk Road."
+  },
+  {
+    "id": "tang-dynasty-founded",
+    "title": "Tang dynasty founded with Chang'an as capital",
+    "year": 618,
+    "month": 6,
+    "day": 18,
+    "lat": 34.278,
+    "lng": 108.935,
+    "description": "Li Yuan, who had taken Chang'an the previous year, declares himself emperor after hearing of the Sui emperor's murder. As Emperor Gaozu he founds the Tang dynasty and keeps Chang'an as its capital."
+  },
+  {
+    "id": "big-wild-goose-pagoda-built",
+    "title": "Big Wild Goose Pagoda built",
+    "year": 652,
+    "lat": 34.2229,
+    "lng": 108.964,
+    "description": "A pagoda is built at the Ci'en Temple to house Buddhist scriptures that the monk Xuanzang brought back from India. It was rebuilt in 704 and remains one of the city's best-known landmarks."
+  },
+  {
+    "id": "small-wild-goose-pagoda-completed",
+    "title": "Small Wild Goose Pagoda completed",
+    "year": 709,
+    "lat": 34.2408,
+    "lng": 108.9374,
+    "description": "A brick pagoda built between 707 and 709 at the Jianfu Temple in Tang Chang'an. It survives as a smaller counterpart to the Big Wild Goose Pagoda."
+  },
+  {
+    "id": "great-mosque-founded",
+    "title": "Great Mosque of Xi'an founded",
+    "year": 742,
+    "lat": 34.2633,
+    "lng": 108.9364,
+    "description": "Tradition dates the founding of the Great Mosque to the Tang dynasty in 742. The present buildings are mostly from the Ming dynasty, and sources differ on the exact date of that rebuilding."
+  },
+  {
+    "id": "nestorian-stele-erected",
+    "title": "Nestorian Stele erected",
+    "year": 781,
+    "lat": 34.255,
+    "lng": 108.9481,
+    "description": "A stone stele with Chinese and Syriac text is set up near Chang'an, recording the arrival of Christians at the capital in 635. Since 1907 it has been displayed in the Beilin Museum."
+  },
+  {
+    "id": "chang-an-dismantled",
+    "title": "Chang'an dismantled and capital moved to Luoyang",
+    "year": 904,
+    "lat": 34.2939,
+    "lng": 108.9585,
+    "description": "The warlord Zhu Wen forces Emperor Zhaozong, his officials and the city's residents to move to Luoyang, and has Chang'an's buildings taken apart for their materials. The Tang capital never recovers its former scale."
+  },
+  {
+    "id": "city-renamed-xian",
+    "title": "City renamed Xi'an under the Ming",
+    "year": 1369,
+    "lat": 34.261,
+    "lng": 108.9427,
+    "description": "In the second year of the Ming dynasty, the general Xu Da takes the Fengyuan area and renames it Xi'an, meaning roughly \"to pacify the northwest\". This is the first time the city carries the name it has today."
+  },
+  {
+    "id": "ming-city-wall-built",
+    "title": "Ming city wall built",
+    "year": 1370,
+    "endYear": 1378,
+    "lat": 34.2531,
+    "lng": 108.9423,
+    "description": "Under the Hongwu Emperor the wall is begun in 1370 and substantially finished in 1378, building on earlier Sui and Tang fortifications on the west and south. It survives as one of the best-preserved city walls in China."
+  },
+  {
+    "id": "xian-incident",
+    "title": "Xi'an Incident",
+    "year": 1936,
+    "month": 12,
+    "day": 12,
+    "lat": 34.3649,
+    "lng": 109.2075,
+    "description": "The generals Zhang Xueliang and Yang Hucheng detain Chiang Kai-shek at Huaqing Palace near Lintong to force a change in Nationalist policy toward Japan and the Communists. He is released after negotiations that lead to a united front against Japan."
+  },
+  {
+    "id": "terracotta-army-discovered",
+    "title": "Terracotta Army discovered",
+    "year": 1974,
+    "month": 3,
+    "day": 29,
+    "lat": 34.385,
+    "lng": 109.2731,
+    "description": "Farmers digging a well near Lintong find fragments of life-size clay figures from the tomb complex of Qin Shi Huang. Excavation follows, the museum opens in 1979, and the site is listed by UNESCO in 1987."
+  },
+  {
+    "id": "xian-metro-opens",
+    "title": "Xi'an Metro opens its first line",
+    "year": 2011,
+    "month": 9,
+    "day": 16,
+    "lat": 34.2715,
+    "lng": 108.9425,
+    "description": "Line 2 opens as the first subway line in Xi'an and in northwest China. It runs north to south across the old city, passing the City Wall and the Bell Tower."
+  }
+]

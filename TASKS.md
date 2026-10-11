@@ -13,7 +13,7 @@ Timebox in brackets; total budget ~12h. If a task overruns by 50%, stop and reas
 ## Milestone 2: Data Integration (~3h)
 - [x] Finalize event schema in `docs/business-rules.md` and add `HistoricalEvent` type [20m]
 - [x] Set up Vitest (`npm test`) [20m]
-- [ ] Draft 10-20 events for the MVP city with coordinates in `src/data/events.json` (user fact-checks) [90m]
+- [x] Draft 10-20 events for the MVP city with coordinates in `src/data/events.json` (user fact-checks) [90m]
 - [x] Add a small schema validation script/util [30m]
 - [ ] Load JSON and render one marker per event [40m]
 
