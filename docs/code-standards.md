@@ -4,6 +4,7 @@
 - Keep it simple; no abstractions until used twice
 - Function components and hooks only; no class components
 - Plain React state (`useState`, `useMemo`); no state libraries
+- TypeScript everywhere (ADR-004); no `any`. `npm run typecheck` must pass
 - oxlint must pass; Prettier formatting (`npm run lint`, `npm run format`)
 
 ## Components
@@ -17,14 +18,23 @@
 src/
   components/
     Map/
+      Map.tsx            # library-agnostic component
+      leaflet/           # only place that imports leaflet / react-leaflet (ADR-005)
     EventPanel/
     Filters/
+  config/                # city config (name, center, zoom, bounds)
   data/events.json
   hooks/
-  utils/        # pure functions: date formatting, overlap filter, validation
-  App.jsx
+  types/                 # shared types: map types, event type
+  utils/                 # pure functions: date formatting, overlap filter, validation
+  App.tsx
 ```
-Each component lives in its own folder with `Name.jsx` and `Name.module.css`.
+Each component lives in its own folder with `Name.tsx` and `Name.module.css`.
+
+## Map library boundary
+- Only files in `src/components/Map/leaflet/` may import `leaflet` or `react-leaflet`
+- The rest of the app uses our own types from `src/types/` and the `Map` props interface, never Leaflet types
+- City-specific values (name, center, zoom, bounds) live in `src/config/city.ts`, not in components
 
 ## Naming
 - Components: `PascalCase`; hooks: `useThing`; utils/vars: `camelCase`

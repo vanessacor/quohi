@@ -14,7 +14,7 @@ This is a **frontend-only application** with static data.
 
 Recommended:
 
-- React (Vite setup recommended)
+- React + TypeScript (Vite setup; see `docs/adr/004-typescript.md`)
 
 ---
 
@@ -24,7 +24,7 @@ Recommended:
 
 ### 2.3 Mapping Library (critical decision)
 
-- Leaflet
+- Leaflet via react-leaflet, isolated behind an adapter (see `docs/adr/005-map-adapter-boundary.md`)
 
 ### 2.4 Styling
 
@@ -33,7 +33,7 @@ Recommended:
 ### 2.5 Data Storage (MVP)
 
 - Static JSON file inside project:
-  - `/data/events.json`
+  - `src/data/events.json`
 
 ### 2.6 Deployment
 
@@ -50,13 +50,16 @@ Keep it minimal and predictable:
 src/
   components/
     Map/
-    EventPopup/
+      leaflet/    # only place importing leaflet / react-leaflet
+    EventPanel/
     Filters/
+  config/
   data/
     events.json
   hooks/
+  types/
   utils/
-  App.jsx
+  App.tsx
 ```
 
 No overengineering.

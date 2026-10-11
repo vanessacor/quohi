@@ -6,7 +6,8 @@ Source docs: `PRD.md` (what), `TRD.md` (how), `product-vision.md` (direction). D
 
 ## Stack
 
-- Vite + React, Leaflet (OpenStreetMap tiles), CSS Modules
+- Vite + React + **TypeScript**, Leaflet (OpenStreetMap tiles), CSS Modules
+- Leaflet is isolated behind an adapter in `src/components/Map/leaflet/` so the map library can be swapped (ADR-005)
 - Package manager: **npm**
 - Data: static `src/data/events.json` (max 20 events)
 - Deploy: GitHub Pages
@@ -31,6 +32,10 @@ Source docs: `PRD.md` (what), `TRD.md` (how), `product-vision.md` (direction). D
 ## Event schema
 
 Single unified schema (see `docs/code-standards.md`). Dates are a signed `year` (negative = BCE) with optional `month` and `day`. Do not add fields without an ADR.
+
+## Architecture decisions
+
+See `docs/adr/`: 001 GitHub Pages, 002 flexible date schema, 003 React + Vite + Leaflet + npm, 004 TypeScript, 005 map adapter boundary.
 
 ## Workflow
 

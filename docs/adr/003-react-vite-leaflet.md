@@ -2,6 +2,7 @@
 
 - Status: Accepted
 - Date: 2026-10-11
+- Amended by: ADR-004 (TypeScript), ADR-005 (map adapter boundary)
 
 ## Context
 The MVP needs a simple interactive map with a side panel and filter, built in ~12 hours with a map library that is low risk.
