@@ -10,6 +10,7 @@
 ## Components
 - Keep components small and scoped: one clear responsibility each. If a component does more than one thing, or grows hard to read at a glance, split it
 - Avoid repetition: when the same markup or logic appears more than once, extract it into a reusable component (or a hook / `utils/` function for non-visual logic)
+- No inline styles (`style={{ ... }}`); use CSS Modules
 - Reusable pieces take props rather than hard-coding values, and stay free of app-specific state where possible
 - Don't extract speculatively: extract on the second use, not before
 

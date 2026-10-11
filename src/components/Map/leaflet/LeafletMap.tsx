@@ -1,7 +1,8 @@
 import 'leaflet/dist/leaflet.css'
 import './setupLeafletIcons'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
-import type { MapProps } from '../Map'
+import type { MapProps } from '../../../types/map'
+import styles from './LeafletMap.module.css'
 
 const TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
 const ATTRIBUTION =
@@ -18,7 +19,7 @@ export default function LeafletMap({
     <MapContainer
       center={[center.lat, center.lng]}
       zoom={zoom}
-      style={{ width: '100%', height: '100%' }}
+      className={styles.map}
     >
       <TileLayer url={TILE_URL} attribution={ATTRIBUTION} />
       {markers.map((marker) => (

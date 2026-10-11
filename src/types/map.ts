@@ -15,3 +15,11 @@ export interface MapMarker {
   position: LatLng
   title: string
 }
+
+export interface MapProps {
+  center: LatLng
+  zoom: number
+  markers?: MapMarker[]
+  selectedId?: string | null
+  onMarkerClick?: (id: string) => void
+}
