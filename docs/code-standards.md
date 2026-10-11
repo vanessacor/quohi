@@ -4,7 +4,7 @@
 - Keep it simple; no abstractions until used twice
 - Function components and hooks only; no class components
 - Plain React state (`useState`, `useMemo`); no state libraries
-- ESLint must pass; Prettier formatting
+- oxlint must pass; Prettier formatting (`npm run lint`, `npm run format`)
 
 ## Components
 - Keep components small and scoped: one clear responsibility each. If a component does more than one thing, or grows hard to read at a glance, split it

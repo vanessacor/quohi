@@ -101,7 +101,7 @@ Rules:
 ### Recommended
 
 - VS Code
-- ESLint (basic)
+- oxlint (basic, Vite 8 template default; see step 2 of milestone-1 plan)
 - Prettier (optional but helpful)
 
 ### AI Tools (important for your goal)

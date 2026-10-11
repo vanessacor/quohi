@@ -4,7 +4,7 @@ Timebox in brackets; total budget ~12h. If a task overruns by 50%, stop and reas
 
 ## Milestone 1: Setup & Map (~2h)
 - [ ] Init Vite + React project with npm [30m]
-- [ ] Add ESLint (basic) and Prettier [20m]
+- [ ] Add oxlint (template default) and Prettier [20m]
 - [ ] Install Leaflet + react-leaflet, import CSS [20m]
 - [ ] Render map centered on the MVP city, Xi'an, China (~34.34, 108.94); keep city name, center and bounds in one config object, not hard-coded in components [40m]
 - [ ] Fix default marker icon issue with Vite bundling [10m]

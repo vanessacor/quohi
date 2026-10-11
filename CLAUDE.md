@@ -16,7 +16,9 @@ Source docs: `PRD.md` (what), `TRD.md` (how), `product-vision.md` (direction). D
 - `npm install` - install deps
 - `npm run dev` - dev server
 - `npm run build` - production build
-- `npm run lint` - ESLint
+- `npm run lint` - oxlint
+- `npm run typecheck` - TypeScript check
+- `npm run format` - Prettier (code only; docs are excluded)
 
 ## Hard constraints (MVP)
 
