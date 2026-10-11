@@ -7,8 +7,8 @@ Timebox in brackets; total budget ~12h. If a task overruns by 50%, stop and reas
 - [x] Add oxlint (template default) and Prettier [20m]
 - [x] Install Leaflet + react-leaflet [10m]
 - [x] Import Leaflet CSS (inside the map adapter) [10m]
-- [ ] Render map centered on the MVP city, Xi'an, China (~34.34, 108.94); keep city name, center and bounds in one config object, not hard-coded in components [40m]
-- [ ] Fix default marker icon issue with Vite bundling [10m]
+- [x] Render map centered on the MVP city, Xi'an, China (~34.34, 108.94); keep city name, center and bounds in one config object, not hard-coded in components [40m]
+- [x] Fix default marker icon issue with Vite bundling [10m]
 
 ## Milestone 2: Data Integration (~3h)
 - [ ] Finalize event schema in `docs/code-standards.md` [20m]
