@@ -83,6 +83,18 @@ describe('readDate', () => {
     ])
   })
 
+  it('rejects endYear combined with month or day, and unsafe integers', () => {
+    const problems: string[] = []
+    readDate({ year: 10, endYear: 20, month: 3 }, problems)
+    readDate({ year: 10, endYear: 20, month: 3, day: 4 }, problems)
+    readDate({ year: 2 ** 53 }, problems)
+    expect(problems).toEqual([
+      'endYear cannot be combined with month or day',
+      'endYear cannot be combined with month or day',
+      'year must be a safe integer',
+    ])
+  })
+
   it('validates endYear, day without month, and day length', () => {
     const problems: string[] = []
     readDate({ year: 10, endYear: 5 }, problems)

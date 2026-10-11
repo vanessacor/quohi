@@ -57,7 +57,10 @@ function readEvent(
  * Validates raw event data against the rules in docs/business-rules.md.
  * Throws one error listing every problem found.
  */
-export function parseEvents(data: unknown, bounds: Bounds): HistoricalEvent[] {
+export function parseEvents(
+  data: unknown,
+  bounds: Bounds,
+): readonly HistoricalEvent[] {
   if (!Array.isArray(data)) {
     throw new Error('Invalid events data: events must be an array')
   }

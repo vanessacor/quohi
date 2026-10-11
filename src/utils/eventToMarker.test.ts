@@ -21,7 +21,7 @@ describe('eventToMarker', () => {
   })
 
   it('does not carry event-only fields into the marker', () => {
-    const marker = eventToMarker({ ...event, month: 3, endYear: 1400 })
+    const marker = eventToMarker({ ...event, month: 3, day: 5 })
     expect(Object.keys(marker).sort()).toEqual(['id', 'position', 'title'])
   })
 })

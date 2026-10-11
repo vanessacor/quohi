@@ -1,5 +1,5 @@
 import type { HistoricalEvent } from '../types/event'
-import type { Bounds } from '../types/map'
+import type { Bounds, LatLng } from '../types/map'
 
 // Field-level validators for raw event data (rules: docs/business-rules.md).
 // Each reader returns the validated value, or undefined after pushing a message to `problems`.
@@ -52,9 +52,10 @@ function isIntegerInRange(
 }
 
 function describeYear(name: string, value: unknown): string {
+  if (!Number.isInteger(value)) return `${name} must be an integer`
   return Number.isSafeInteger(value)
     ? `${name} must not be 0`
-    : `${name} must be an integer`
+    : `${name} must be a safe integer`
 }
 
 export function findUnknownFields(
@@ -147,6 +148,18 @@ function readDay(
   return value
 }
 
+function checkSpanPrecision(
+  raw: Record<string, unknown>,
+  problems: string[],
+): void {
+  if (
+    raw.endYear !== undefined &&
+    (raw.month !== undefined || raw.day !== undefined)
+  ) {
+    problems.push('endYear cannot be combined with month or day')
+  }
+}
+
 /** Reads year, endYear, month and day. Returns undefined when `year` is invalid. */
 export function readDate(
   raw: Record<string, unknown>,
@@ -158,6 +171,7 @@ export function readDate(
   const endYear = readEndYear(raw.endYear, year, problems)
   const month = readMonth(raw.month, problems)
   const day = readDay(raw.day, raw.month, month, problems)
+  checkSpanPrecision(raw, problems)
 
   if (!year) return undefined
   return {
@@ -191,7 +205,7 @@ export function readCoordinates(
   raw: Record<string, unknown>,
   bounds: Bounds,
   problems: string[],
-): { lat: number; lng: number } | undefined {
+): LatLng | undefined {
   const lat = readCoordinate(
     'lat',
     raw.lat,

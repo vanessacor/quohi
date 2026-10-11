@@ -22,6 +22,13 @@ function errorOf(data: unknown): string {
   throw new Error('expected parseEvents to throw')
 }
 
+function manyEvents(count: number) {
+  return Array.from({ length: count }, (_, i) => ({
+    ...valid,
+    id: `event-${i}`,
+  }))
+}
+
 describe('parseEvents: valid input', () => {
   it('accepts an event with only a year', () => {
     expect(parseEvents([valid], bounds)).toEqual([valid])
@@ -53,119 +60,195 @@ describe('parseEvents: valid input', () => {
     )
   })
 
+  it.each([1, 3, 5, 7, 8, 10, 12])('accepts day 31 in month %i', (month) => {
+    expect(parseEvents([{ ...valid, month, day: 31 }], bounds)).toHaveLength(1)
+  })
+
+  it.each([4, 6, 9, 11])('accepts day 30 in month %i', (month) => {
+    expect(parseEvents([{ ...valid, month, day: 30 }], bounds)).toHaveLength(1)
+  })
+
   it('accepts coordinates on the bounds edge', () => {
     const event = { ...valid, lat: 34, lng: 109 }
     expect(parseEvents([event], bounds)).toHaveLength(1)
   })
 
   it('accepts exactly MAX_EVENTS events', () => {
-    const events = Array.from({ length: MAX_EVENTS }, (_, i) => ({
-      ...valid,
-      id: `event-${i}`,
-    }))
-    expect(parseEvents(events, bounds)).toHaveLength(MAX_EVENTS)
+    expect(parseEvents(manyEvents(MAX_EVENTS), bounds)).toHaveLength(MAX_EVENTS)
   })
 })
 
 describe('parseEvents: invalid structure', () => {
   it('rejects non-array input', () => {
-    expect(errorOf({})).toMatch(/array/)
-    expect(errorOf(null)).toMatch(/array/)
+    expect(errorOf({})).toBe('Invalid events data: events must be an array')
+    expect(errorOf(null)).toBe('Invalid events data: events must be an array')
   })
 
   it('rejects an empty array', () => {
-    expect(errorOf([])).toMatch(/at least 1/)
+    expect(errorOf([])).toContain('events must contain at least 1 event')
   })
 
   it('rejects more than MAX_EVENTS events', () => {
-    const events = Array.from({ length: MAX_EVENTS + 1 }, (_, i) => ({
-      ...valid,
-      id: `event-${i}`,
-    }))
-    expect(errorOf(events)).toMatch(/at most 20/)
+    expect(errorOf(manyEvents(MAX_EVENTS + 1))).toContain(
+      'events must contain at most 20 events',
+    )
   })
 
   it('rejects items that are not objects', () => {
-    expect(errorOf(['text'])).toMatch(/events\[0\].*object/)
-    expect(errorOf([null])).toMatch(/events\[0\].*object/)
+    expect(errorOf(['text'])).toContain('events[0]: must be an object')
+    expect(errorOf([null])).toContain('events[0]: must be an object')
+    expect(errorOf([[valid]])).toContain('events[0]: must be an object')
   })
 
   it('rejects unknown fields', () => {
-    expect(errorOf([{ ...valid, category: 'war' }])).toMatch(
-      /unknown field "category"/,
+    expect(errorOf([{ ...valid, category: 'war' }])).toContain(
+      'events[0] (bell-tower): unknown field "category"',
     )
   })
 })
 
 describe('parseEvents: id, title, description', () => {
-  it('rejects a missing or non-kebab-case id', () => {
-    expect(errorOf([{ ...valid, id: undefined }])).toMatch(/id/)
-    expect(errorOf([{ ...valid, id: 'Bell Tower' }])).toMatch(/kebab-case/)
-    expect(errorOf([{ ...valid, id: 'bell_tower' }])).toMatch(/kebab-case/)
-    expect(errorOf([{ ...valid, id: '-bell' }])).toMatch(/kebab-case/)
+  it('rejects a missing id', () => {
+    expect(errorOf([{ ...valid, id: undefined }])).toContain(
+      'events[0]: id must be a non-empty string',
+    )
   })
+
+  it.each(['Bell Tower', 'bell_tower', '-bell', 'bell-', 'bell--tower'])(
+    'rejects the non-kebab-case id "%s"',
+    (id) => {
+      expect(errorOf([{ ...valid, id }])).toContain(
+        `id "${id}" must be kebab-case`,
+      )
+    },
+  )
 
   it('rejects duplicate ids', () => {
-    expect(errorOf([valid, { ...valid }])).toMatch(/duplicate id "bell-tower"/)
+    expect(errorOf([valid, { ...valid }])).toContain(
+      'events[1] (bell-tower): duplicate id "bell-tower"',
+    )
   })
 
-  it('rejects empty or blank title and description', () => {
-    expect(errorOf([{ ...valid, title: '' }])).toMatch(/title/)
-    expect(errorOf([{ ...valid, title: '   ' }])).toMatch(/title/)
-    expect(errorOf([{ ...valid, description: '' }])).toMatch(/description/)
-    expect(errorOf([{ ...valid, description: 5 }])).toMatch(/description/)
+  it('rejects empty, blank or non-string title and description', () => {
+    expect(errorOf([{ ...valid, title: '' }])).toContain(
+      'title must be a non-empty string',
+    )
+    expect(errorOf([{ ...valid, title: '   ' }])).toContain(
+      'title must be a non-empty string',
+    )
+    expect(errorOf([{ ...valid, description: '' }])).toContain(
+      'description must be a non-empty string',
+    )
+    expect(errorOf([{ ...valid, description: 5 }])).toContain(
+      'description must be a non-empty string',
+    )
   })
 })
 
-describe('parseEvents: dates', () => {
-  it('rejects year 0 and non-integer years', () => {
-    expect(errorOf([{ ...valid, year: 0 }])).toMatch(/year.*0/)
-    expect(errorOf([{ ...valid, year: 1384.5 }])).toMatch(/year.*integer/)
-    expect(errorOf([{ ...valid, year: 2 ** 53 }])).toMatch(/year.*integer/)
-    expect(errorOf([{ ...valid, year: '1384' }])).toMatch(/year.*integer/)
-    expect(errorOf([{ ...valid, year: undefined }])).toMatch(/year/)
+describe('parseEvents: year and endYear', () => {
+  it('rejects year 0', () => {
+    expect(errorOf([{ ...valid, year: 0 }])).toContain('year must not be 0')
   })
 
-  it('rejects endYear before year, endYear 0 and non-integer endYear', () => {
-    expect(errorOf([{ ...valid, endYear: 1300 }])).toMatch(/endYear.*>=/)
-    expect(errorOf([{ ...valid, year: -10, endYear: -20 }])).toMatch(
-      /endYear.*>=/,
+  it.each([1384.5, '1384', null, undefined])(
+    'rejects the non-integer year %j',
+    (year) => {
+      expect(errorOf([{ ...valid, year }])).toContain('year must be an integer')
+    },
+  )
+
+  it('rejects an unsafe integer year', () => {
+    expect(errorOf([{ ...valid, year: 2 ** 53 }])).toContain(
+      'year must be a safe integer',
     )
-    expect(errorOf([{ ...valid, year: -10, endYear: 0 }])).toMatch(/endYear/)
-    expect(errorOf([{ ...valid, endYear: 1400.5 }])).toMatch(/endYear/)
   })
 
-  it('rejects months outside 1-12 and non-integer months', () => {
-    expect(errorOf([{ ...valid, month: 0 }])).toMatch(/month/)
-    expect(errorOf([{ ...valid, month: 13 }])).toMatch(/month/)
-    expect(errorOf([{ ...valid, month: 2.5 }])).toMatch(/month/)
+  it('rejects endYear before year, in both eras', () => {
+    expect(errorOf([{ ...valid, endYear: 1300 }])).toContain(
+      'endYear must be >= year',
+    )
+    expect(errorOf([{ ...valid, year: -10, endYear: -20 }])).toContain(
+      'endYear must be >= year',
+    )
+  })
+
+  it('rejects endYear 0 and non-integer endYear', () => {
+    expect(errorOf([{ ...valid, year: -10, endYear: 0 }])).toContain(
+      'endYear must not be 0',
+    )
+    expect(errorOf([{ ...valid, endYear: 1400.5 }])).toContain(
+      'endYear must be an integer',
+    )
+  })
+
+  it('rejects endYear combined with month or day', () => {
+    const message = 'endYear cannot be combined with month or day'
+    expect(errorOf([{ ...valid, endYear: 1400, month: 3 }])).toContain(message)
+    expect(errorOf([{ ...valid, endYear: 1400, month: 3, day: 5 }])).toContain(
+      message,
+    )
+  })
+})
+
+describe('parseEvents: month and day', () => {
+  it.each([0, 13, 2.5, '3', null])('rejects the month %j', (month) => {
+    expect(errorOf([{ ...valid, month }])).toContain(
+      'month must be an integer 1-12',
+    )
   })
 
   it('rejects a day without a month', () => {
-    expect(errorOf([{ ...valid, day: 5 }])).toMatch(/day.*requires month/)
+    expect(errorOf([{ ...valid, day: 5 }])).toContain('day requires month')
   })
 
-  it('rejects days beyond the length of the month', () => {
-    expect(errorOf([{ ...valid, month: 2, day: 30 }])).toMatch(/day/)
-    expect(errorOf([{ ...valid, month: 4, day: 31 }])).toMatch(/day/)
-    expect(errorOf([{ ...valid, month: 1, day: 0 }])).toMatch(/day/)
-    expect(errorOf([{ ...valid, month: 1, day: 1.5 }])).toMatch(/day/)
+  it('reports only the month error when the month is invalid', () => {
+    const message = errorOf([{ ...valid, month: 13, day: 5 }])
+    expect(message).toContain('month must be an integer 1-12')
+    expect(message).not.toContain('day')
+  })
+
+  it('rejects day 30 and 31 in February and day 31 in 30-day months', () => {
+    expect(errorOf([{ ...valid, month: 2, day: 30 }])).toContain(
+      'day must be an integer 1-29 for month 2',
+    )
+    expect(errorOf([{ ...valid, month: 4, day: 31 }])).toContain(
+      'day must be an integer 1-30 for month 4',
+    )
+  })
+
+  it.each([4, 6, 9, 11])('rejects day 31 in month %i', (month) => {
+    expect(errorOf([{ ...valid, month, day: 31 }])).toContain(
+      `day must be an integer 1-30 for month ${month}`,
+    )
+  })
+
+  it.each([0, 32, 1.5, '5', null])('rejects the day %j', (day) => {
+    expect(errorOf([{ ...valid, month: 1, day }])).toContain(
+      'day must be an integer 1-31 for month 1',
+    )
   })
 })
 
 describe('parseEvents: coordinates', () => {
-  it('rejects coordinates outside the bounds', () => {
-    expect(errorOf([{ ...valid, lat: 33.9 }])).toMatch(/lat.*bounds/)
-    expect(errorOf([{ ...valid, lat: 35.1 }])).toMatch(/lat.*bounds/)
-    expect(errorOf([{ ...valid, lng: 107.9 }])).toMatch(/lng.*bounds/)
-    expect(errorOf([{ ...valid, lng: 109.1 }])).toMatch(/lng.*bounds/)
+  it.each([
+    ['lat', 33.9, 'lat 33.9 is outside bounds (34 to 35)'],
+    ['lat', 35.1, 'lat 35.1 is outside bounds (34 to 35)'],
+    ['lng', 107.9, 'lng 107.9 is outside bounds (108 to 109)'],
+    ['lng', 109.1, 'lng 109.1 is outside bounds (108 to 109)'],
+  ])('rejects %s %d outside the bounds', (field, value, message) => {
+    expect(errorOf([{ ...valid, [field]: value }])).toContain(message)
   })
 
-  it('rejects non-finite or non-number coordinates', () => {
-    expect(errorOf([{ ...valid, lat: NaN }])).toMatch(/lat/)
-    expect(errorOf([{ ...valid, lng: Infinity }])).toMatch(/lng/)
-    expect(errorOf([{ ...valid, lat: '34.5' }])).toMatch(/lat/)
-    expect(errorOf([{ ...valid, lng: undefined }])).toMatch(/lng/)
+  it.each([
+    ['lat', NaN],
+    ['lng', Infinity],
+    ['lat', '34.5'],
+    ['lng', undefined],
+    ['lat', null],
+  ])('rejects the non-finite %s %j', (field, value) => {
+    expect(errorOf([{ ...valid, [field]: value }])).toContain(
+      `${field} must be a finite number`,
+    )
   })
 })
 
@@ -175,8 +258,18 @@ describe('parseEvents: error reporting', () => {
       { ...valid, year: 0 },
       { ...valid, id: 'second', lat: 10, month: 13 },
     ])
-    expect(message).toMatch(/events\[0\] \(bell-tower\).*year/)
-    expect(message).toMatch(/events\[1\] \(second\).*lat/)
-    expect(message).toMatch(/events\[1\] \(second\).*month/)
+    expect(message).toContain('events[0] (bell-tower): year must not be 0')
+    expect(message).toContain(
+      'events[1] (second): month must be an integer 1-12',
+    )
+    expect(message).toContain(
+      'events[1] (second): lat 10 is outside bounds (34 to 35)',
+    )
+  })
+
+  it('reports unknown fields together with other problems in one event', () => {
+    const message = errorOf([{ ...valid, category: 'war', year: 0 }])
+    expect(message).toContain('unknown field "category"')
+    expect(message).toContain('year must not be 0')
   })
 })

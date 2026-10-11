@@ -29,6 +29,7 @@ Enforced by `parseEvents` in `src/utils/`, run once when `src/data/events.ts` lo
 - `id`: non-empty, kebab-case (`^[a-z0-9]+(-[a-z0-9]+)*$`), unique
 - `title` and `description`: non-empty strings
 - `year`: integer, not 0; `endYear` (optional): integer, not 0, and `>= year`
+- `endYear` cannot be combined with `month` or `day`
 - `month`: integer 1-12; `day`: integer, requires `month`, within the month's length (February allows 29 in any year; no leap-year logic)
 - `lat`/`lng`: finite numbers inside the bounds of the configured city
 - Unknown fields are rejected
@@ -36,7 +37,7 @@ Enforced by `parseEvents` in `src/utils/`, run once when `src/data/events.ts` lo
 
 ## Dates
 - Precision is implied by which fields are present: year only, year + month, or full date
-- A span is expressed with `endYear` (year precision only)
+- A span is expressed with `endYear` and has year precision only: an event with `endYear` cannot also have `month` or `day`
 - Dates before 1582 are recorded as given in the source; there is no calendar conversion
 
 ## Filtering
