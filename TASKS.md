@@ -18,7 +18,7 @@ Timebox in brackets; total budget ~12h. If a task overruns by 50%, stop and reas
 - [x] Load JSON and render one marker per event [40m]
 
 ## Milestone 3: Interaction (~2h)
-- [ ] Marker click sets selected event in App state [30m]
+- [x] Marker click sets selected event in App state [30m]
 - [ ] Side panel with title, formatted date, description [45m]
 - [ ] Only one event shown at a time; close/deselect behavior [20m]
 - [x] Date formatting util (BCE, year-only, full date) [25m]
