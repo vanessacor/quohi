@@ -21,7 +21,7 @@ Timebox in brackets; total budget ~12h. If a task overruns by 50%, stop and reas
 - [ ] Marker click sets selected event in App state [30m]
 - [ ] Side panel with title, formatted date, description [45m]
 - [ ] Only one event shown at a time; close/deselect behavior [20m]
-- [ ] Date formatting util (BCE, year-only, full date) [25m]
+- [x] Date formatting util (BCE, year-only, full date) [25m]
 
 ## Milestone 4: Filtering (~2.5h)
 - [ ] Overlap filter util with unit tests (year-only counts as whole year) [45m]
