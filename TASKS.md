@@ -19,7 +19,7 @@ Timebox in brackets; total budget ~12h. If a task overruns by 50%, stop and reas
 
 ## Milestone 3: Interaction (~2h)
 - [x] Marker click sets selected event in App state [30m]
-- [ ] Side panel with title, formatted date, description [45m]
+- [x] Side panel with title, formatted date, description [45m]
 - [ ] Only one event shown at a time; close/deselect behavior [20m]
 - [x] Date formatting util (BCE, year-only, full date) [25m]
 
@@ -44,6 +44,6 @@ Timebox in brackets; total budget ~12h. If a task overruns by 50%, stop and reas
   - [ ] Replace the Vite template favicon
   - [ ] Add a `format:check` script (CI can't verify formatting without writing files)
   - [ ] Add more oxlint rules (e.g. `react/exhaustive-deps`)
-  - [ ] Map height is fixed at `100vh`; revisit when the side panel and filter land (Milestone 3)
+  - [x] Map height is fixed at `100vh`; revisit when the side panel and filter land (Milestone 3)
   - [ ] `TRD.md` references "step 2 of milestone-1 plan"; link the plan file or drop the reference
   - [ ] Decide whether to rename the `Map` component (shadows the global `Map`)
