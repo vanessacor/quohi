@@ -8,37 +8,31 @@ interface EventPanelProps {
 }
 
 export default function EventPanel({ event, onClose }: EventPanelProps) {
-  if (!event) {
-    return (
-      <aside
-        className={styles.panel}
-        aria-label="Event details"
-        aria-live="polite"
-      >
-        <p className={styles.empty}>Select an event marker to see details.</p>
-      </aside>
-    )
-  }
-
   return (
     <aside
       className={styles.panel}
       aria-label="Event details"
       aria-live="polite"
     >
-      <div className={styles.header}>
-        <h2 className={styles.title}>{event.title}</h2>
-        <button
-          type="button"
-          className={styles.close}
-          onClick={onClose}
-          aria-label="Close event details"
-        >
-          ×
-        </button>
-      </div>
-      <p className={styles.date}>{formatEventDate(event)}</p>
-      <p className={styles.description}>{event.description}</p>
+      {event ? (
+        <>
+          <div className={styles.header}>
+            <h2 className={styles.title}>{event.title}</h2>
+            <button
+              type="button"
+              className={styles.close}
+              onClick={onClose}
+              aria-label="Close event details"
+            >
+              ×
+            </button>
+          </div>
+          <p className={styles.date}>{formatEventDate(event)}</p>
+          <p className={styles.description}>{event.description}</p>
+        </>
+      ) : (
+        <p className={styles.empty}>Select an event marker to see details.</p>
+      )}
     </aside>
   )
 }

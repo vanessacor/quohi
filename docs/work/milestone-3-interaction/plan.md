@@ -5,7 +5,7 @@ Phase 2 of RPI, based on the approved `research.md`. No code changes in this pha
 ## Decisions carried in from approved research
 
 - Selection state: `useState<string | null>` in `App.tsx`; derived event via `events.find()` (research A1/E)
-- Layout: fixed side column, always present with empty state; map container becomes `height: 100%` flex child, closing the `100vh` backlog item (B1)
+- Layout: fixed side column, always present with empty state; map container becomes `height: 100%` flex child, closing the `100vh` backlog item (B1). The column sits on the **left** (320px panel left, map right) — confirmed at step 3 review.
 - Date format: bare CE years, `BCE` suffix (`350 BCE` / `1949`), month names as words (C1)
 - Deselect: close button only, no Escape, no map-click deselect (D1)
 
