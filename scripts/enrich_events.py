@@ -5,8 +5,8 @@ Run from the repository root:
     scripts/.venv/bin/python scripts/enrich_events.py
 
 Reads `scripts/config/curated.json`, fetches Wikipedia extracts/images for each QID,
-merges with Wikidata data (dates, coordinates), validates against the schema,
-and writes `src/data/events.json` (capped at 20 events).
+merges with Wikidata data (dates, coordinates) and writes `src/data/events.json`
+(capped at 20 events).
 """
 
 import json
@@ -14,11 +14,22 @@ import sys
 from pathlib import Path
 from typing import Any
 
+import requests
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from common import (  # noqa: E402
+    BIRTH_DATE_PROPERTY,
+    EVENT_DATE_PROPERTY,
+    LANDMARK_DATE_PROPERTY,
+    WikidataDateError,
     build_session,
     fetch_json,
+    format_date,
+    in_bounds,
+    load_scope,
+    parse_wikidata_time,
+    select_date,
 )
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
@@ -35,29 +46,35 @@ WIKIPEDIA_API = "https://en.wikipedia.org/w/api.php"
 WIKIDATA_API = "https://www.wikidata.org/w/api.php"
 CACHE_DIR = SCRIPTS_DIR / ".cache"
 ENTITY_BATCH_SIZE = 50
+WIKIPEDIA_BATCH_SIZE = 50
 
-# Schema limits (ADR-009, docs/business-rules.md)
 MAX_EVENTS = 20
 MAX_SUMMARY_SENTENCES = 3
 MAX_SUMMARY_CHARS = 500
 
+POINT_IN_TIME_CLASSES = frozenset(
+    {
+        "Q178561",  # battle
+        "Q180684",  # military conflict
+        "Q12890393",  # incident
+        "Q511866",  # mutiny
+        "Q188165",  # war
+        "Q3983889",  # conflict
+    }
+)
+HUMAN_CLASS = "Q5"
+
 
 def load_curated(path: Path = CURATED_PATH) -> dict:
+    """Loads the hand-picked QIDs, title overrides and manual dates."""
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def apply_manual_date(date_claim: dict | None, manual_dates: dict, qid: str) -> dict | None:
-    """Overrides Wikidata date with manual date if provided."""
-    if qid in manual_dates:
-        md = manual_dates[qid]
-        return {
-            "time": f"{md['year']:04d}-{md.get('month', 1):02d}-{md.get('day', 1):02d}T00:00:00Z"
-            if md["year"] >= 0
-            else f"-{-md['year']:04d}-{md.get('month', 1):02d}-{md.get('day', 1):02d}T00:00:00Z",
-            "precision": 11 if "day" in md else (10 if "month" in md else 9),
-            "calendar": "Q1985786",
-        }
-    return date_claim
+def manual_event_date(manual_date: dict) -> dict[str, int]:
+    """The curated date as an event date; only the fields given are kept."""
+    return {
+        field: manual_date[field] for field in ("year", "month", "day") if field in manual_date
+    }
 
 
 def load_candidates(path: Path = CANDIDATES_PATH) -> dict[str, dict]:
@@ -68,27 +85,17 @@ def load_candidates(path: Path = CANDIDATES_PATH) -> dict[str, dict]:
     return {item["qid"]: item for item in data}
 
 
-def collect_all_qids(curated: dict, candidates: dict[str, dict]) -> list[str]:
-    """Collects all unique QIDs from curated config and title_overrides."""
-    qids = set()
-
-    # Selected candidates
-    qids.update(curated.get("selected", []))
-
-    # Extra QIDs (landmarks missing P571)
+def collect_all_qids(curated: dict) -> list[str]:
+    """Collects the unique QIDs from `selected`, `extra_qids` and `title_overrides`."""
+    qids = set(curated.get("selected", []))
     qids.update(curated.get("extra_qids", []))
-
-    # Title overrides (non-empty)
-    for qid in curated.get("title_overrides", {}).values():
-        if qid:
-            qids.add(qid)
-
+    qids.update(qid for qid in curated.get("title_overrides", {}).values() if qid)
     return sorted(qids)
 
 
-def fetch_wikidata_entities(session, qids: list[str]) -> dict[str, dict]:
+def fetch_wikidata_entities(session: requests.Session, qids: list[str]) -> dict[str, dict]:
     """Fetches claims, sitelinks, labels, coordinates for QIDs in batches."""
-    entities = {}
+    entities: dict[str, dict] = {}
     for start in range(0, len(qids), ENTITY_BATCH_SIZE):
         batch = qids[start : start + ENTITY_BATCH_SIZE]
         data = fetch_json(
@@ -108,12 +115,10 @@ def fetch_wikidata_entities(session, qids: list[str]) -> dict[str, dict]:
     return entities
 
 
-def fetch_wikipedia_pages(session, qids: list[str]) -> dict[str, dict]:
-    """Fetches Wikipedia extract, URL, and lead image for QIDs via sitelinks."""
-    # First, get sitelinks from Wikidata to find English Wikipedia page titles
-    entities = fetch_wikidata_entities(session, qids)
-
-    # Map QID -> Wikipedia page title
+def fetch_wikipedia_pages(
+    session: requests.Session, entities: dict[str, dict]
+) -> dict[str, dict]:
+    """Fetches Wikipedia extract, URL, and lead image for the entities' English articles."""
     page_titles = {}
     for qid, entity in entities.items():
         sitelinks = entity.get("sitelinks", {})
@@ -124,14 +129,12 @@ def fetch_wikipedia_pages(session, qids: list[str]) -> dict[str, dict]:
     if not page_titles:
         return {}
 
-    # Fetch extracts, URLs, images for all titles in batches
-    enriched = {}
+    enriched: dict[str, dict] = {}
     titles_list = list(page_titles.values())
     qid_by_title = {v: k for k, v in page_titles.items()}
 
-    # Batch size for Wikipedia API (50 titles per request)
-    for start in range(0, len(titles_list), 50):
-        batch_titles = titles_list[start : start + 50]
+    for start in range(0, len(titles_list), WIKIPEDIA_BATCH_SIZE):
+        batch_titles = titles_list[start : start + WIKIPEDIA_BATCH_SIZE]
         data = fetch_json(
             session,
             WIKIPEDIA_API,
@@ -176,54 +179,23 @@ def fetch_wikipedia_pages(session, qids: list[str]) -> dict[str, dict]:
     return enriched
 
 
-def parse_wikidata_date(claims: dict, prop: str) -> dict | None:
-    """Extracts the best date claim (Gregorian preferred, then highest precision)."""
-    CALENDAR_GREGORIAN = "Q1985786"
-    best = None
-    for claim in claims.get(prop, []):
-        try:
-            value = claim["mainsnak"]["datavalue"]["value"]
-        except KeyError:
-            continue
-        if "time" not in value:
-            continue
-        calendar = value.get("calendarmodel", "").rsplit("/", 1)[-1]
-        precision = value["precision"]
-        cand = {"time": value["time"], "precision": precision, "calendar": calendar}
-        if best is None:
-            best = cand
-        else:
-            if cand["calendar"] == CALENDAR_GREGORIAN and best["calendar"] != CALENDAR_GREGORIAN:
-                best = cand
-            elif cand["calendar"] == best["calendar"] and cand["precision"] > best["precision"]:
-                best = cand
-    return best
-
-
-def wikidata_time_to_event_date(time_value: str, precision: int) -> dict[str, Any] | None:
-    """Converts Wikidata time to our event date format (year, month?, day?)."""
-    # Reuse the parser logic from common.py
-    import re
-
-    from common import WikidataDateError, parse_wikidata_time
-
+def event_date(time_value: str, precision: int) -> dict[str, int] | None:
+    """Converts a Wikidata time to an event date (year, month?, day?), or None if unusable."""
     try:
         parsed = parse_wikidata_time(time_value, precision)
     except WikidataDateError:
         return None
-
-    result = {"year": parsed.year}
+    date = {"year": parsed.year}
     if parsed.month is not None:
-        result["month"] = parsed.month
+        date["month"] = parsed.month
     if parsed.day is not None:
-        result["day"] = parsed.day
-    return result
+        date["day"] = parsed.day
+    return date
 
 
 def parse_wikidata_coordinates(claims: dict) -> dict[str, float] | None:
-    """Extracts coordinates from P625 claims."""
-    coords = claims.get("P625", [])
-    for claim in coords:
+    """Extracts the first usable P625 coordinate as `{"lat", "lng"}`."""
+    for claim in claims.get("P625", []):
         try:
             value = claim["mainsnak"]["datavalue"]["value"]
             if "latitude" in value and "longitude" in value:
@@ -233,110 +205,120 @@ def parse_wikidata_coordinates(claims: dict) -> dict[str, float] | None:
     return None
 
 
-def infer_date_property(qid: str, entity: dict, kind_hint: str | None) -> str:
-    """Infers the correct date property for an item."""
-    # Explicit kind from candidates
+def infer_date_property(entity: dict, kind_hint: str | None) -> str:
+    """Picks the Wikidata property that dates an item: point in time for events,
+    inception for landmarks."""
     if kind_hint == "event":
-        return "P585"
+        return EVENT_DATE_PROPERTY
     if kind_hint == "landmark":
-        return "P571"
+        return LANDMARK_DATE_PROPERTY
 
-    # Heuristics based on P31 (instance of)
-    claims = entity.get("claims", {})
-    for claim in claims.get("P31", []):
+    for claim in entity.get("claims", {}).get("P31", []):
         try:
             instance = claim["mainsnak"]["datavalue"]["value"]["id"]
         except KeyError:
             continue
-        # Event classes
-        if instance in {
-            "Q178561",  # battle
-            "Q180684",  # military conflict
-            "Q12890393",  # incident
-            "Q511866",  # mutiny
-            "Q188165",  # war
-            "Q3983889",  # conflict
-        }:
-            return "P585"
-        # Dynasty/empire/period -> inception
-        if instance in {
-            "Q9683",  # Tang dynasty
-            "Q1147037",  # Eastern Han
-            "Q174687",  # Eastern Han (alt)
-        }:
-            return "P571"
-        # Person -> birth (P569) or death (P570) not ideal; skip for now
-        if instance == "Q5":  # human
-            return "P569"  # birth date as proxy
+        if instance in POINT_IN_TIME_CLASSES:
+            return EVENT_DATE_PROPERTY
+        if instance == HUMAN_CLASS:
+            return BIRTH_DATE_PROPERTY  # not ideal: births are out of scope
 
-    # Default: inception for landmarks/buildings
-    return "P571"
+    return LANDMARK_DATE_PROPERTY
 
 
-def build_event(qid: str, entity: dict, wiki: dict, kind_hint: str | None = None, manual_dates: dict | None = None) -> dict | None:
-    """Builds a HistoricalEvent dict from Wikidata entity + Wikipedia enrichment."""
-    labels = entity.get("labels", {})
-    title = labels.get("en", {}).get("value", qid)
-
-    # Determine date property
-    date_prop = infer_date_property(qid, entity, kind_hint)
-    date_claim = parse_wikidata_date(entity.get("claims", {}), date_prop)
-    date_claim = apply_manual_date(date_claim, manual_dates or {}, qid)
-    if not date_claim:
+def resolve_date(
+    entity: dict, date_property: str, manual_dates: dict, qid: str
+) -> dict[str, int] | None:
+    """The curated date if there is one, else the best Wikidata statement."""
+    if qid in manual_dates:
+        return manual_event_date(manual_dates[qid])
+    claim = select_date(entity.get("claims", {}).get(date_property, []))
+    if claim is None:
         return None
+    return event_date(claim["time"], claim["precision"])
 
-    date = wikidata_time_to_event_date(date_claim["time"], date_claim["precision"])
+
+def build_event(
+    qid: str,
+    entity: dict,
+    wiki: dict,
+    kind_hint: str | None = None,
+    manual_dates: dict | None = None,
+    manual_coordinates: dict | None = None,
+    bounds: dict | None = None,
+) -> tuple[dict | None, str | None]:
+    """Builds an event in the ADR-009 shape from a Wikidata entity + Wikipedia enrichment.
+
+    Returns `(event, None)`, or `(None, reason)` when a required field is missing:
+    the pipeline never guesses dates, coordinates or descriptions.
+    """
+    title = entity.get("labels", {}).get("en", {}).get("value", qid)
+
+    date_property = infer_date_property(entity, kind_hint)
+    date = resolve_date(entity, date_property, manual_dates or {}, qid)
     if not date:
-        return None
+        return None, "no usable date"
 
-    # Coordinates from P625 claims
-    coordinates = parse_wikidata_coordinates(entity.get("claims", {}))
+    coordinates = (manual_coordinates or {}).get(qid) or parse_wikidata_coordinates(
+        entity.get("claims", {})
+    )
+    if not coordinates:
+        return None, "no coordinates"
+    if bounds and not in_bounds(coordinates["lat"], coordinates["lng"], bounds):
+        return None, "coordinates outside the city bounds"
 
-    # Location name from Wikipedia title or Wikidata label
-    location_name = None
-    if wiki.get("wikipedia_url"):
-        location_name = wiki["wikipedia_url"].split("/")[-1].replace("_", " ")
-    elif labels.get("en"):
-        location_name = labels["en"]["value"]
+    description = wiki.get("summary", "")
+    if not description:
+        return None, "no Wikipedia extract"
 
-    event = {
+    event: dict[str, Any] = {
         "id": qid,
         "title": title,
-        "date": date,
-        "locationName": location_name,
-        "coordinates": coordinates,
-        "summary": wiki.get("summary", ""),
-        "image": wiki.get("image_url"),
-        "imageAttribution": wiki.get("image_attribution"),
-        "sources": [
-            {"label": "Wikipedia", "url": wiki.get("wikipedia_url", "")},
-            {"label": "Wikidata", "url": f"https://www.wikidata.org/wiki/{qid}"},
-        ],
+        **date,
+        "lat": coordinates["lat"],
+        "lng": coordinates["lng"],
+        "description": description,
     }
+    if wiki.get("image_url"):
+        event["image"] = {
+            "url": wiki["image_url"],
+            "attribution": wiki["image_attribution"],
+        }
+    sources = {"wikidata": f"https://www.wikidata.org/wiki/{qid}"}
+    if wiki.get("wikipedia_url"):
+        sources["wikipedia"] = wiki["wikipedia_url"]
+    event["sources"] = sources
 
-    # Add Wikidata sitelinks count as a significance signal (optional, for debugging)
+    # Significance signal for ranking; select_events strips it.
     event["_sitelinks"] = len(entity.get("sitelinks", {}))
+    return event, None
 
-    return event
+
+def select_events(events: list[dict]) -> list[dict]:
+    """Keeps the MAX_EVENTS most linked events (ties by title), without the internal `_sitelinks`."""
+    ranked = sorted(events, key=lambda event: (-event.get("_sitelinks", 0), event["title"]))
+    return [
+        {key: value for key, value in event.items() if key != "_sitelinks"}
+        for event in ranked[:MAX_EVENTS]
+    ]
 
 
 def main() -> int:
     curated = load_curated()
     manual_dates = curated.get("manual_dates", {})
+    manual_coordinates = curated.get("manual_coordinates", {})
+    bounds = load_scope()["city"]["bounds"]
     candidates = load_candidates()
-    qids = collect_all_qids(curated, candidates)
+    qids = collect_all_qids(curated)
 
     print(f"Enriching {len(qids)} QIDs...")
 
     session = build_session(USER_AGENT)
 
-    # Fetch Wikidata entities (claims, coordinates, sitelinks, labels)
     entities = fetch_wikidata_entities(session, qids)
 
-    # Fetch Wikipedia content
-    wiki_data = fetch_wikipedia_pages(session, qids)
+    wiki_data = fetch_wikipedia_pages(session, entities)
 
-    # Build events
     events = []
     for qid in qids:
         entity = entities.get(qid)
@@ -344,40 +326,28 @@ def main() -> int:
             print(f"  WARNING: No Wikidata entity for {qid}")
             continue
 
-        # Determine kind from candidates if available
         kind = candidates.get(qid, {}).get("kind")
         wiki = wiki_data.get(qid, {})
-        event = build_event(qid, entity, wiki, kind, manual_dates)
+        event, reason = build_event(
+            qid, entity, wiki, kind, manual_dates, manual_coordinates, bounds
+        )
         if event:
             events.append(event)
-            print(f"  ✓ {qid}: {event['title']} ({event['date']['year']})")
+            print(f"  ✓ {qid}: {event['title']} ({event['year']})")
         else:
-            print(f"  ✗ {qid}: skipped (no usable date)")
+            print(f"  ✗ {qid}: skipped ({reason})")
 
-    # Sort by sitelinks desc (significance), then title
-    events.sort(key=lambda e: (-e.get("_sitelinks", 0), e["title"]))
+    events = select_events(events)
 
-    # Cap at MAX_EVENTS
-    events = events[:MAX_EVENTS]
-
-    # Strip internal fields
-    for event in events:
-        event.pop("_sitelinks", None)
-
-    # Write output
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(json.dumps(events, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(f"\nExported {len(events)} events to {OUTPUT_PATH}")
     for event in events:
-        date_str = str(event["date"]["year"])
-        if "month" in event["date"]:
-            date_str += f"-{event['date']['month']:02d}"
-        if "day" in event["date"]:
-            date_str += f"-{event['date']['day']:02d}"
-        coords = event.get("coordinates")
-        coord_str = f" ({coords['lat']:.4f}, {coords['lng']:.4f})" if coords else " (no coords)"
-        print(f"  {event['id']}: {event['title']} — {date_str}{coord_str}")
+        print(
+            f"  {event['id']}: {event['title']} — {format_date(event)} "
+            f"({event['lat']:.4f}, {event['lng']:.4f})"
+        )
 
     return 0
 

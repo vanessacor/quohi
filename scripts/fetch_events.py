@@ -21,18 +21,25 @@ import sys
 from pathlib import Path
 from typing import Any, Iterable, Sequence
 
+import requests
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from common import (  # noqa: E402
+    EVENT_DATE_PROPERTY,
+    LANDMARK_DATE_PROPERTY,
     WikidataDateError,
     build_session,
     fetch_json,
+    format_date,
+    in_bounds,
+    load_scope,
     parse_wikidata_time,
+    select_date,
 )
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPTS_DIR.parent
-SCOPE_PATH = SCRIPTS_DIR / "config" / "scope.json"
 EVENTS_JSON_PATH = REPO_ROOT / "src" / "data" / "events.json"
 CANDIDATES_PATH = SCRIPTS_DIR / ".cache" / "candidates.json"
 EXISTING_QIDS_PATH = SCRIPTS_DIR / ".cache" / "existing-event-qids.json"
@@ -48,9 +55,6 @@ ENGLISH_WIKIPEDIA = "http://en.wikipedia.org/"
 SITELINK_BATCH_SIZE = 50
 ENTITY_BATCH_SIZE = 50
 
-CALENDAR_GREGORIAN = "Q1985786"
-EVENT_DATE_PROPERTY = "P585"
-LANDMARK_DATE_PROPERTY = "P571"
 DATE_PROPERTIES = {"event": EVENT_DATE_PROPERTY, "landmark": LANDMARK_DATE_PROPERTY}
 
 SPARQL_PREFIXES = """
@@ -161,39 +165,7 @@ def parse_candidates(bindings: Iterable[dict], kind: str) -> list[dict]:
     return list(candidates.values())
 
 
-def in_bounds(lat: float, lng: float, bounds: dict) -> bool:
-    return (
-        bounds["south"] <= lat <= bounds["north"]
-        and bounds["west"] <= lng <= bounds["east"]
-    )
-
-
-def select_date(claims: Sequence[dict]) -> dict | None:
-    """Picks the statement to date an item by: the proleptic Gregorian copy
-    first (docs/business-rules.md, "Dates"), then the most precise one."""
-    best: dict | None = None
-    for claim in claims:
-        try:
-            value = claim["mainsnak"]["datavalue"]["value"]
-        except KeyError:
-            continue
-        if "time" not in value:
-            continue
-        calendar = value.get("calendarmodel", "").rsplit("/", 1)[-1]
-        precision = value["precision"]
-        cand = {"time": value["time"], "precision": precision, "calendar": calendar}
-        if best is None:
-            best = cand
-        else:
-            # Prefer Gregorian, then higher precision
-            if cand["calendar"] == CALENDAR_GREGORIAN and best["calendar"] != CALENDAR_GREGORIAN:
-                best = cand
-            elif cand["calendar"] == best["calendar"] and cand["precision"] > best["precision"]:
-                best = cand
-    return best
-
-
-def fetch_entities(session, qids: Sequence[str], cache_dir: Path) -> dict[str, dict]:
+def fetch_entities(session: requests.Session, qids: Sequence[str], cache_dir: Path) -> dict[str, dict]:
     """Fetches claims, sitelinks, and labels for the given QIDs in batches."""
     entities: dict[str, dict] = {}
     for start in range(0, len(qids), ENTITY_BATCH_SIZE):
@@ -242,20 +214,8 @@ def rank(candidates: Sequence[dict]) -> list[dict]:
     )
 
 
-def format_date(date: dict | None) -> str:
-    if date is None:
-        return "-"
-    if "year" not in date:
-        return "unreadable"
-    text = str(date["year"])
-    if "month" in date:
-        text += f"-{date['month']:02d}"
-    if "day" in date:
-        text += f"-{date['day']:02d}"
-    return text
-
-
 def format_table(candidates: Sequence[dict]) -> str:
+    """Renders candidates as an aligned text table for review in the console."""
     header = ("#", "qid", "sitelinks", "date", "coords", "classes", "title")
     rows = [header]
     for index, candidate in enumerate(candidates, start=1):
@@ -290,7 +250,7 @@ def search_variants(title: str) -> list[tuple[str, bool]]:
 
 
 def resolve_existing_titles(
-    session, titles: Sequence[str], cache_dir: Path
+    session: requests.Session, titles: Sequence[str], cache_dir: Path
 ) -> list[dict]:
     """Asks Wikidata for the closest match to each hand-written event title."""
     resolved = []
@@ -326,10 +286,6 @@ def resolve_existing_titles(
                 break
         resolved.append({"title": title, "matches": matches})
     return resolved
-
-
-def load_scope(path: Path = SCOPE_PATH) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def main() -> int:
