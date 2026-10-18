@@ -1,6 +1,6 @@
 # Tasks
 
-Timebox in brackets; total budget ~12h. If a task overruns by 50%, stop and reassess scope.
+Timebox in brackets. The original MVP budget was ~12h; Milestones 5-6 (data pipeline, summaries and images, ADR-007/008/009) are timeboxed separately on top of it. If a task overruns by 50%, stop and reassess scope.
 
 ## Milestone 1: Setup & Map (~2h)
 - [x] Init Vite + React project with npm [30m]
@@ -28,15 +28,32 @@ Timebox in brackets; total budget ~12h. If a task overruns by 50%, stop and reas
 - [ ] Start/end year number inputs [40m]
 - [ ] Wire filter to visible markers; clear selection if filtered out [30m]
 - [ ] Handle invalid/empty range input [25m]
+- [ ] Reset filters control [15m]
+- [ ] Empty state when no events match [15m]
 
-## Milestone 5: Finalization (~2.5h)
+## Milestone 5: Data Pipeline (~4h, extra budget, ADR-007)
+- [ ] Define "historical event" scope for Xi'an and confirm the bounding box in `src/config/city.ts` [30m]
+- [ ] `scripts/fetch_events.py`: Wikidata SPARQL with local caching; set up `requirements.txt` [90m]
+- [ ] `scripts/enrich_events.py`: Wikipedia extracts, links and images [60m]
+- [ ] Normalize to the schema, dedupe by QID, validate, export `src/data/events.json` capped at 20 [45m]
+- [ ] User reviews and fact-checks the output [30m]
+
+## Milestone 6: Summaries & Images (~3h, extra budget, ADR-008/009)
+- [ ] Check hardware requirements; install Ollama + Qwen3 4B [20m]
+- [ ] `scripts/generate_summaries.py`: constrained prompt, output validation, cache [75m]
+- [ ] Update `HistoricalEvent`, `parseEvents` and tests for the optional fields [30m]
+- [ ] Side panel: summary, image with fallback and attribution, source links [45m]
+- [ ] Verify missing optional fields do not break the UI [15m]
+
+## Milestone 7: Finalization (~2.5h)
 - [ ] Basic UI cleanup and basic responsiveness [60m]
 - [ ] GitHub Pages config (`base` in Vite config) + Actions deploy workflow [45m]
 - [ ] Deploy and verify live URL [20m]
-- [ ] Check success criteria in PRD section 10 [15m]
+- [ ] Check success criteria in PRD section 10, including a mobile check [15m]
 
 ## Backlog (deferred, not scheduled)
-- [ ] Migrate the hand-written `parseEvents` validator to Zod (decided in Milestone 2 to start hand-written; revisit when the schema grows or AI-generated data arrives, Phase 2 of the vision)
+- [ ] Results list as an accessible alternative to the map markers (do if time allows)
+- [ ] Migrate the hand-written `parseEvents` validator to Zod (decided in Milestone 2 to start hand-written; revisit when the schema grows or AI-generated data arrives, Phase 2 of the vision; ADR-009 grows the validator, which strengthens the case)
 - [ ] Marker clustering or overlap handling (overlapping markers accepted for the MVP; TRD lists clustering as optional later)
 - [ ] Milestone 1 review nits:
   - [ ] `main.tsx` imports `./App.tsx` with the extension while other imports omit it

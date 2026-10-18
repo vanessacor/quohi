@@ -29,6 +29,7 @@ The MVP focuses on a single city and a limited dataset to provide a simple, inte
    - Event title
    - Date
    - Description
+   - AI-generated summary, image with attribution, and a link to the source article, when available
 
 ### Filtering Flow
 
@@ -70,10 +71,12 @@ The MVP focuses on a single city and a limited dataset to provide a simple, inte
 
 - Provide date range input (start and end)
 - Filter events dynamically based on selected range
+- Provide a reset control and an empty state when nothing matches
 
 ### Data Handling
 
 - Load events from a static JSON file
+- Prepare the JSON offline from Wikidata/Wikipedia with local scripts and local AI summaries; the app itself makes no external data calls
 - Ensure all events follow a consistent schema
 
 ---
@@ -100,7 +103,17 @@ The MVP focuses on a single city and a limited dataset to provide a simple, inte
 - Add date range filter
 - Update visible markers based on filter
 
-### Milestone 5: Finalization
+### Milestone 5: Data Pipeline
+
+- Generate the Xi'an dataset (max 20 events) from Wikidata and Wikipedia with Python scripts
+- Manual review of the output
+
+### Milestone 6: Summaries & Images
+
+- Generate AI summaries locally (Ollama + Qwen3)
+- Show summary, image with attribution and source links in the side panel
+
+### Milestone 7: Finalization
 
 - Basic UI cleanup
 - Deploy application
@@ -134,7 +147,8 @@ Summary:
 
 - Multiple cities
 - User accounts or personalization
-- Dynamic data fetching from APIs
+- Fetching data from APIs at runtime
+- Category filtering
 - Advanced filtering (categories, tags, etc.)
 - Timeline visualization
 - Mobile optimization beyond basic responsiveness
@@ -147,6 +161,7 @@ Summary:
 - At least 10 events displayed
 - Marker interaction works reliably
 - Date filtering functions as expected
+- Events show source links; summaries and images appear when available and missing ones do not break the panel
 - Application is deployed and accessible
 
 ---
@@ -156,9 +171,14 @@ Summary:
 - Overcomplicating the implementation
 - Spending excessive time on data accuracy
 - Delays due to unfamiliar map libraries
+- AI summaries containing factual errors
+- Image licensing and attribution
+- Local hardware too weak for the summary model
 
 Mitigation:
 
 - Keep dataset small
 - Timebox all tasks
+- Summaries restricted to the source text, sampled for review, always shown with a source link
+- Show only images with attribution; check model hardware requirements before installing
 - Prioritize working functionality over polish
