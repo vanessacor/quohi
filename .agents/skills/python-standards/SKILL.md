@@ -22,7 +22,12 @@ new code and match it. If this skill and the surrounding code disagree, follow t
 - Every module and public function has a docstring. Match the repo's prose
   style: one summary line in the third person ("Parses ..."), then a short
   paragraph only when the *why* is not obvious. No Args/Returns boilerplate.
-- Comments explain why (a Wikidata quirk, an API policy), not what.
+- Code is explicit enough to need no comments; a comment is the exception. Before
+  writing one, rename the variable, extract a named function or name the constant
+  instead. Never write a comment that restates the code (`# fetch the entities`,
+  `# loop over events`), labels a section, or marks a step. Keep a comment only
+  for what the code cannot say: why a non-obvious choice was made (a Wikidata
+  quirk, an API policy, a user decision). Delete commented-out code.
 - Single responsibility: separate fetching, parsing and writing so the parsing
   can be tested without the network.
 - Name magic numbers as constants (`TIMEOUT_SECONDS`, `MAX_EVENTS`).
