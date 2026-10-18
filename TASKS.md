@@ -24,7 +24,7 @@ Timebox in brackets. The original MVP budget was ~12h; Milestones 5-6 (data pipe
 - [x] Date formatting util (BCE, year-only, full date) [25m]
 
 ## Milestone 4: Filtering (~2.5h)
-- [ ] Overlap filter util with unit tests (year-only counts as whole year) [45m]
+- [x] Overlap filter util with unit tests (year-only counts as whole year) [45m]
 - [ ] Start/end year number inputs [40m]
 - [ ] Wire filter to visible markers; clear selection if filtered out [30m]
 - [ ] Handle invalid/empty range input [25m]
