@@ -1,0 +1,53 @@
+{
+  "_note": "Real Wikidata time values, fetched on 2026-10-18, that pin the date convention. The three BCE dates are not in dispute: their stored year is exactly the BCE year, so Wikidata's negative years need no offset when they reach the schema. The Terracotta Army entry shows the opposite kind of difference (Wikipedia dates it c. 247 BCE), which is a source disagreement, not an offset.",
+  "times": [
+    {
+      "label": "Julius Caesar (Q1048), death, 15 March 44 BCE",
+      "time": "-0044-03-15T00:00:00Z",
+      "precision": 11,
+      "year": -44,
+      "month": 3,
+      "day": 15
+    },
+    {
+      "label": "Cleopatra VII (Q635), death, 30 BCE, day precision",
+      "time": "-0030-08-12T00:00:00Z",
+      "precision": 11,
+      "year": -30,
+      "month": 8,
+      "day": 12
+    },
+    {
+      "label": "Qin Shi Huang (Q7192), death, 210 BCE, year precision",
+      "time": "-0210-00-00T00:00:00Z",
+      "precision": 9,
+      "year": -210,
+      "month": null,
+      "day": null
+    },
+    {
+      "label": "Xi'an Incident (Q244941), point in time, 12 December 1936",
+      "time": "+1936-12-12T00:00:00Z",
+      "precision": 11,
+      "year": 1936,
+      "month": 12,
+      "day": 12
+    },
+    {
+      "label": "Xi'an Incident (Q244941), the same value as SPARQL returns it (xsd:dateTime has no plus sign)",
+      "time": "1936-12-12T00:00:00Z",
+      "precision": 11,
+      "year": 1936,
+      "month": 12,
+      "day": 12
+    },
+    {
+      "label": "Terracotta Army (Q47672), inception, 248 BCE, year precision",
+      "time": "-0248-00-00T00:00:00Z",
+      "precision": 9,
+      "year": -248,
+      "month": null,
+      "day": null
+    }
+  ]
+}

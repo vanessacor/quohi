@@ -45,6 +45,7 @@ Enforced by `parseEvents` in `src/utils/`, run once when `src/data/events.ts` lo
 - Precision is implied by which fields are present: year only, year + month, or full date
 - A span is expressed with `endYear` and has year precision only: an event with `endYear` cannot also have `month` or `day`
 - Dates before 1582 are recorded as given in the source; there is no calendar conversion
+- When an early date is stored per calendar model (proleptic Gregorian and proleptic Julian), the pipeline uses the proleptic Gregorian value, so the year matches the BCE year commonly used in sources (user decision D2, Milestone 5)
 
 ## Filtering
 - The user filters by a start year and an end year (inputs accept negative years for BCE)

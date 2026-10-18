@@ -1,0 +1,41 @@
+{
+  "_note": "Scope for the Xi'an data pipeline (ADR-007). Class QIDs were resolved and label-checked against Wikidata on 2026-10-18. The bounds mirror src/config/city.ts; scripts/tests/test_scope.py fails if the two drift apart.",
+  "city": {
+    "name": "Xi'an, China",
+    "bounds": { "south": 34.05, "west": 108.6, "north": 34.6, "east": 109.45 }
+  },
+  "eventClasses": [
+    { "qid": "Q178561", "label": "battle" },
+    { "qid": "Q997267", "label": "skirmish" },
+    { "qid": "Q45382", "label": "coup d'état" },
+    { "qid": "Q511866", "label": "mutiny" },
+    { "qid": "Q12890393", "label": "incident" },
+    { "qid": "Q273120", "label": "protest" },
+    { "qid": "Q124757", "label": "riot" },
+    { "qid": "Q188055", "label": "siege" },
+    { "qid": "Q124734", "label": "rebellion" },
+    { "qid": "Q3199915", "label": "massacre" },
+    { "qid": "Q3882219", "label": "assassination" },
+    { "qid": "Q934744", "label": "political scandal" },
+    { "qid": "Q107706", "label": "armistice" },
+    { "qid": "Q131569", "label": "treaty" },
+    { "qid": "Q959782", "label": "archaeological excavation" }
+  ],
+  "landmarkClasses": [
+    { "qid": "Q199451", "label": "pagoda" },
+    { "qid": "Q5393308", "label": "Buddhist temple" },
+    { "qid": "Q44539", "label": "temple" },
+    { "qid": "Q32815", "label": "mosque" },
+    { "qid": "Q16970", "label": "church building" },
+    { "qid": "Q2977", "label": "cathedral" },
+    { "qid": "Q381885", "label": "tomb" },
+    { "qid": "Q162875", "label": "mausoleum" },
+    { "qid": "Q16560", "label": "palace" },
+    { "qid": "Q82117", "label": "city gate" },
+    { "qid": "Q16748868", "label": "city walls" },
+    { "qid": "Q839954", "label": "archaeological site" },
+    { "qid": "Q109607", "label": "ruins" },
+    { "qid": "Q200334", "label": "bell tower" },
+    { "qid": "Q2455293", "label": "drum tower" }
+  ]
+}

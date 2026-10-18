@@ -8,3 +8,6 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
+scripts/.venv/
+scripts/.cache/
+__pycache__/
