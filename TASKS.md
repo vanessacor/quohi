@@ -26,7 +26,7 @@ Timebox in brackets. The original MVP budget was ~12h; Milestones 5-6 (data pipe
 ## Milestone 4: Filtering (~2.5h)
 - [x] Overlap filter util with unit tests (year-only counts as whole year) [45m]
 - [x] Start/end year number inputs [40m]
-- [ ] Wire filter to visible markers; clear selection if filtered out [30m]
+- [x] Wire filter to visible markers; clear selection if filtered out [30m]
 - [ ] Handle invalid/empty range input [25m]
 - [ ] Reset filters control [15m]
 - [ ] Empty state when no events match [15m]
@@ -52,6 +52,7 @@ Timebox in brackets. The original MVP budget was ~12h; Milestones 5-6 (data pipe
 - [ ] Check success criteria in PRD section 10, including a mobile check [15m]
 
 ## Backlog (deferred, not scheduled)
+- [ ] Filter: when the "from" year is valid and the "to" year is invalid (or the reverse), treat the invalid one as open-ended (null) and still apply the valid bound, instead of ignoring the whole range (currently any error shows all events, Milestone 4 decision B1)
 - [ ] Results list as an accessible alternative to the map markers (do if time allows)
 - [ ] Migrate the hand-written `parseEvents` validator to Zod (decided in Milestone 2 to start hand-written; revisit when the schema grows or AI-generated data arrives, Phase 2 of the vision; ADR-009 grows the validator, which strengthens the case)
 - [ ] Marker clustering or overlap handling (overlapping markers accepted for the MVP; TRD lists clustering as optional later)
