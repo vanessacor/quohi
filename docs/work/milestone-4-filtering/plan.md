@@ -60,6 +60,7 @@ Each step is one commit, with its `TASKS.md` item ticked in the same commit. For
 
 ### 4. Wire the filter to the markers [30m] → ticks "Wire filter to visible markers; clear selection if filtered out"
 - `App.tsx`: `parseYearRange(startText, endText)` -> `visibleEvents = useMemo(() => filterEventsByRange(events, range), ...)`; `markers = visibleEvents.map(eventToMarker)` (computed from `visibleEvents`)
+- Deviation (noted at implementation): `visibleEvents` and `markers` are computed on every render without `useMemo`. `parseYearRange` returns a new `range` object each render, so memoizing on it triggered the `react-hooks/exhaustive-deps` lint warning, and with at most 20 events the cost is negligible.
 - Change handler: set the texts, parse the new values, and if `selectedId` is not in the new visible set call `setSelectedId(null)`
 - Manual check: narrowing the range hides markers; selecting then filtering the selected event out empties the panel; widening again does not bring it back
 - Done when: lint/typecheck/test/build pass
