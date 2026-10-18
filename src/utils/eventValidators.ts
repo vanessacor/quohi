@@ -1,4 +1,4 @@
-import type { HistoricalEvent } from '../types/event'
+import type { EventImage, EventSources, HistoricalEvent } from '../types/event'
 import type { Bounds, LatLng } from '../types/map'
 
 // Field-level validators for raw event data (rules: docs/business-rules.md).
@@ -10,6 +10,8 @@ export type EventDate = Pick<
 >
 
 const ID_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/
+// Wikidata QID, used for pipeline events (ADR-009).
+const QID_PATTERN = /^Q[0-9]+$/
 const KNOWN_FIELDS: ReadonlySet<string> = new Set([
   'id',
   'title',
@@ -20,7 +22,17 @@ const KNOWN_FIELDS: ReadonlySet<string> = new Set([
   'lat',
   'lng',
   'description',
+  'locationName',
+  'summary',
+  'image',
+  'sources',
 ])
+const IMAGE_FIELDS: ReadonlySet<string> = new Set([
+  'url',
+  'license',
+  'attribution',
+])
+const SOURCE_FIELDS: ReadonlySet<string> = new Set(['wikipedia', 'wikidata'])
 // February allows 29 in any year; there is no leap-year logic.
 const DAYS_IN_MONTH: readonly number[] = [
   31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
@@ -32,6 +44,10 @@ export function isNonEmptyString(value: unknown): value is string {
 
 function isFiniteNumber(value: unknown): value is number {
   return typeof value === 'number' && Number.isFinite(value)
+}
+
+export function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
 function isYear(value: unknown): value is number {
@@ -67,7 +83,21 @@ export function findUnknownFields(
   }
 }
 
-/** Reads a kebab-case id that is unique within `seenIds`; records every non-empty id it sees. */
+/** Same as `findUnknownFields`, for the nested `image` and `sources` objects. */
+function findUnknownNestedFields(
+  owner: string,
+  raw: Record<string, unknown>,
+  known: ReadonlySet<string>,
+  problems: string[],
+): void {
+  for (const field of Object.keys(raw)) {
+    if (!known.has(field)) {
+      problems.push(`unknown field "${field}" inside ${owner}`)
+    }
+  }
+}
+
+/** Reads a kebab-case or Wikidata QID id that is unique within `seenIds`; records every non-empty id it sees. */
 export function readId(
   value: unknown,
   seenIds: Set<string>,
@@ -79,8 +109,8 @@ export function readId(
   }
   const isDuplicate = seenIds.has(value)
   seenIds.add(value)
-  if (!ID_PATTERN.test(value)) {
-    problems.push(`id "${value}" must be kebab-case`)
+  if (!ID_PATTERN.test(value) && !QID_PATTERN.test(value)) {
+    problems.push(`id "${value}" must be kebab-case or a Wikidata QID`)
     return undefined
   }
   if (isDuplicate) {
@@ -100,6 +130,105 @@ export function readText(
     return undefined
   }
   return value
+}
+
+/** Reads an optional string field: absent stays absent, present must be non-empty. */
+export function readOptionalText(
+  name: string,
+  value: unknown,
+  problems: string[],
+): string | undefined {
+  if (value === undefined) return undefined
+  return readText(name, value, problems)
+}
+
+function isHttpUrl(value: unknown): value is string {
+  if (!isNonEmptyString(value)) return false
+  try {
+    const protocol = new URL(value).protocol
+    return protocol === 'http:' || protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
+function readRequiredUrl(
+  name: string,
+  value: unknown,
+  problems: string[],
+): string | undefined {
+  const candidate = isNonEmptyString(value) ? value.trim() : value
+  if (!isHttpUrl(candidate)) {
+    problems.push(`${name} must be an http(s) URL`)
+    return undefined
+  }
+  return candidate
+}
+
+function readOptionalUrl(
+  name: string,
+  value: unknown,
+  problems: string[],
+): string | undefined {
+  if (value === undefined) return undefined
+  return readRequiredUrl(name, value, problems)
+}
+
+/** Reads the optional `image`: a record with a required http(s) `url` and optional `license`/`attribution`. */
+export function readImage(
+  value: unknown,
+  problems: string[],
+): EventImage | undefined {
+  if (value === undefined) return undefined
+  if (!isRecord(value)) {
+    problems.push('image must be an object')
+    return undefined
+  }
+  const reported = problems.length
+  findUnknownNestedFields('image', value, IMAGE_FIELDS, problems)
+  const url = readRequiredUrl('image.url', value.url, problems)
+  const license = readOptionalText('image.license', value.license, problems)
+  const attribution = readOptionalText(
+    'image.attribution',
+    value.attribution,
+    problems,
+  )
+  if (!url || problems.length > reported) return undefined
+  return {
+    url,
+    ...(license !== undefined && { license }),
+    ...(attribution !== undefined && { attribution }),
+  }
+}
+
+/** Reads the optional `sources`: a record whose `wikipedia`/`wikidata` values are http(s) URLs. */
+export function readSources(
+  value: unknown,
+  problems: string[],
+): EventSources | undefined {
+  if (value === undefined) return undefined
+  if (!isRecord(value)) {
+    problems.push('sources must be an object')
+    return undefined
+  }
+  // An empty object carries no link; the field should be omitted instead.
+  if (Object.keys(value).length === 0) {
+    problems.push('sources must include "wikipedia" or "wikidata"')
+    return undefined
+  }
+  const reported = problems.length
+  findUnknownNestedFields('sources', value, SOURCE_FIELDS, problems)
+  const wikipedia = readOptionalUrl(
+    'sources.wikipedia',
+    value.wikipedia,
+    problems,
+  )
+  const wikidata = readOptionalUrl('sources.wikidata', value.wikidata, problems)
+  if (problems.length > reported) return undefined
+  return {
+    ...(wikipedia !== undefined && { wikipedia }),
+    ...(wikidata !== undefined && { wikidata }),
+  }
 }
 
 function readEndYear(

@@ -37,7 +37,7 @@ Enforced by `parseEvents` in `src/utils/`, run once when `src/data/events.ts` lo
 - `endYear` cannot be combined with `month` or `day`
 - `month`: integer 1-12; `day`: integer, requires `month`, within the month's length (February allows 29 in any year; no leap-year logic)
 - `lat`/`lng`: finite numbers inside the bounds of the configured city
-- Optional fields (`locationName`, `summary`, `image`, `sources`) are non-empty strings or well-formed objects when present; `image.url` and `sources.*` must be `http(s)` URLs
+- Optional fields (`locationName`, `summary`, `image`, `sources`) are non-empty strings or well-formed objects when present; `image.url` and `sources.*` must be `http(s)` URLs; an `image` requires `url`, a `sources` requires at least one link
 - Unknown fields are rejected
 - All problems are collected and reported together in one error
 

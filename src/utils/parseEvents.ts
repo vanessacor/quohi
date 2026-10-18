@@ -3,17 +3,17 @@ import type { Bounds } from '../types/map'
 import {
   findUnknownFields,
   isNonEmptyString,
+  isRecord,
   readCoordinates,
   readDate,
   readId,
+  readImage,
+  readOptionalText,
+  readSources,
   readText,
 } from './eventValidators'
 
 export const MAX_EVENTS = 20
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
-}
 
 function readEvent(
   raw: unknown,
@@ -34,6 +34,14 @@ function readEvent(
   const description = readText('description', raw.description, problems)
   const date = readDate(raw, problems)
   const coordinates = readCoordinates(raw, bounds, problems)
+  const locationName = readOptionalText(
+    'locationName',
+    raw.locationName,
+    problems,
+  )
+  const summary = readOptionalText('summary', raw.summary, problems)
+  const image = readImage(raw.image, problems)
+  const sources = readSources(raw.sources, problems)
 
   if (
     problems.length > 0 ||
@@ -50,7 +58,17 @@ function readEvent(
     return undefined
   }
 
-  return { id, title, ...date, ...coordinates, description }
+  return {
+    id,
+    title,
+    ...date,
+    ...coordinates,
+    description,
+    ...(locationName !== undefined && { locationName }),
+    ...(summary !== undefined && { summary }),
+    ...(image !== undefined && { image }),
+    ...(sources !== undefined && { sources }),
+  }
 }
 
 /**

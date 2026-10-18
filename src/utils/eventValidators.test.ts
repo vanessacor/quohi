@@ -6,6 +6,9 @@ import {
   readCoordinates,
   readDate,
   readId,
+  readImage,
+  readOptionalText,
+  readSources,
   readText,
 } from './eventValidators'
 
@@ -35,6 +38,13 @@ describe('readId', () => {
     expect(problems).toEqual([])
   })
 
+  it('returns a Wikidata QID id', () => {
+    const problems: string[] = []
+    expect(readId('Q1936', new Set(), problems)).toBe('Q1936')
+    expect(readId('Q1', new Set(), problems)).toBe('Q1')
+    expect(problems).toEqual([])
+  })
+
   it('rejects missing, non-kebab-case and duplicate ids', () => {
     const seen = new Set<string>()
     const problems: string[] = []
@@ -44,8 +54,24 @@ describe('readId', () => {
     expect(readId('bell-tower', seen, problems)).toBeUndefined()
     expect(problems).toEqual([
       'id must be a non-empty string',
-      'id "Bell Tower" must be kebab-case',
+      'id "Bell Tower" must be kebab-case or a Wikidata QID',
       'duplicate id "bell-tower"',
+    ])
+  })
+
+  it('rejects ids that are neither kebab-case nor a QID, including duplicates', () => {
+    const seen = new Set<string>()
+    const problems: string[] = []
+    expect(readId('Q', seen, problems)).toBeUndefined()
+    expect(readId('Q12a', seen, problems)).toBeUndefined()
+    expect(readId('Q-123', seen, problems)).toBeUndefined()
+    readId('Q1936', seen, problems)
+    expect(readId('Q1936', seen, problems)).toBeUndefined()
+    expect(problems).toEqual([
+      'id "Q" must be kebab-case or a Wikidata QID',
+      'id "Q12a" must be kebab-case or a Wikidata QID',
+      'id "Q-123" must be kebab-case or a Wikidata QID',
+      'duplicate id "Q1936"',
     ])
   })
 })
@@ -56,6 +82,165 @@ describe('readText', () => {
     expect(readText('title', 'Hello', problems)).toBe('Hello')
     expect(readText('title', ' ', problems)).toBeUndefined()
     expect(problems).toEqual(['title must be a non-empty string'])
+  })
+})
+
+describe('readOptionalText', () => {
+  it('stays absent when the field is missing', () => {
+    const problems: string[] = []
+    expect(readOptionalText('summary', undefined, problems)).toBeUndefined()
+    expect(problems).toEqual([])
+  })
+
+  it('returns present text and reports empty or non-string values', () => {
+    const problems: string[] = []
+    expect(readOptionalText('summary', 'Text', problems)).toBe('Text')
+    expect(readOptionalText('summary', '  ', problems)).toBeUndefined()
+    expect(readOptionalText('summary', 5, problems)).toBeUndefined()
+    expect(readOptionalText('summary', null, problems)).toBeUndefined()
+    expect(problems).toEqual([
+      'summary must be a non-empty string',
+      'summary must be a non-empty string',
+      'summary must be a non-empty string',
+    ])
+  })
+})
+
+describe('readImage', () => {
+  it('stays absent when the field is missing', () => {
+    const problems: string[] = []
+    expect(readImage(undefined, problems)).toBeUndefined()
+    expect(problems).toEqual([])
+  })
+
+  it('returns a valid image, with and without the optional fields', () => {
+    const problems: string[] = []
+    expect(
+      readImage({ url: 'https://upload.wikimedia.org/a.jpg' }, problems),
+    ).toEqual({ url: 'https://upload.wikimedia.org/a.jpg' })
+    expect(
+      readImage(
+        {
+          url: 'http://example.org/pagoda.png',
+          license: 'CC BY-SA 3.0',
+          attribution: 'Author',
+        },
+        problems,
+      ),
+    ).toEqual({
+      url: 'http://example.org/pagoda.png',
+      license: 'CC BY-SA 3.0',
+      attribution: 'Author',
+    })
+    expect(problems).toEqual([])
+  })
+
+  it('trims whitespace around the url', () => {
+    const problems: string[] = []
+    expect(
+      readImage({ url: '  https://example.org/a.jpg  ' }, problems),
+    ).toEqual({ url: 'https://example.org/a.jpg' })
+    expect(problems).toEqual([])
+  })
+
+  it('requires an http(s) url', () => {
+    const problems: string[] = []
+    expect(readImage({}, problems)).toBeUndefined()
+    expect(
+      readImage({ url: 'ftp://example.org/a.jpg' }, problems),
+    ).toBeUndefined()
+    expect(readImage({ url: 'example.org/a.jpg' }, problems)).toBeUndefined()
+    expect(readImage({ url: 'https://' }, problems)).toBeUndefined()
+    expect(problems).toEqual([
+      'image.url must be an http(s) URL',
+      'image.url must be an http(s) URL',
+      'image.url must be an http(s) URL',
+      'image.url must be an http(s) URL',
+    ])
+  })
+
+  it('rejects a non-object image and unknown fields inside it', () => {
+    const problems: string[] = []
+    expect(readImage('https://example.org/a.jpg', problems)).toBeUndefined()
+    expect(
+      readImage({ url: 'https://example.org/a.jpg', author: 'Me' }, problems),
+    ).toBeUndefined()
+    expect(problems).toEqual([
+      'image must be an object',
+      'unknown field "author" inside image',
+    ])
+  })
+
+  it('reports empty or non-string license and attribution values', () => {
+    const problems: string[] = []
+    expect(
+      readImage(
+        { url: 'https://example.org/a.jpg', license: '', attribution: 7 },
+        problems,
+      ),
+    ).toBeUndefined()
+    expect(problems).toEqual([
+      'image.license must be a non-empty string',
+      'image.attribution must be a non-empty string',
+    ])
+  })
+})
+
+describe('readSources', () => {
+  it('stays absent when the field is missing', () => {
+    const problems: string[] = []
+    expect(readSources(undefined, problems)).toBeUndefined()
+    expect(problems).toEqual([])
+  })
+
+  it('returns the links that are present', () => {
+    const problems: string[] = []
+    expect(
+      readSources(
+        {
+          wikipedia: 'https://en.wikipedia.org/wiki/Xi%27an_Incident',
+          wikidata: 'https://www.wikidata.org/wiki/Q130696',
+        },
+        problems,
+      ),
+    ).toEqual({
+      wikipedia: 'https://en.wikipedia.org/wiki/Xi%27an_Incident',
+      wikidata: 'https://www.wikidata.org/wiki/Q130696',
+    })
+    expect(
+      readSources({ wikidata: 'https://www.wikidata.org/wiki/Q1' }, problems),
+    ).toEqual({ wikidata: 'https://www.wikidata.org/wiki/Q1' })
+    expect(problems).toEqual([])
+  })
+
+  it('rejects an empty sources object', () => {
+    const problems: string[] = []
+    expect(readSources({}, problems)).toBeUndefined()
+    expect(problems).toEqual(['sources must include "wikipedia" or "wikidata"'])
+  })
+
+  it('rejects a non-object sources value', () => {
+    const problems: string[] = []
+    expect(readSources('https://example.org', problems)).toBeUndefined()
+    expect(readSources(null, problems)).toBeUndefined()
+    expect(problems).toEqual([
+      'sources must be an object',
+      'sources must be an object',
+    ])
+  })
+
+  it('rejects unknown fields and non-http(s) links inside sources', () => {
+    const problems: string[] = []
+    expect(
+      readSources(
+        { wiki: 'https://example.org', wikidata: 'www.wikidata.org/wiki/Q1' },
+        problems,
+      ),
+    ).toBeUndefined()
+    expect(problems).toEqual([
+      'unknown field "wiki" inside sources',
+      'sources.wikidata must be an http(s) URL',
+    ])
   })
 })
 

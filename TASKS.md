@@ -31,17 +31,18 @@ Timebox in brackets. The original MVP budget was ~12h; Milestones 5-6 (data pipe
 - [x] Reset filters control [15m]
 - [x] Empty state when no events match [15m]
 
-## Milestone 5: Data Pipeline (~4h, extra budget, ADR-007)
-- [ ] Define "historical event" scope for Xi'an and confirm the bounding box in `src/config/city.ts` [30m]
-- [ ] `scripts/fetch_events.py`: Wikidata SPARQL with local caching; set up `requirements.txt` [90m]
-- [ ] `scripts/enrich_events.py`: Wikipedia extracts, links and images [60m]
-- [ ] Normalize to the schema, dedupe by QID, validate, export `src/data/events.json` capped at 20 [45m]
+## Milestone 5: Data Pipeline (~4.7h, extra budget, ADR-007/009)
+- [x] Update `HistoricalEvent`, `parseEvents` and tests for the optional fields [45m]
+- [ ] Define "historical event" scope for Xi'an and confirm the bounding box in `src/config/city.ts` [20m]
+- [ ] `scripts/fetch_events.py`: Wikidata SPARQL with local caching; set up `requirements.txt` [75m]
+- [ ] User curates the QID list [20m]
+- [ ] `scripts/enrich_events.py`: Wikipedia extracts, links and images [50m]
+- [ ] Normalize to the schema, dedupe by QID, validate, export `src/data/events.json` capped at 20 [40m]
 - [ ] User reviews and fact-checks the output [30m]
 
-## Milestone 6: Summaries & Images (~3h, extra budget, ADR-008/009)
+## Milestone 6: Summaries & Images (~2.5h, extra budget, ADR-008/009)
 - [ ] Check hardware requirements; install Ollama + Qwen3 4B [20m]
 - [ ] `scripts/generate_summaries.py`: constrained prompt, output validation, cache [75m]
-- [ ] Update `HistoricalEvent`, `parseEvents` and tests for the optional fields [30m]
 - [ ] Side panel: summary, image with fallback and attribution, source links [45m]
 - [ ] Verify missing optional fields do not break the UI [15m]
 

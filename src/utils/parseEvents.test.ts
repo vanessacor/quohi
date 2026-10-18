@@ -73,6 +73,33 @@ describe('parseEvents: valid input', () => {
     expect(parseEvents([event], bounds)).toHaveLength(1)
   })
 
+  it('accepts a Wikidata QID id', () => {
+    const event = { ...valid, id: 'Q130696' }
+    expect(parseEvents([event], bounds)).toEqual([event])
+  })
+
+  it('accepts every optional field', () => {
+    const event = {
+      ...valid,
+      locationName: "Xi'an Incident site",
+      summary: 'An AI-generated summary.',
+      image: {
+        url: 'https://upload.wikimedia.org/wikipedia/commons/a/Page_of_Four.jpg',
+        license: 'CC BY-SA 3.0',
+        attribution: 'Photographer',
+      },
+      sources: {
+        wikipedia: 'https://en.wikipedia.org/wiki/Xi%27an_Incident',
+        wikidata: 'https://www.wikidata.org/wiki/Q130696',
+      },
+    }
+    expect(parseEvents([event], bounds)).toEqual([event])
+  })
+
+  it('accepts an event without the optional fields', () => {
+    expect(parseEvents([valid], bounds)).toEqual([valid])
+  })
+
   it('accepts exactly MAX_EVENTS events', () => {
     expect(parseEvents(manyEvents(MAX_EVENTS), bounds)).toHaveLength(MAX_EVENTS)
   })
@@ -105,6 +132,34 @@ describe('parseEvents: invalid structure', () => {
       'events[0] (bell-tower): unknown field "category"',
     )
   })
+
+  it('rejects unknown fields inside image and sources', () => {
+    const message = errorOf([
+      { ...valid, image: { url: 'https://example.org/a.jpg', author: 'Me' } },
+      { ...valid, id: 'second', sources: { blog: 'https://example.org' } },
+    ])
+    expect(message).toContain(
+      'events[0] (bell-tower): unknown field "author" inside image',
+    )
+    expect(message).toContain(
+      'events[1] (second): unknown field "blog" inside sources',
+    )
+  })
+
+  it('rejects malformed optional fields', () => {
+    const message = errorOf([
+      { ...valid, locationName: '' },
+      { ...valid, id: 'second', summary: 5 },
+      { ...valid, id: 'third', image: 'https://example.org/a.jpg' },
+      { ...valid, id: 'fourth', sources: { wikidata: 'wikidata.org/Q1' } },
+      { ...valid, id: 'fifth', sources: {} },
+    ])
+    expect(message).toContain('locationName must be a non-empty string')
+    expect(message).toContain('summary must be a non-empty string')
+    expect(message).toContain('image must be an object')
+    expect(message).toContain('sources.wikidata must be an http(s) URL')
+    expect(message).toContain('sources must include "wikipedia" or "wikidata"')
+  })
 })
 
 describe('parseEvents: id, title, description', () => {
@@ -114,19 +169,32 @@ describe('parseEvents: id, title, description', () => {
     )
   })
 
-  it.each(['Bell Tower', 'bell_tower', '-bell', 'bell-', 'bell--tower'])(
-    'rejects the non-kebab-case id "%s"',
-    (id) => {
-      expect(errorOf([{ ...valid, id }])).toContain(
-        `id "${id}" must be kebab-case`,
-      )
-    },
-  )
+  it.each([
+    'Bell Tower',
+    'bell_tower',
+    '-bell',
+    'bell-',
+    'bell--tower',
+    'Q1936a',
+  ])('rejects the id "%s" that is neither kebab-case nor a QID', (id) => {
+    expect(errorOf([{ ...valid, id }])).toContain(
+      `id "${id}" must be kebab-case or a Wikidata QID`,
+    )
+  })
 
   it('rejects duplicate ids', () => {
     expect(errorOf([valid, { ...valid }])).toContain(
       'events[1] (bell-tower): duplicate id "bell-tower"',
     )
+  })
+
+  it('rejects duplicate Wikidata QID ids', () => {
+    expect(
+      errorOf([
+        { ...valid, id: 'Q1936' },
+        { ...valid, id: 'Q1936' },
+      ]),
+    ).toContain('events[1] (Q1936): duplicate id "Q1936"')
   })
 
   it('rejects empty, blank or non-string title and description', () => {
