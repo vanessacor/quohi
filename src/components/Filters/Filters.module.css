@@ -35,3 +35,39 @@
   color: #666666;
   font-size: 0.8rem;
 }
+
+.error {
+  flex-basis: 100%;
+  margin: 0;
+  color: #b3261e;
+  font-size: 0.85rem;
+}
+
+.summary {
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.count {
+  margin: 0;
+  color: #333333;
+  font-size: 0.85rem;
+}
+
+.reset {
+  padding: 4px 10px;
+  border: 1px solid #bbbbbb;
+  border-radius: 4px;
+  background: #f5f5f5;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.reset:disabled {
+  color: #999999;
+  cursor: default;
+}

@@ -27,9 +27,9 @@ Timebox in brackets. The original MVP budget was ~12h; Milestones 5-6 (data pipe
 - [x] Overlap filter util with unit tests (year-only counts as whole year) [45m]
 - [x] Start/end year number inputs [40m]
 - [x] Wire filter to visible markers; clear selection if filtered out [30m]
-- [ ] Handle invalid/empty range input [25m]
-- [ ] Reset filters control [15m]
-- [ ] Empty state when no events match [15m]
+- [x] Handle invalid/empty range input [25m]
+- [x] Reset filters control [15m]
+- [x] Empty state when no events match [15m]
 
 ## Milestone 5: Data Pipeline (~4h, extra budget, ADR-007)
 - [ ] Define "historical event" scope for Xi'an and confirm the bounding box in `src/config/city.ts` [30m]

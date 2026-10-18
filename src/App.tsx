@@ -14,8 +14,9 @@ export default function App() {
   const [startText, setStartText] = useState('')
   const [endText, setEndText] = useState('')
 
-  const { range } = parseYearRange(startText, endText)
-  const markers = filterEventsByRange(events, range).map(eventToMarker)
+  const { range, error } = parseYearRange(startText, endText)
+  const visibleEvents = filterEventsByRange(events, range)
+  const markers = visibleEvents.map(eventToMarker)
   const selectedEvent = events.find((event) => event.id === selectedId) ?? null
 
   function handleRangeChange(nextStart: string, nextEnd: string) {
@@ -29,13 +30,21 @@ export default function App() {
     }
   }
 
+  function handleReset() {
+    handleRangeChange('', '')
+  }
+
   return (
     <div className={styles.app}>
       <div className={styles.sidebar}>
         <Filters
           startText={startText}
           endText={endText}
+          error={error}
+          resultCount={visibleEvents.length}
+          totalCount={events.length}
           onChange={handleRangeChange}
+          onReset={handleReset}
         />
         <EventPanel event={selectedEvent} onClose={() => setSelectedId(null)} />
       </div>
