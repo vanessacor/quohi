@@ -131,10 +131,13 @@ class BuildEventTest(unittest.TestCase):
             "sitelinks": {"enwiki": {}, "frwiki": {}},
         }
         self.wiki = {
-            "summary": "A pagoda.",
+            "extract": "A pagoda.",
             "wikipedia_url": "https://en.wikipedia.org/wiki/Giant_Wild_Goose_Pagoda",
-            "image_url": "https://upload.wikimedia.org/a.jpg",
-            "image_attribution": "Wikimedia Commons",
+            "image": {
+                "url": "https://upload.wikimedia.org/a.jpg",
+                "attribution": "A. Photographer",
+                "license": "CC BY 2.0",
+            },
         }
 
     def build(self, **kwargs):
@@ -156,7 +159,8 @@ class BuildEventTest(unittest.TestCase):
                 "description": "A pagoda.",
                 "image": {
                     "url": "https://upload.wikimedia.org/a.jpg",
-                    "attribution": "Wikimedia Commons",
+                    "attribution": "A. Photographer",
+                    "license": "CC BY 2.0",
                 },
                 "sources": {
                     "wikidata": "https://www.wikidata.org/wiki/Q1047061",
@@ -167,7 +171,7 @@ class BuildEventTest(unittest.TestCase):
         )
 
     def test_omits_the_image_when_there_is_none(self):
-        self.wiki.pop("image_url")
+        self.wiki.pop("image")
         event, _ = self.build()
         self.assertNotIn("image", event)
 
@@ -190,8 +194,70 @@ class BuildEventTest(unittest.TestCase):
         self.assertEqual(reason, "coordinates outside the city bounds")
 
     def test_skips_an_item_without_a_wikipedia_extract(self):
-        self.wiki["summary"] = ""
+        self.wiki["extract"] = ""
         self.assertEqual(self.build(), (None, "no Wikipedia extract"))
+
+
+class CleanExtractTest(unittest.TestCase):
+    def test_drops_a_parenthetical_with_chinese_text(self):
+        text = "Zhang Qian (Chinese: 張騫; died c. 114 BC) was an explorer."
+        self.assertEqual(enrich_events.clean_extract(text), "Zhang Qian was an explorer.")
+
+    def test_keeps_a_parenthetical_without_chinese_text(self):
+        text = "Jianguomen (Xi'an) is a gate."
+        self.assertEqual(enrich_events.clean_extract(text), text)
+
+    def test_drops_a_parenthetical_left_empty(self):
+        self.assertEqual(enrich_events.clean_extract("A gate ( ; ) stands."), "A gate stands.")
+
+    def test_collapses_newlines_and_repeated_spaces(self):
+        self.assertEqual(enrich_events.clean_extract("One.\nTwo   here."), "One. Two here.")
+
+
+class FitSentencesTest(unittest.TestCase):
+    def test_keeps_whole_sentences_within_the_limit(self):
+        text = "First one. Second one. Third one is much longer than the rest."
+        self.assertEqual(enrich_events.fit_sentences(text, limit=25), "First one. Second one.")
+
+    def test_returns_short_text_unchanged(self):
+        self.assertEqual(enrich_events.fit_sentences("Only one."), "Only one.")
+
+    def test_cuts_a_single_long_sentence_at_a_word(self):
+        text = "word " * 20
+        fitted = enrich_events.fit_sentences(text.strip(), limit=22)
+        self.assertEqual(fitted, "word word word word…")
+
+
+class ImageCreditTest(unittest.TestCase):
+    def test_thumbnail_url_drops_the_query_string(self):
+        url = "https://thumb.wikimedia.org/a/960px-a.jpg?utm_source=en.wikipedia.org"
+        self.assertEqual(
+            enrich_events.thumbnail_url(url), "https://thumb.wikimedia.org/a/960px-a.jpg"
+        )
+
+    def test_strip_markup_returns_plain_text(self):
+        self.assertEqual(
+            enrich_events.strip_markup('<a href="x">xiquinho &amp; co</a>\n'), "xiquinho & co"
+        )
+
+    def test_credit_needs_an_author_and_a_license(self):
+        metadata = {
+            "Artist": {"value": '<a href="x">xiquinhosilva</a>'},
+            "LicenseShortName": {"value": "CC BY 2.0"},
+        }
+        self.assertEqual(
+            enrich_events.image_credit(metadata),
+            {"attribution": "xiquinhosilva", "license": "CC BY 2.0"},
+        )
+        self.assertIsNone(enrich_events.image_credit({"LicenseShortName": {"value": "CC0"}}))
+        self.assertIsNone(enrich_events.image_credit({"Artist": {"value": "Someone"}}))
+
+    def test_an_unknown_author_is_not_a_credit(self):
+        metadata = {
+            "Artist": {"value": "Unknown authorUnknown author"},
+            "LicenseShortName": {"value": "Public domain"},
+        }
+        self.assertIsNone(enrich_events.image_credit(metadata))
 
 
 class SelectEventsTest(unittest.TestCase):

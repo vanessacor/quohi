@@ -9,10 +9,13 @@ merges with Wikidata data (dates, coordinates) and writes `src/data/events.json`
 (capped at 20 events).
 """
 
+import html
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit, urlunsplit
 
 import requests
 
@@ -44,13 +47,22 @@ USER_AGENT = (
 )
 WIKIPEDIA_API = "https://en.wikipedia.org/w/api.php"
 WIKIDATA_API = "https://www.wikidata.org/w/api.php"
+COMMONS_API = "https://commons.wikimedia.org/w/api.php"
 CACHE_DIR = SCRIPTS_DIR / ".cache"
 ENTITY_BATCH_SIZE = 50
 WIKIPEDIA_BATCH_SIZE = 50
+COMMONS_BATCH_SIZE = 50
+THUMBNAIL_WIDTH = 640
 
 MAX_EVENTS = 20
 MAX_SUMMARY_SENTENCES = 3
 MAX_SUMMARY_CHARS = 500
+
+CJK_PARENTHETICAL = re.compile(r"\s*\([^()]*[\u3400-\u9fff][^()]*\)")
+EMPTY_PARENTHETICAL = re.compile(r"\s*\(\s*[;,]?\s*\)")
+SENTENCE_BREAK = re.compile(r"(?<=[.!?])\s+(?=[A-Z0-9\"'])")
+HTML_TAG = re.compile(r"<[^>]+>")
+UNKNOWN_AUTHOR_PREFIX = "Unknown author"
 
 POINT_IN_TIME_CLASSES = frozenset(
     {
@@ -115,23 +127,92 @@ def fetch_wikidata_entities(session: requests.Session, qids: list[str]) -> dict[
     return entities
 
 
+def clean_extract(text: str) -> str:
+    """Drops parentheticals with Chinese text, then collapses all whitespace to single spaces."""
+    text = CJK_PARENTHETICAL.sub("", text)
+    text = EMPTY_PARENTHETICAL.sub("", text)
+    return " ".join(text.split())
+
+
+def fit_sentences(text: str, limit: int = MAX_SUMMARY_CHARS) -> str:
+    """Keeps whole sentences up to `limit` characters; a single longer sentence is cut at a word."""
+    kept = ""
+    for sentence in SENTENCE_BREAK.split(text):
+        candidate = f"{kept} {sentence}".strip()
+        if len(candidate) > limit:
+            break
+        kept = candidate
+    if kept:
+        return kept
+    return text[:limit].rsplit(" ", 1)[0] + "…"
+
+
+def thumbnail_url(url: str) -> str:
+    """The thumbnail URL without the tracking query string the API appends."""
+    parts = urlsplit(url)
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, "", ""))
+
+
+def strip_markup(value: str) -> str:
+    """Plain text of an HTML fragment from Commons metadata."""
+    return " ".join(html.unescape(HTML_TAG.sub("", value)).split())
+
+
+def image_credit(metadata: dict) -> dict[str, str] | None:
+    """The author and license of a Commons file, or None when either is missing or the author is unknown."""
+    artist = strip_markup(metadata.get("Artist", {}).get("value", ""))
+    license_name = strip_markup(metadata.get("LicenseShortName", {}).get("value", ""))
+    if not artist or artist.startswith(UNKNOWN_AUTHOR_PREFIX) or not license_name:
+        return None
+    return {"attribution": artist, "license": license_name}
+
+
+def fetch_image_credits(
+    session: requests.Session, file_names: list[str]
+) -> dict[str, dict[str, str]]:
+    """Fetches the credit of each Commons file, keyed by file name (underscores as spaces)."""
+    credits: dict[str, dict[str, str]] = {}
+    for start in range(0, len(file_names), COMMONS_BATCH_SIZE):
+        batch = file_names[start : start + COMMONS_BATCH_SIZE]
+        data = fetch_json(
+            session,
+            COMMONS_API,
+            {
+                "action": "query",
+                "titles": "|".join(f"File:{name}" for name in batch),
+                "prop": "imageinfo",
+                "iiprop": "extmetadata",
+                "iiextmetadatafilter": "Artist|LicenseShortName",
+                "format": "json",
+            },
+            "commons",
+            cache_dir=CACHE_DIR,
+        )
+        for page in data.get("query", {}).get("pages", {}).values():
+            infos = page.get("imageinfo", [])
+            credit = image_credit(infos[0].get("extmetadata", {})) if infos else None
+            if credit:
+                credits[page["title"].removeprefix("File:")] = credit
+    return credits
+
+
 def fetch_wikipedia_pages(
     session: requests.Session, entities: dict[str, dict]
 ) -> dict[str, dict]:
-    """Fetches Wikipedia extract, URL, and lead image for the entities' English articles."""
+    """Fetches the extract, URL and credited thumbnail of the entities' English articles.
+
+    An image without a known author and license is left out.
+    """
     page_titles = {}
     for qid, entity in entities.items():
-        sitelinks = entity.get("sitelinks", {})
-        enwiki = sitelinks.get("enwiki")
+        enwiki = entity.get("sitelinks", {}).get("enwiki")
         if enwiki:
             page_titles[qid] = enwiki["title"]
 
-    if not page_titles:
-        return {}
-
-    enriched: dict[str, dict] = {}
     titles_list = list(page_titles.values())
-    qid_by_title = {v: k for k, v in page_titles.items()}
+    qid_by_title = {title: qid for qid, title in page_titles.items()}
+    enriched: dict[str, dict] = {}
+    image_files: dict[str, str] = {}
 
     for start in range(0, len(titles_list), WIKIPEDIA_BATCH_SIZE):
         batch_titles = titles_list[start : start + WIKIPEDIA_BATCH_SIZE]
@@ -146,36 +227,32 @@ def fetch_wikipedia_pages(
                 "explaintext": True,
                 "exsentences": MAX_SUMMARY_SENTENCES,
                 "inprop": "url",
-                "piprop": "original",
+                "piprop": "thumbnail|name",
+                "pithumbsize": THUMBNAIL_WIDTH,
                 "format": "json",
             },
             "wikipedia",
             cache_dir=CACHE_DIR,
         )
 
-        pages = data.get("query", {}).get("pages", {})
-        for page in pages.values():
-            if "missing" in page:
+        for page in data.get("query", {}).get("pages", {}).values():
+            qid = qid_by_title.get(page.get("title", ""))
+            if "missing" in page or not qid:
                 continue
-            title = page.get("title", "")
-            qid = qid_by_title.get(title)
-            if not qid:
-                continue
-
-            extract = page.get("extract", "").strip()
-            if len(extract) > MAX_SUMMARY_CHARS:
-                extract = extract[:MAX_SUMMARY_CHARS].rsplit(" ", 1)[0] + "…"
-
-            original = page.get("original", {})
-            image_url = original.get("source") if original else None
-
             enriched[qid] = {
-                "summary": extract,
+                "extract": fit_sentences(clean_extract(page.get("extract", ""))),
                 "wikipedia_url": page.get("fullurl", ""),
-                "image_url": image_url,
-                "image_attribution": "Wikimedia Commons" if image_url else None,
             }
+            if "thumbnail" in page and "pageimage" in page:
+                enriched[qid]["image_url"] = thumbnail_url(page["thumbnail"]["source"])
+                image_files[qid] = page["pageimage"].replace("_", " ")
 
+    credits = fetch_image_credits(session, sorted(set(image_files.values())))
+    for qid, file_name in image_files.items():
+        if file_name in credits:
+            enriched[qid]["image"] = {"url": enriched[qid].pop("image_url"), **credits[file_name]}
+        else:
+            enriched[qid].pop("image_url")
     return enriched
 
 
@@ -267,7 +344,7 @@ def build_event(
     if bounds and not in_bounds(coordinates["lat"], coordinates["lng"], bounds):
         return None, "coordinates outside the city bounds"
 
-    description = wiki.get("summary", "")
+    description = wiki.get("extract", "")
     if not description:
         return None, "no Wikipedia extract"
 
@@ -279,11 +356,8 @@ def build_event(
         "lng": coordinates["lng"],
         "description": description,
     }
-    if wiki.get("image_url"):
-        event["image"] = {
-            "url": wiki["image_url"],
-            "attribution": wiki["image_attribution"],
-        }
+    if "image" in wiki:
+        event["image"] = wiki["image"]
     sources = {"wikidata": f"https://www.wikidata.org/wiki/{qid}"}
     if wiki.get("wikipedia_url"):
         sources["wikipedia"] = wiki["wikipedia_url"]

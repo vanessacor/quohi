@@ -55,6 +55,8 @@ Timebox in brackets. The original MVP budget was ~12h; Milestones 5-6 (data pipe
 ## Backlog (deferred, not scheduled)
 - [ ] Filter: when the "from" year is valid and the "to" year is invalid (or the reverse), treat the invalid one as open-ended (null) and still apply the valid bound, instead of ignoring the whole range (currently any error shows all events, Milestone 4 decision B1)
 - [ ] Results list as an accessible alternative to the map markers (do if time allows)
+- [ ] Fix the Daming Palace date in `events.json`: the pipeline used the heritage park's 2010 opening (P571); the palace dates from 634. Add a `manual_dates` entry in `scripts/config/curated.json`, and check the Jianguomen (1939) and Guangren Temple (1705) dates the same way
+- [ ] Remove the vague `# not ideal: births are out of scope` comment in `infer_date_property` (`scripts/enrich_events.py`); births of historical figures are kept (`docs/business-rules.md`), so state that decision in the code through naming instead
 - [ ] Migrate the hand-written `parseEvents` validator to Zod (decided in Milestone 2 to start hand-written; revisit when the schema grows or AI-generated data arrives, Phase 2 of the vision; ADR-009 grows the validator, which strengthens the case)
 - [ ] Marker clustering or overlap handling (overlapping markers accepted for the MVP; TRD lists clustering as optional later)
 - [ ] Milestone 1 review nits:

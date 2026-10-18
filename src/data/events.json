@@ -7,8 +7,9 @@
     "lng": 108.9398,
     "description": "The Tang dynasty was an imperial dynasty of China that ruled from 618 to 907, with an interregnum between 690 and 705. It was preceded by the Sui dynasty and followed by the Five Dynasties and Ten Kingdoms period. Historians generally regard the Tang as a high point of Chinese civilisation, and a golden age of cosmopolitan culture.",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Tang_outline_map%2C_661.svg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Tang_outline_map%2C_661.svg/960px-Tang_outline_map%2C_661.svg.png",
+      "attribution": "Kanguole",
+      "license": "CC BY-SA 4.0"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q9683",
@@ -21,10 +22,11 @@
     "year": -248,
     "lat": 34.385,
     "lng": 109.27305555555556,
-    "description": "The Terracotta Army is a collection of terracotta sculptures depicting the armies of Qin Shi Huang, the first emperor of China. It is a form of funerary art buried with the emperor in 210–209 BCE in his mausoleum with the purpose of protecting him in his afterlife.\nThe figures, dating from approximately the late 200s BCE, were discovered in 1974 by local farmers in Lintong County, outside Xi'an, Shaanxi, China.",
+    "description": "The Terracotta Army is a collection of terracotta sculptures depicting the armies of Qin Shi Huang, the first emperor of China. It is a form of funerary art buried with the emperor in 210–209 BCE in his mausoleum with the purpose of protecting him in his afterlife. The figures, dating from approximately the late 200s BCE, were discovered in 1974 by local farmers in Lintong County, outside Xi'an, Shaanxi, China.",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/8/88/51714-Terracota-Army.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/51714-Terracota-Army.jpg/960px-51714-Terracota-Army.jpg",
+      "attribution": "xiquinhosilva",
+      "license": "CC BY 2.0"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q47672",
@@ -37,10 +39,11 @@
     "year": -138,
     "lat": 34.3416,
     "lng": 108.9428,
-    "description": "Zhang Qian (Chinese: 張騫; died c. 114 BC) was a Chinese diplomat, explorer, and politician who served as an imperial envoy to the world outside of China in the late 2nd century BC during the Western Han dynasty. He was one of the first official diplomats to bring back valuable information about Central Asia, including the Greco-Bactrian remains of the Macedonian Empire as well as the Parthian Empire, to the Han dynasty imperial court, then ruled by Emperor Wu of Han.",
+    "description": "Zhang Qian was a Chinese diplomat, explorer, and politician who served as an imperial envoy to the world outside of China in the late 2nd century BC during the Western Han dynasty. He was one of the first official diplomats to bring back valuable information about Central Asia, including the Greco-Bactrian remains of the Macedonian Empire as well as the Parthian Empire, to the Han dynasty imperial court, then ruled by Emperor Wu of Han.",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/3/38/ZhangQianTravels.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/3/38/ZhangQianTravels.jpg",
+      "attribution": "PHG",
+      "license": "Public domain"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q197276",
@@ -53,10 +56,11 @@
     "year": 742,
     "lat": 34.263385616654524,
     "lng": 108.93665578884429,
-    "description": "The Great Mosque of Xi'an (Chinese: 西安大清真寺; pinyin: Xī'ān Dà Qīngzhēnsì; Arabic: مسجد شيان), also known as the Huajue Xiang Mosque (化觉巷清真寺; Huàjué Xiàng Qīngzhēnsì) due to its location on 30 Huajue Lane, and is sometimes called the Great Eastern Mosque (东大寺; Dōng Dàsì), is a mosque located in the eastern segments of the Xi'an Muslim Quarter (回民街), Xi'an, in the Shaanxi province of China.\nIt is one of the largest premodern mosques in China. Traditional accounts date the mosque's founding to 742…",
+    "description": "The Great Mosque of Xi'an, also known as the Huajue Xiang Mosque due to its location on 30 Huajue Lane, and is sometimes called the Great Eastern Mosque, is a mosque located in the eastern segments of the Xi'an Muslim Quarter, Xi'an, in the Shaanxi province of China. It is one of the largest premodern mosques in China.",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/2/27/Xian_Great_Mosque_12_%285459243082%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Xian_Great_Mosque_12_%285459243082%29.jpg/960px-Xian_Great_Mosque_12_%285459243082%29.jpg",
+      "attribution": "Ronnie Macdonald from Chelmsford, United Kingdom",
+      "license": "CC BY 2.0"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q820842",
@@ -69,10 +73,11 @@
     "year": 25,
     "lat": 34.3446,
     "lng": 108.9398,
-    "description": "Emperor Guangwu of Han (Chinese: 漢光武帝; 15 January 5 BC – 29 March AD 57), personal name Liu Xiu (劉秀), courtesy name Wenshu (文叔), was the founding emperor of the Chinese Eastern Han dynasty. Through the Eastern Han's suppression and conquest of regional warlords, the dynasty's rule over the whole of China proper was consolidated by the time of Emperor Guangwu's death in AD 57. \nLiu Xiu was one of the many descendants of the Western Han imperial family.",
+    "description": "Emperor Guangwu of Han, personal name Liu Xiu, courtesy name Wenshu, was the founding emperor of the Chinese Eastern Han dynasty. Through the Eastern Han's suppression and conquest of regional warlords, the dynasty's rule over the whole of China proper was consolidated by the time of Emperor Guangwu's death in AD 57. Liu Xiu was one of the many descendants of the Western Han imperial family.",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Han_Guangwu_Di.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Han_Guangwu_Di.jpg/960px-Han_Guangwu_Di.jpg",
+      "attribution": "Yan Li-pen",
+      "license": "Public domain"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q7268",
@@ -85,10 +90,11 @@
     "year": 648,
     "lat": 34.219769,
     "lng": 108.959335,
-    "description": "The Giant Wild Goose Pagoda or Big Wild Goose Pagoda (Chinese: 大雁塔, Dàyàn tǎ) is a seven-storey Buddhist pagoda in the Daci'en Temple complex in southern Xi'an, Shaanxi, China. It was first built in 652, when Xi'an was the Tang capital Chang'an, under the direction of the monk and translator Xuanzang. The original five-storey structure was rebuilt during the reign of Wu Zetian and repaired in later dynasties; the present brick exterior reflects major work carried out during the Ming dynasty.",
+    "description": "The Giant Wild Goose Pagoda or Big Wild Goose Pagoda is a seven-storey Buddhist pagoda in the Daci'en Temple complex in southern Xi'an, Shaanxi, China. It was first built in 652, when Xi'an was the Tang capital Chang'an, under the direction of the monk and translator Xuanzang. The original five-storey structure was rebuilt during the reign of Wu Zetian and repaired in later dynasties; the present brick exterior reflects major work carried out during the Ming dynasty.",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/1/13/Giant_Wild_Goose_Pagoda.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Giant_Wild_Goose_Pagoda.jpg/960px-Giant_Wild_Goose_Pagoda.jpg",
+      "attribution": "Alex Kwok",
+      "license": "CC BY-SA 3.0"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q1047061",
@@ -103,11 +109,7 @@
     "day": 12,
     "lat": 34.266666666666666,
     "lng": 108.93333333333334,
-    "description": "The Xi'an Incident was a Chinese political crisis that lasted from 12 to 26 December 1936. Generals Zhang Xueliang and Yang Hucheng seized Chiang Kai-shek in Xi'an, demanding the Nationalist government end the Chinese Civil War and ally with the Chinese Communist Party (CCP) against Japanese expansionism, resulting in the Second United Front.\nThe incident took place after months of secret negotiations between the CCP and the Kuomintang (KMT) had stalled.",
-    "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Zhang_Xueliang%2C_Yang_Hucheng_and_Chiang_Kai-shek.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
-    },
+    "description": "The Xi'an Incident was a Chinese political crisis that lasted from 12 to 26 December 1936. Generals Zhang Xueliang and Yang Hucheng seized Chiang Kai-shek in Xi'an, demanding the Nationalist government end the Chinese Civil War and ally with the Chinese Communist Party (CCP) against Japanese expansionism, resulting in the Second United Front. The incident took place after months of secret negotiations between the CCP and the Kuomintang (KMT) had stalled.",
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q244941",
       "wikipedia": "https://en.wikipedia.org/wiki/Xi%27an_Incident"
@@ -119,10 +121,11 @@
     "year": -4500,
     "lat": 34.27444444,
     "lng": 109.0475,
-    "description": "Banpo  is a Neolithic archaeological site located in the Yellow River valley, east of present-day Xi'an, China. Discovered in 1953 by Shi Xingbang, the site represents the first phase of the Yangshao culture (c. 5000 – c. 3000 BCE) and features the remains of several well organized settlements—including Jiangzhai, which has been radiocarbon dated to c. 4700 – c. 3600 BCE). An area of 5 to 6 hectares (12 to 15 acres) was surrounded by a ditch, probably a defensive moat 5 to 6 meters (16 to 20…",
+    "description": "Banpo is a Neolithic archaeological site located in the Yellow River valley, east of present-day Xi'an, China. Discovered in 1953 by Shi Xingbang, the site represents the first phase of the Yangshao culture (c. 5000 – c. 3000 BCE) and features the remains of several well organized settlements—including Jiangzhai, which has been radiocarbon dated to c. 4700 – c. 3600 BCE).",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/d/db/Yangshao_Village_Diorama.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Yangshao_Village_Diorama.jpg/960px-Yangshao_Village_Diorama.jpg",
+      "attribution": "Gary Todd",
+      "license": "CC0"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q806929",
@@ -135,7 +138,7 @@
     "year": 781,
     "lat": 34.2557,
     "lng": 108.9482,
-    "description": "The Xi'an Stele or the Jingjiao Stele (Chinese: 景教碑; pinyin: Jǐngjiào bēi), traditionally translated as the \"Nestorian Stele,\" is a Tang Chinese stele erected in 781 that documents 150 years of early Christianity in China. It is a limestone block 279 centimetres (9 ft 2 in) high with text in both Chinese and Syriac describing the existence of Christian communities in several cities in northern China. It reveals that the initial Church of the East had met recognition by the Tang Emperor Taizong,…",
+    "description": "The Xi'an Stele or the Jingjiao Stele, traditionally translated as the \"Nestorian Stele,\" is a Tang Chinese stele erected in 781 that documents 150 years of early Christianity in China. It is a limestone block 279 centimetres (9 ft 2 in) high with text in both Chinese and Syriac describing the existence of Christian communities in several cities in northern China.",
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q1554020",
       "wikipedia": "https://en.wikipedia.org/wiki/Xi%27an_Stele"
@@ -147,10 +150,11 @@
     "year": 709,
     "lat": 34.24080277777778,
     "lng": 108.93735833333334,
-    "description": "The Small Wild Goose Pagoda or Little Wild Goose Pagoda (Chinese: 小雁塔, Xiǎoyàn tǎ) is a Tang-dynasty brick pagoda in the former Jianfu Temple precinct in Xi'an, Shaanxi, China. It was built between 707 and 709, when the city was the imperial capital Chang'an, and was associated with the temple's translation of Buddhist texts brought from India.\nThe pagoda originally had fifteen storeys.",
+    "description": "The Small Wild Goose Pagoda or Little Wild Goose Pagoda is a Tang-dynasty brick pagoda in the former Jianfu Temple precinct in Xi'an, Shaanxi, China. It was built between 707 and 709, when the city was the imperial capital Chang'an, and was associated with the temple's translation of Buddhist texts brought from India. The pagoda originally had fifteen storeys.",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/4/43/Xi%27anwildgoosepagoda2.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://upload.wikimedia.org/wikipedia/commons/4/43/Xi%27anwildgoosepagoda2.JPG",
+      "attribution": "Guucancat",
+      "license": "Public domain"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q1194818",
@@ -163,10 +167,11 @@
     "year": 1374,
     "lat": 34.25333888888889,
     "lng": 108.94222611111111,
-    "description": "The fortifications of Xi'an in Shaanxi, also known as the Xi'an City Wall (Chinese: 西安城牆, Xī'ān Chéngqiáng), represent one of the oldest, largest, and best preserved Chinese city walls. It was built under the rule of the Hongwu Emperor of the Ming dynasty to protect the city from the Northern Yuan and potential unrest. It exhibits the \"complete features of the rampart architecture of feudal society\".",
+    "description": "The fortifications of Xi'an in Shaanxi, also known as the Xi'an City Wall, represent one of the oldest, largest, and best preserved Chinese city walls. It was built under the rule of the Hongwu Emperor of the Ming dynasty to protect the city from the Northern Yuan and potential unrest. It exhibits the \"complete features of the rampart architecture of feudal society\".",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/3/32/City_wall_of_Xi%27an_51550-Xian_%2827959363326%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/City_wall_of_Xi%27an_51550-Xian_%2827959363326%29.jpg/960px-City_wall_of_Xi%27an_51550-Xian_%2827959363326%29.jpg",
+      "attribution": "xiquinhosilva",
+      "license": "CC BY 2.0"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q1334336",
@@ -183,8 +188,9 @@
     "lng": 108.95944444444,
     "description": "The Daming Palace was the imperial palace complex of the Tang dynasty, located in its capital Chang'an. It served as the imperial residence of the Tang emperors for more than 220 years. Today, it is designated as a national heritage site of China, and part of the UNESCO World Heritage Site \"Silk Roads: the Routes Network of Chang'an-Tianshan Corridor\".",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Daming_Palace_National_Heritage_Park_-_Danfeng_Gate_01.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Daming_Palace_National_Heritage_Park_-_Danfeng_Gate_01.jpg/960px-Daming_Palace_National_Heritage_Park_-_Danfeng_Gate_01.jpg",
+      "attribution": "xiquinhosilva",
+      "license": "CC BY 2.0"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q1158530",
@@ -197,10 +203,11 @@
     "year": -200,
     "lat": 34.30444444,
     "lng": 108.85722222,
-    "description": "The Weiyang Palace (Chinese: 未央宮) was the principal imperial palace of the Western Han dynasty in Chang'an, now Xi'an, China. Emperor Gaozu of Han ordered its construction in 200 BC under the supervision of chancellor Xiao He. The complex contained audience halls, government offices, residential quarters, gardens, and ritual spaces, and served as the political centre of the Western Han empire.",
+    "description": "The Weiyang Palace was the principal imperial palace of the Western Han dynasty in Chang'an, now Xi'an, China. Emperor Gaozu of Han ordered its construction in 200 BC under the supervision of chancellor Xiao He. The complex contained audience halls, government offices, residential quarters, gardens, and ritual spaces, and served as the political centre of the Western Han empire.",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/2/2d/WeiYang_Palace_-_54082774583.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/WeiYang_Palace_-_54082774583.jpg/960px-WeiYang_Palace_-_54082774583.jpg",
+      "attribution": "xiquinhosilva",
+      "license": "CC BY 2.0"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q3051521",
@@ -213,10 +220,11 @@
     "year": 1466,
     "lat": 34.21912,
     "lng": 108.95946,
-    "description": "Daci'en Temple (Chinese: 大慈恩寺; pinyin: Dàcí'ēn Sì) is a Buddhist temple located in Yanta District, Xi'an, Shaanxi. The temple is the cradle of East Asian Yogācāra in China. It is notable for the Giant Wild Goose Pagoda.",
+    "description": "Daci'en Temple is a Buddhist temple located in Yanta District, Xi'an, Shaanxi. The temple is the cradle of East Asian Yogācāra in China. It is notable for the Giant Wild Goose Pagoda.",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/0/06/DaCiEnSi.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/DaCiEnSi.jpg/960px-DaCiEnSi.jpg",
+      "attribution": "Emcc",
+      "license": "CC BY-SA 3.0"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q5370929",
@@ -229,10 +237,11 @@
     "year": 1705,
     "lat": 34.27642353020939,
     "lng": 108.92108583047245,
-    "description": "Guangren Temple (simplified Chinese: 广仁寺; traditional Chinese: 廣仁寺; pinyin: Guǎngrén Sì), also called Guangren Lama Temple, is a Buddhist temple located in Lianhu District of Xi'an, Shaanxi, China. It is the only Tibetan Buddhist temple in Shaanxi.",
+    "description": "Guangren Temple, also called Guangren Lama Temple, is a Buddhist temple located in Lianhu District of Xi'an, Shaanxi, China. It is the only Tibetan Buddhist temple in Shaanxi.",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Guangren_Temple_07_2011-07.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Guangren_Temple_07_2011-07.JPG/960px-Guangren_Temple_07_2011-07.JPG",
+      "attribution": "猫猫的日记本",
+      "license": "CC BY-SA 3.0"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q11061833",
@@ -245,10 +254,11 @@
     "year": 1939,
     "lat": 34.25373,
     "lng": 108.96228,
-    "description": "Jianguomen   is a gate of the historic city wall of Xi'an, China.",
+    "description": "Jianguomen is a gate of the historic city wall of Xi'an, China.",
     "image": {
-      "url": "https://upload.wikimedia.org/wikipedia/commons/1/12/%E8%A5%BF%E5%AE%89%E5%BB%BA%E5%9B%BD%E9%97%A82009.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
-      "attribution": "Wikimedia Commons"
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/%E8%A5%BF%E5%AE%89%E5%BB%BA%E5%9B%BD%E9%97%A82009.jpg/960px-%E8%A5%BF%E5%AE%89%E5%BB%BA%E5%9B%BD%E9%97%A82009.jpg",
+      "attribution": "dayu490301",
+      "license": "CC BY 3.0"
     },
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q11065242",
