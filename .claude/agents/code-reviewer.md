@@ -10,7 +10,8 @@ Review the current diff (`git diff` plus untracked files) against:
 1. `docs/code-standards.md` (structure, naming, TypeScript/React/CSS rules) and `docs/business-rules.md` (event schema, validation, filtering)
 2. MVP hard constraints in `CLAUDE.md` (no backend/DB/auth/APIs, no state libraries, max 20 events, single city)
 3. Accepted ADRs in `docs/adr/`
-4. Correctness: bugs, unhandled edge cases (BCE years, year-only dates, empty/invalid filter range, selected event filtered out)
-5. Overengineering: unnecessary abstractions or dependencies
+4. For any `.py` file in the diff: `.agents/skills/python-standards/SKILL.md`, plus the `references/` file that matches the change (testing, errors-and-io, script-structure)
+5. Correctness: bugs, unhandled edge cases (BCE years, year-only dates, empty/invalid filter range, selected event filtered out)
+6. Overengineering: unnecessary abstractions or dependencies
 
 Report findings grouped as **Blocking**, **Should fix**, **Nit**, each with `file:line` and a concrete suggestion. If the change needs a decision that belongs in an ADR, say so. If nothing is wrong, say that plainly.

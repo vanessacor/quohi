@@ -50,3 +50,5 @@ Progress is tracked in `TASKS.md`; tick items as they are completed.
 ## Conventions
 
 Follow `docs/code-standards.md` for code and `docs/business-rules.md` for domain and data rules.
+
+Python in `scripts/`: follow the `python-standards` skill (`.agents/skills/python-standards/`).
