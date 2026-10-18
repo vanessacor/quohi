@@ -55,17 +55,24 @@ class ParseWikidataTimeTest(unittest.TestCase):
         with self.assertRaisesRegex(common.WikidataDateError, "day without month"):
             common.parse_wikidata_time("+1936-00-05T00:00:00Z", 11)
 
-    def test_rejects_values_that_contradict_their_precision(self):
+    def test_ignores_the_month_and_day_at_year_precision(self):
+        # Wikidata API stores 00 placeholders, WDQS projects 01 placeholders.
+        parsed = common.parse_wikidata_time("-0248-00-00T00:00:00Z", 9)
+        self.assertEqual(parsed, common.WikidataDate(year=-248))
+        parsed = common.parse_wikidata_time("-0247-01-01T00:00:00Z", 9)
+        self.assertEqual(parsed, common.WikidataDate(year=-247))
+
+    def test_month_precision_ignores_the_day(self):
+        parsed = common.parse_wikidata_time("+1936-05-17T00:00:00Z", 10)
+        self.assertEqual(parsed, common.WikidataDate(year=1936, month=5))
+
+    def test_rejects_missing_month_or_day(self):
         with self.assertRaisesRegex(
-            common.WikidataDateError, "year precision cannot carry a month or day"
-        ):
-            common.parse_wikidata_time("-0248-05-00T00:00:00Z", 9)
-        with self.assertRaisesRegex(
-            common.WikidataDateError, "month precision needs a month and no day"
+            common.WikidataDateError, "month and day precision need a month"
         ):
             common.parse_wikidata_time("+1936-00-00T00:00:00Z", 10)
         with self.assertRaisesRegex(
-            common.WikidataDateError, "day precision needs a month and a day"
+            common.WikidataDateError, "day precision needs a day"
         ):
             common.parse_wikidata_time("+1936-12-00T00:00:00Z", 11)
 

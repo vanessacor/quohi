@@ -1,0 +1,240 @@
+{
+  "head": {
+    "vars": [
+      "item",
+      "itemLabel",
+      "class",
+      "classLabel",
+      "coord"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "class": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q839954"
+        },
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q47672"
+        },
+        "coord": {
+          "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+          "type": "literal",
+          "value": "Point(109.273055555 34.385)"
+        },
+        "itemLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "Terracotta Army"
+        },
+        "classLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "archaeological site"
+        }
+      },
+      {
+        "class": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q162875"
+        },
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q47672"
+        },
+        "coord": {
+          "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+          "type": "literal",
+          "value": "Point(109.273055555 34.385)"
+        },
+        "itemLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "Terracotta Army"
+        },
+        "classLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "mausoleum"
+        }
+      },
+      {
+        "class": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q839954"
+        },
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q1158530"
+        },
+        "coord": {
+          "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+          "type": "literal",
+          "value": "Point(108.959444444 34.291388888)"
+        },
+        "itemLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "Daming Palace"
+        },
+        "classLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "archaeological site"
+        }
+      },
+      {
+        "class": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q16560"
+        },
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q1158530"
+        },
+        "coord": {
+          "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+          "type": "literal",
+          "value": "Point(108.959444444 34.291388888)"
+        },
+        "itemLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "Daming Palace"
+        },
+        "classLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "palace"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q275515"
+        },
+        "class": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q839954"
+        },
+        "coord": {
+          "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+          "type": "literal",
+          "value": "Point(108.72 34.21)"
+        },
+        "itemLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "Fenghao"
+        },
+        "classLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "archaeological site"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q5370929"
+        },
+        "class": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q5393308"
+        },
+        "coord": {
+          "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+          "type": "literal",
+          "value": "Point(108.95946 34.21912)"
+        },
+        "itemLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "Daci'en Temple"
+        },
+        "classLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "Buddhist temple"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q1047061"
+        },
+        "class": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q199451"
+        },
+        "coord": {
+          "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+          "type": "literal",
+          "value": "Point(108.959335 34.219769)"
+        },
+        "itemLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "Giant Wild Goose Pagoda"
+        },
+        "classLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "pagoda"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q11065242"
+        },
+        "class": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q82117"
+        },
+        "coord": {
+          "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+          "type": "literal",
+          "value": "Point(108.96228 34.25373)"
+        },
+        "itemLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "Jianguomen (Xi'an)"
+        },
+        "classLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "city gate"
+        }
+      },
+      {
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q11061833"
+        },
+        "class": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q5393308"
+        },
+        "coord": {
+          "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+          "type": "literal",
+          "value": "Point(108.92108583 34.27642353)"
+        },
+        "itemLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "Guangren Temple"
+        },
+        "classLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "Buddhist temple"
+        }
+      }
+    ]
+  }
+}

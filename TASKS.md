@@ -34,7 +34,7 @@ Timebox in brackets. The original MVP budget was ~12h; Milestones 5-6 (data pipe
 ## Milestone 5: Data Pipeline (~4.7h, extra budget, ADR-007/009)
 - [x] Update `HistoricalEvent`, `parseEvents` and tests for the optional fields [45m]
 - [x] Define "historical event" scope for Xi'an and confirm the bounding box in `src/config/city.ts` [20m]
-- [ ] `scripts/fetch_events.py`: Wikidata SPARQL with local caching; set up `requirements.txt` [75m]
+- [x] `scripts/fetch_events.py`: Wikidata SPARQL with local caching; set up `requirements.txt` [75m]
 - [ ] User curates the QID list [20m]
 - [ ] `scripts/enrich_events.py`: Wikipedia extracts, links and images [50m]
 - [ ] Normalize to the schema, dedupe by QID, validate, export `src/data/events.json` capped at 20 [40m]

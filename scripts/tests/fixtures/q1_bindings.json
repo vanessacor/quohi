@@ -1,0 +1,85 @@
+{
+  "head": {
+    "vars": [
+      "item",
+      "itemLabel",
+      "class",
+      "classLabel",
+      "coord"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "class": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q12890393"
+        },
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q244941"
+        },
+        "itemLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "Xi'an Incident"
+        },
+        "classLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "incident"
+        },
+        "coord": {
+          "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+          "type": "literal",
+          "value": "Point(108.933333333 34.266666666)"
+        }
+      },
+      {
+        "class": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q511866"
+        },
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q244941"
+        },
+        "itemLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "Xi'an Incident"
+        },
+        "classLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "mutiny"
+        },
+        "coord": {
+          "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+          "type": "literal",
+          "value": "Point(108.933333333 34.266666666)"
+        }
+      },
+      {
+        "class": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q12890393"
+        },
+        "item": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q10844449"
+        },
+        "itemLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "2003 Northwest University anti-Japanese controversy"
+        },
+        "classLabel": {
+          "xml:lang": "en",
+          "type": "literal",
+          "value": "incident"
+        }
+      }
+    ]
+  }
+}

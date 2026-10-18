@@ -57,11 +57,12 @@ def parse_wikidata_time(value: str, precision: int) -> WikidataDate:
     depends on it. Only year, month and day precision are accepted; a decade,
     century or anything coarser cannot be dated honestly.
 
-    One early date can be stored twice, once per calendar model (proleptic
-    Gregorian Q1985786, proleptic Julian Q1985727), and the two copies can
-    differ by a year: Caesar's death is stored both as `-0044-03-15` and as
-    `-0043-03-13`. Which copy reaches the data is decided at export time, per
-    the "Dates" rules in docs/business-rules.md.
+    An early date can be stored once per calendar model (proleptic Gregorian
+    Q1985786, proleptic Julian Q1985727), and the query service shifts the year
+    when it projects a Gregorian value: the Terracotta Army is stored as
+    `-0248-00-00` but comes back from SPARQL as `-0247-01-01`. Read dates from
+    the entity API, which returns them as stored; the "Dates" rules in
+    docs/business-rules.md say which copy to keep.
     """
     if precision not in ACCEPTED_PRECISIONS:
         raise WikidataDateError(
@@ -88,12 +89,16 @@ def parse_wikidata_time(value: str, precision: int) -> WikidataDate:
         raise WikidataDateError(f"day must be 01-31: {value}")
     if day is not None and month is None:
         raise WikidataDateError(f"day without month: {value}")
-    if precision == 9 and (month is not None or day is not None):
-        raise WikidataDateError(f"year precision cannot carry a month or day: {value}")
-    if precision == 10 and (month is None or day is not None):
-        raise WikidataDateError(f"month precision needs a month and no day: {value}")
-    if precision == 11 and (month is None or day is None):
-        raise WikidataDateError(f"day precision needs a month and a day: {value}")
+    # At a coarser precision the unused fields are placeholders: Wikidata pads
+    # them with 00, the query service with 01, so only the precision is truth.
+    if precision == 9:
+        return WikidataDate(year=year)
+    if month is None:
+        raise WikidataDateError(f"month and day precision need a month: {value}")
+    if precision == 10:
+        return WikidataDate(year=year, month=month)
+    if day is None:
+        raise WikidataDateError(f"day precision needs a day: {value}")
 
     return WikidataDate(year=year, month=month, day=day)
 
