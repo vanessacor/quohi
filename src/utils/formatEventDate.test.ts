@@ -45,9 +45,9 @@ describe('formatEventDate', () => {
   })
 
   it('formats real events from the dataset', () => {
-    const span = events.find((e) => e.id === 'qin-shi-huang-mausoleum-built')
-    const fullDate = events.find((e) => e.id === 'tang-dynasty-founded')
-    expect(span && formatEventDate(span)).toBe('246 – 208 BCE')
-    expect(fullDate && formatEventDate(fullDate)).toBe('18 June 618')
+    const bce = events.find((e) => e.id === 'Q47672')
+    const fullDate = events.find((e) => e.id === 'Q244941')
+    expect(bce && formatEventDate(bce)).toBe('248 BCE')
+    expect(fullDate && formatEventDate(fullDate)).toBe('12 December 1936')
   })
 })

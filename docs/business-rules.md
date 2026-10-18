@@ -55,10 +55,10 @@ Enforced by `parseEvents` in `src/utils/`, run once when `src/data/events.ts` lo
 - There is no category filter in the MVP
 
 ## Data content
-- Descriptions are short summaries written for this project, not copied text
-- A historical event is something that happened at an identifiable place and time in or around Xi'an (battle, treaty, founding, construction, uprising, discovery). Births, generic buildings and ongoing institutions are excluded unless tied to a dated event
+- `description` is the Wikipedia intro extract for pipeline events (user decision, Milestone 5); the AI summary (ADR-008) goes in the separate `summary` field. Hand-written events keep short descriptions written for this project
+- A historical event is something that happened at an identifiable place and time in or around Xi'an (battle, treaty, founding, construction, uprising, discovery). Generic buildings and ongoing institutions are excluded unless tied to a dated event. Births are excluded, except the birth of a historical figure, which is dated by their birth (user decision, Milestone 5)
 - Missing data stays missing; the pipeline never guesses dates, coordinates or images
-- A marker needs trustworthy coordinates of the event itself or a specific site; a city- or region-level centroid is rejected
+- A marker needs trustworthy coordinates of the event itself or a specific site; a city- or region-level centroid is rejected, except for an event that belongs to the city as a whole (e.g. the Tang dynasty, whose capital was Xi'an), which uses the city center from `src/config/city.ts` (user decision, Milestone 5)
 - AI summaries only restate the supplied source text, are reviewed on a sample, and always appear next to a source link
 - Images are shown only with attribution, as remote thumbnails; a missing or failed image falls back to no image
 - Do not over-invest in accuracy for the MVP; flag uncertain items for review instead
