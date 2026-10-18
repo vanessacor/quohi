@@ -35,9 +35,9 @@ Timebox in brackets. The original MVP budget was ~12h; Milestones 5-6 (data pipe
 - [x] Update `HistoricalEvent`, `parseEvents` and tests for the optional fields [45m]
 - [x] Define "historical event" scope for Xi'an and confirm the bounding box in `src/config/city.ts` [20m]
 - [x] `scripts/fetch_events.py`: Wikidata SPARQL with local caching; set up `requirements.txt` [75m]
-- [ ] User curates the QID list [20m]
-- [ ] `scripts/enrich_events.py`: Wikipedia extracts, links and images [50m]
-- [ ] Normalize to the schema, dedupe by QID, validate, export `src/data/events.json` capped at 20 [40m]
+- [x] User curates the QID list [20m]
+- [x] `scripts/enrich_events.py`: Wikipedia extracts, links and images [50m]
+- [x] Normalize to the schema, dedupe by QID, validate, export `src/data/events.json` capped at 20 [40m]
 - [ ] User reviews and fact-checks the output [30m]
 
 ## Milestone 6: Summaries & Images (~2.5h, extra budget, ADR-008/009)

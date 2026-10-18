@@ -9,9 +9,9 @@
     "Q11065242"
   ],
   "title_overrides": {
-    "Banpo Neolithic village inhabited": "Q790078",
+    "Banpo Neolithic village inhabited": "Q806929",
     "Qin moves its capital to Xianyang": "",
-    "Mausoleum of the First Qin Emperor built": "Q910180",
+    "Mausoleum of the First Qin Emperor built": "Q47672",
     "Weiyang Palace built at Chang'an": "Q3051521",
     "Zhang Qian departs on his mission to the west": "Q197276",
     "Tang dynasty founded with Chang'an as capital": "Q9683",
@@ -21,7 +21,7 @@
     "Nestorian Stele erected": "Q1554020",
     "Chang'an dismantled and capital moved to Luoyang": "Q7268",
     "City renamed Xi'an under the Ming": "",
-    "Ming city wall built": "Q1542604",
+    "Ming city wall built": "Q1334336",
     "Xi'an Incident": "Q244941",
     "Terracotta Army discovered": "Q47672",
     "Xi'an Metro opens its first line": ""
@@ -31,6 +31,13 @@
     "Q1194818",
     "Q820842",
     "Q1554020",
-    "Q1542604"
-  ]
+    "Q1334336"
+  ],
+  "manual_dates": {
+    "Q806929": {"year": -4500},
+    "Q1194818": {"year": 709},
+    "Q1334336": {"year": 1374},
+    "Q3051521": {"year": -200},
+    "Q820842": {"year": 742}
+  }
 }
