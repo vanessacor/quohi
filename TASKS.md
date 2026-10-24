@@ -50,7 +50,7 @@ Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on th
 - [x] Collapsible desktop sidebar: toggle button, collapsed state leaves the map full width, the adapter observes its own container with a `ResizeObserver` and calls `invalidateSize` (ADR-005, `MapProps` unchanged); React state only [30m]
 - [ ] Mobile bottom drawer (below a breakpoint): collapsed handle with peek height, expands to one open height, tap on the handle toggles it (drag gesture deferred to backlog); the map stays visible and usable above it; keyboard accessible (button with `aria-expanded`) [60m]
 - [ ] Mobile detail card: docked above the collapsed drawer; selecting an event on mobile collapses the drawer so the map and card stay visible [20m]
-- [ ] Filters restyled as a compact sidebar section (year inputs, reset button) [30m]
+- [x] Filters restyled as a compact sidebar section (year inputs, reset button) [30m]
 - [ ] Event list in the sidebar: one row per visible event with title and formatted date; selecting a row selects the marker (this promotes the "results list" backlog item) [45m]
 - [ ] Event detail as a floating card in the map corner, replacing the full side panel: title, date, description, close button (summary, image and source links come in Milestone 7) [45m]
 - [ ] Custom map markers (round `divIcon` pins with the selected state highlighted, drop the default PNG icon setup) and pan to the selected marker, via the Leaflet adapter only (ADR-005) [45m]
