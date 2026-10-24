@@ -23,7 +23,7 @@ src/
     Map/
       Map.tsx            # library-agnostic component
       leaflet/           # only place that imports leaflet / react-leaflet (ADR-005)
-    EventList/
+    EventDetails/
     Sidebar/
     Filters/
   config/                # app configuration

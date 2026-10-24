@@ -58,7 +58,7 @@ src/
   components/
     Map/
       leaflet/    # only place importing leaflet / react-leaflet
-    EventList/
+    EventDetails/
     Sidebar/
     Filters/
   config/

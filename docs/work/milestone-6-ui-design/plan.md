@@ -75,3 +75,9 @@ Steps sum to ~7h (15 + 25 + 15 + 40 + 30 + 30 + 45 + 45 + 60 + 20 + 45 + 20 + 30
 - The selected row has a tinted highlight (`--selected-color`, a new derived token in `variables.css`), and the selected marker uses the solid highlight color. The `divIcon` markers from step 11 were done early; the pan to the selected marker remains in step 11
 - Step 10 is reduced to checking that the drawer stays open on selection and the expanded row scrolls into view
 - ADR-010, `TASKS.md`, `docs/code-standards.md` and `TRD.md` are updated to match
+
+## Revision 2 (user feedback on the list)
+
+- The event list did not work well and was removed (step 7 dropped). Selecting a marker shows the event's details in a sidebar section under the filters, on the highlight background (`EventDetails`, replacing the briefly used `EventList`). Markers are the only way to select an event again, so the "results list" backlog item is open again
+- Pan to the selected marker (step 11) now only matters for off-screen markers and is optional
+- ADR-010, `TASKS.md`, `docs/code-standards.md` and `TRD.md` are updated to match

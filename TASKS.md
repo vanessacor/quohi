@@ -41,7 +41,7 @@ Timebox in brackets. The original MVP budget was ~12h; Milestones 5-7 (data pipe
 - [x] User reviews and fact-checks the output [30m]
 
 ## Milestone 6: UI Design (~7h, extra budget)
-Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on the right, detail shown in the list, round pin markers). Layout requirements: on desktop the sidebar is collapsible; on mobile it becomes a bottom drawer (like a native sheet) instead of a left column. Styling uses only the tokens in `src/variables.css` (spacing, fonts, colors, dark/light via `prefers-color-scheme`); no hard-coded colors or sizes in components.
+Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on the right, details in the sidebar, round pin markers). Layout requirements: on desktop the sidebar is collapsible; on mobile it becomes a bottom drawer (like a native sheet) instead of a left column. Styling uses only the tokens in `src/variables.css` (spacing, fonts, colors, dark/light via `prefers-color-scheme`); no hard-coded colors or sizes in components.
 - [x] Research: analyse `ui-inspiration.png`, map its elements to the existing components (sidebar, list, filters, detail card, markers) and decide what is out of scope (search, sort, route line, ratings) [30m]
 - [x] Write ADR-010 (UI design: theme tokens, self-hosted fonts, CSS-filter dark tiles, mobile drawer overriding PRD section 9) [15m]
 - [x] Wire `src/variables.css` into the app (import once in `main.tsx`), add derived `--surface-color` and `--border-color`, set base styles in `index.css` (background, text color, `--text-font`/`--title-font`) [25m]
@@ -49,13 +49,13 @@ Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on th
 - [x] App layout: fixed-width sidebar (filters + event list) beside a full-height map, using `--screen-size` and spacing tokens [40m]
 - [x] Collapsible desktop sidebar: toggle button, collapsed state leaves the map full width, the adapter observes its own container with a `ResizeObserver` and calls `invalidateSize` (ADR-005, `MapProps` unchanged); React state only [30m]
 - [ ] Mobile bottom drawer (below a breakpoint): collapsed handle with peek height, expands to one open height, tap on the handle toggles it (drag gesture deferred to backlog); the map stays visible and usable above it; keyboard accessible (button with `aria-expanded`) [60m]
-- [ ] Mobile selection: the drawer stays open when an event is selected so the expanded row is visible; check marker selection scrolls the row into view inside the drawer [20m]
+- [ ] Mobile selection: the drawer stays open when a marker is selected so the details are visible [20m]
 - [x] Filters restyled as a compact sidebar section (year inputs, reset button) [30m]
-- [x] Event list in the sidebar: one row per visible event with title and formatted date; selecting a row selects the marker (this promotes the "results list" backlog item) [45m]
-- [x] Event details expand inside the selected list row (title, date, description); replaces the side panel and the floating card, so the sidebar has one scroll area (summary, image and source links come in Milestone 7) [45m]
-- [x] Selection feedback: tinted highlight on the selected row (`--selected-color`) and the same highlight color on the selected marker [10m]
+- [x] ~~Event list in the sidebar~~ dropped after trying it (did not work well); the results-list backlog item stays open
+- [x] Event details in the sidebar under the filters (title, date, description, close button) on a highlight background; one scroll area; replaces the side panel and the floating card (summary, image and source links come in Milestone 7) [45m]
+- [x] Selection feedback: the details section (`--selected-color`) and the selected marker share the highlight color [10m]
 - [x] Custom map markers (round `divIcon` pins, selected state highlighted, default PNG icon setup removed) via the Leaflet adapter only (ADR-005) [30m]
-- [ ] Pan the map to the selected marker when an event is selected from the list (adapter only, no `MapProps` change) [15m]
+- [ ] Pan the map to the selected marker when it is selected (adapter only, no `MapProps` change) [15m]
 - [ ] Dark map via a CSS filter on the OSM tile pane; restyle Leaflet zoom and attribution controls with the tokens; check that attribution stays visible [20m]
 - [ ] Visual check in dark and light mode, keyboard focus styles, text contrast; check desktop collapsed/expanded and the mobile drawer states at ~375px width [30m]
 
@@ -76,7 +76,7 @@ Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on th
 - [ ] Draggable mobile drawer with snap heights (Milestone 6 ships tap-to-toggle only) [~1h]
 - [ ] Image markers on the map, as in `ui-inspiration.png` (after Milestone 7 images)
 - [ ] Filter: when the "from" year is valid and the "to" year is invalid (or the reverse), treat the invalid one as open-ended (null) and still apply the valid bound, instead of ignoring the whole range (currently any error shows all events, Milestone 4 decision B1)
-- [x] Results list as an accessible alternative to the map markers (delivered by the Milestone 6 event list)
+- [ ] Results list as an accessible alternative to the map markers (do if time allows; a first attempt in Milestone 6 was dropped because it did not work well)
 - [ ] Fix the Daming Palace date in `events.json`: the pipeline used the heritage park's 2010 opening (P571); the palace dates from 634. Add a `manual_dates` entry in `scripts/config/curated.json`, and check the Jianguomen (1939) and Guangren Temple (1705) dates the same way
 - [ ] Remove the vague `# not ideal: births are out of scope` comment in `infer_date_property` (`scripts/enrich_events.py`); births of historical figures are kept (`docs/business-rules.md`), so state that decision in the code through naming instead
 - [ ] Migrate the hand-written `parseEvents` validator to Zod (decided in Milestone 2 to start hand-written; revisit when the schema grows or AI-generated data arrives, Phase 2 of the vision; ADR-009 grows the validator, which strengthens the case)

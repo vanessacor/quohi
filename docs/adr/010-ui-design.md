@@ -12,8 +12,8 @@ Milestone 6 restyles the app after `ui-inspiration.png`: a sidebar with a list b
 - **Fonts**: self-hosted through `@fontsource-variable/montserrat` and `@fontsource/ibm-plex-mono`, bundled by Vite. No runtime request to a font provider (the deployed site stays static)
 - **Dark map**: keep the OSM tiles and darken them with a CSS filter on the tile pane under `prefers-color-scheme: dark`, inside the map adapter. A dark/light tile provider is a backlog follow-up and needs its own ADR
 - **Sidebar**: collapsible on desktop. Below a 768px breakpoint it becomes a bottom drawer with a peek state and one open height, toggled by tap (no drag gesture). The map adapter resizes itself with a `ResizeObserver`, so `MapProps` does not change
-- **Event details**: no separate card or panel. Selecting an event (row or marker) expands that row in the sidebar list to show its details, so the sidebar has a single scroll area. On mobile the drawer stays open on selection so the expanded row is visible
-- **Selection feedback**: the selected row gets a tinted highlight background (`--selected-color`) and the selected marker uses the solid highlight color
+- **Event details**: no event list and no floating card. Selecting a marker shows the event's details (title, date, description) in a section of the sidebar under the filters, on a highlight background (`--selected-color`), so the sidebar has a single scroll area. On mobile the drawer stays open on selection so the details are visible
+- **Selection feedback**: the details section and the selected marker share the highlight color
 - **Markers**: round `divIcon` markers styled with CSS, created in the adapter only (ADR-005)
 
 ## Consequences

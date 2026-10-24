@@ -1,0 +1,64 @@
+.details {
+  box-sizing: border-box;
+  flex: 1;
+  min-height: 0;
+  padding: var(--space-small);
+  overflow-y: auto;
+  border-left: 3px solid transparent;
+  font-size: var(--font-size-4);
+}
+
+/* Same highlight as the selected marker on the map. */
+.selected {
+  border-left-color: var(--highligth-color);
+  background: var(--selected-color);
+}
+
+.empty {
+  margin: 0;
+}
+
+/* Pins the title and close button while long descriptions scroll. */
+.header {
+  position: sticky;
+  top: calc(-1 * var(--space-small));
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-extra-small);
+  margin: calc(-1 * var(--space-small)) calc(-1 * var(--space-small)) 0;
+  padding: var(--space-small) var(--space-small) var(--space-extra-small);
+  background: var(--selected-color);
+}
+
+.title {
+  flex: 1;
+  margin: 0;
+  font-size: var(--font-size-3);
+  line-height: 1.3;
+}
+
+.close {
+  padding: 0 var(--space-xxs);
+  border: none;
+  background: none;
+  color: var(--secondary-font-color);
+  font: inherit;
+  font-size: var(--font-size-2);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--highligth-color);
+  outline-offset: 2px;
+}
+
+.date {
+  margin: 0 0 var(--space-extra-small);
+  font-size: 0.85em;
+}
+
+.description {
+  margin: 0;
+  line-height: 1.5;
+}
