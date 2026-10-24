@@ -36,6 +36,13 @@ export default function App() {
     }
   }
 
+  // The details live in the sidebar, so a collapsed sidebar or drawer opens
+  // to show the selected event.
+  function handleMarkerClick(id: string) {
+    setSelectedId(id)
+    setIsSidebarOpen(true)
+  }
+
   function handleReset() {
     handleRangeChange('', '')
   }
@@ -68,7 +75,7 @@ export default function App() {
           zoom={city.zoom}
           markers={markers}
           selectedId={selectedId}
-          onMarkerClick={setSelectedId}
+          onMarkerClick={handleMarkerClick}
         />
       </div>
     </div>

@@ -1,5 +1,6 @@
 .filters {
   display: flex;
+  flex-shrink: 0;
   flex-wrap: wrap;
   gap: var(--space-small);
   padding: var(--space-small);

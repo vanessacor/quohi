@@ -62,3 +62,23 @@
   margin: 0;
   line-height: 1.5;
 }
+
+/* Mobile drawer: the sidebar body scrolls as a whole and the selected event
+   comes first, so the description is not squeezed under the filters. */
+@media (max-width: 767px) {
+  .details {
+    flex: none;
+    overflow: visible;
+  }
+
+  .selected {
+    order: -1;
+  }
+
+  .header {
+    position: static;
+    margin: 0;
+    padding: 0 0 var(--space-extra-small);
+    background: none;
+  }
+}

@@ -99,6 +99,11 @@
     height: auto;
   }
 
+  /* One scroll area for filters and details, so long text stays reachable. */
+  .body {
+    overflow-y: auto;
+  }
+
   .header {
     position: relative;
     box-sizing: border-box;
