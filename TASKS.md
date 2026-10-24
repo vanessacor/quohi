@@ -47,7 +47,7 @@ Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on th
 - [x] Wire `src/variables.css` into the app (import once in `main.tsx`), add derived `--surface-color` and `--border-color`, set base styles in `index.css` (background, text color, `--text-font`/`--title-font`) [25m]
 - [x] Load the fonts the tokens reference (Montserrat Variable, IBM Plex Mono); self-hosted via `@fontsource-variable/montserrat` and `@fontsource/ibm-plex-mono` (decided, ADR-010) [15m]
 - [x] App layout: fixed-width sidebar (filters + event list) beside a full-height map, using `--screen-size` and spacing tokens [40m]
-- [ ] Collapsible desktop sidebar: toggle button, collapsed state leaves the map full width, the adapter observes its own container with a `ResizeObserver` and calls `invalidateSize` (ADR-005, `MapProps` unchanged); React state only [30m]
+- [x] Collapsible desktop sidebar: toggle button, collapsed state leaves the map full width, the adapter observes its own container with a `ResizeObserver` and calls `invalidateSize` (ADR-005, `MapProps` unchanged); React state only [30m]
 - [ ] Mobile bottom drawer (below a breakpoint): collapsed handle with peek height, expands to one open height, tap on the handle toggles it (drag gesture deferred to backlog); the map stays visible and usable above it; keyboard accessible (button with `aria-expanded`) [60m]
 - [ ] Mobile detail card: docked above the collapsed drawer; selecting an event on mobile collapses the drawer so the map and card stay visible [20m]
 - [ ] Filters restyled as a compact sidebar section (year inputs, reset button) [30m]

@@ -12,6 +12,7 @@ import styles from './App.module.css'
 
 export default function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [startText, setStartText] = useState('')
   const [endText, setEndText] = useState('')
 
@@ -37,7 +38,12 @@ export default function App() {
 
   return (
     <div className={styles.app}>
-      <Sidebar title="Historical Events" subtitle={city.name}>
+      <Sidebar
+        title="Historical Events"
+        subtitle={city.name}
+        isOpen={isSidebarOpen}
+        onToggle={() => setIsSidebarOpen((isOpen) => !isOpen)}
+      >
         <Filters
           startText={startText}
           endText={endText}
