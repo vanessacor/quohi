@@ -4,7 +4,9 @@ import Filters from './components/Filters/Filters'
 import Map from './components/Map/Map'
 import Sidebar from './components/Sidebar/Sidebar'
 import { city } from './config/city'
+import { MOBILE_QUERY } from './config/layout'
 import { events } from './data/events'
+import { useMediaQuery } from './hooks/useMediaQuery'
 import { eventToMarker } from './utils/eventToMarker'
 import { eventOverlapsRange, filterEventsByRange } from './utils/filterEvents'
 import { parseYearRange } from './utils/parseYearRange'
@@ -12,7 +14,9 @@ import styles from './App.module.css'
 
 export default function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const isMobile = useMediaQuery(MOBILE_QUERY)
+  // The mobile drawer starts collapsed so the map is visible first.
+  const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile)
   const [startText, setStartText] = useState('')
   const [endText, setEndText] = useState('')
 

@@ -48,7 +48,7 @@ Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on th
 - [x] Load the fonts the tokens reference (Montserrat Variable, IBM Plex Mono); self-hosted via `@fontsource-variable/montserrat` and `@fontsource/ibm-plex-mono` (decided, ADR-010) [15m]
 - [x] App layout: fixed-width sidebar (filters + event list) beside a full-height map, using `--screen-size` and spacing tokens [40m]
 - [x] Collapsible desktop sidebar: toggle button, collapsed state leaves the map full width, the adapter observes its own container with a `ResizeObserver` and calls `invalidateSize` (ADR-005, `MapProps` unchanged); React state only [30m]
-- [ ] Mobile bottom drawer (below a breakpoint): collapsed handle with peek height, expands to one open height, tap on the handle toggles it (drag gesture deferred to backlog); the map stays visible and usable above it; keyboard accessible (button with `aria-expanded`) [60m]
+- [x] Mobile bottom drawer (below a breakpoint): collapsed handle with peek height, expands to one open height, tap on the handle toggles it (drag gesture deferred to backlog); the map stays visible and usable above it; keyboard accessible (button with `aria-expanded`) [60m]
 - [ ] Mobile selection: the drawer stays open when a marker is selected so the details are visible [20m]
 - [x] Filters restyled as a compact sidebar section (year inputs, reset button) [30m]
 - [x] ~~Event list in the sidebar~~ dropped after trying it (did not work well); the results-list backlog item stays open

@@ -21,7 +21,7 @@ export default function Sidebar({
   return (
     <div className={`${styles.sidebar} ${isOpen ? '' : styles.collapsed}`}>
       <header className={styles.header}>
-        <div className={styles.heading} hidden={!isOpen}>
+        <div className={styles.heading}>
           <h1 className={styles.title}>{title}</h1>
           <p className={styles.subtitle}>{subtitle}</p>
         </div>
@@ -33,7 +33,9 @@ export default function Sidebar({
           aria-controls={BODY_ID}
           aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
         >
-          {isOpen ? '‹' : '›'}
+          <span className={styles.chevron} aria-hidden="true">
+            {isOpen ? '‹' : '›'}
+          </span>
         </button>
       </header>
       <div id={BODY_ID} className={styles.body} hidden={!isOpen}>

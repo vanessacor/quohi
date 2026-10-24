@@ -9,3 +9,10 @@
   min-width: 0;
   height: 100%;
 }
+
+/* The mobile drawer overlays the map; keep its peek strip clear of the map. */
+@media (max-width: 767px) {
+  .mapArea {
+    height: calc(100% - var(--space-xxl));
+  }
+}
