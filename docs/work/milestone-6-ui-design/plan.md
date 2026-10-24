@@ -68,3 +68,10 @@ Steps sum to ~7h (15 + 25 + 15 + 40 + 30 + 30 + 45 + 45 + 60 + 20 + 45 + 20 + 30
 - `ResizeObserver` plus `invalidateSize` while the map is mid-transition: use no CSS width transition on the sidebar if it causes strips, or call `invalidateSize` on `transitionend`.
 - Removing the default Leaflet icon setup must not break anything else that uses default markers (there is none today).
 - Fonts add about two woff2 files per family to the bundle; fine for a static site.
+
+## Revision (after step 7, user feedback)
+
+- Two scroll areas in the sidebar looked wrong, so event details now expand inside the selected list row. There is no `EventPanel`, no floating card (step 8) and no docked mobile card (step 10). Step 8 became "expandable rows" and is done together with step 7
+- The selected row has a tinted highlight (`--selected-color`, a new derived token in `variables.css`), and the selected marker uses the solid highlight color. The `divIcon` markers from step 11 were done early; the pan to the selected marker remains in step 11
+- Step 10 is reduced to checking that the drawer stays open on selection and the expanded row scrolls into view
+- ADR-010, `TASKS.md`, `docs/code-standards.md` and `TRD.md` are updated to match

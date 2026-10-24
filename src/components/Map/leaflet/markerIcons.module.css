@@ -1,0 +1,12 @@
+.marker {
+  box-sizing: border-box;
+  border: 2px solid var(--background-color);
+  border-radius: 50%;
+  background: var(--primary-font-color);
+  cursor: pointer;
+}
+
+.selected {
+  background: var(--highligth-color);
+  box-shadow: 0 0 0 4px var(--selected-color);
+}

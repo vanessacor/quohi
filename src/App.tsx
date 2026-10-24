@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import EventPanel from './components/EventPanel/EventPanel'
+import EventList from './components/EventList/EventList'
 import Filters from './components/Filters/Filters'
 import Map from './components/Map/Map'
 import Sidebar from './components/Sidebar/Sidebar'
@@ -53,7 +53,11 @@ export default function App() {
           onChange={handleRangeChange}
           onReset={handleReset}
         />
-        <EventPanel event={selectedEvent} onClose={() => setSelectedId(null)} />
+        <EventList
+          events={visibleEvents}
+          selectedId={selectedId}
+          onSelect={setSelectedId}
+        />
       </Sidebar>
       <div className={styles.mapArea}>
         <Map

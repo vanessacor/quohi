@@ -1,7 +1,7 @@
 import 'leaflet/dist/leaflet.css'
-import './setupLeafletIcons'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import type { MapProps } from '../../../types/map'
+import { defaultIcon, selectedIcon } from './markerIcons'
 import MapResizer from './MapResizer'
 import styles from './LeafletMap.module.css'
 
@@ -29,6 +29,7 @@ export default function LeafletMap({
           key={marker.id}
           position={[marker.position.lat, marker.position.lng]}
           title={marker.title}
+          icon={marker.id === selectedId ? selectedIcon : defaultIcon}
           zIndexOffset={marker.id === selectedId ? 1000 : 0}
           eventHandlers={{ click: () => onMarkerClick?.(marker.id) }}
         />

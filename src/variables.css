@@ -35,6 +35,12 @@
     var(--background-color)
   );
 
+  --selected-color: color-mix(
+    in srgb,
+    var(--highligth-color) 30%,
+    var(--surface-color)
+  );
+
   --screen-size: 1200px;
 }
 
