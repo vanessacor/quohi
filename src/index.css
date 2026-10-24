@@ -4,3 +4,21 @@ body,
   margin: 0;
   height: 100%;
 }
+
+:root {
+  color-scheme: dark light;
+}
+
+body {
+  background: var(--background-color);
+  color: var(--primary-font-color);
+  font-family: var(--text-font);
+  font-size: var(--font-size-4);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--secondary-font-color);
+  font-family: var(--title-font);
+}
