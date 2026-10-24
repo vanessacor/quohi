@@ -39,7 +39,7 @@ Single unified schema (see `docs/business-rules.md`). Dates are a signed `year` 
 
 ## Architecture decisions
 
-See `docs/adr/`: 001 GitHub Pages, 002 flexible date schema, 003 React + Vite + Leaflet + npm, 004 TypeScript, 005 map adapter boundary, 006 Vitest, 007 build-time data pipeline, 008 local AI summaries, 009 event schema extension.
+See `docs/adr/`: 001 GitHub Pages, 002 flexible date schema, 003 React + Vite + Leaflet + npm, 004 TypeScript, 005 map adapter boundary, 006 Vitest, 007 build-time data pipeline, 008 local AI summaries, 009 event schema extension, 010 UI design.
 
 ## Workflow
 
