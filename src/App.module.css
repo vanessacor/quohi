@@ -3,13 +3,9 @@
   height: 100%;
 }
 
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  width: 320px;
+.mapArea {
+  position: relative;
+  flex: 1;
+  min-width: 0;
   height: 100%;
-  flex-shrink: 0;
-  background: var(--surface-color);
-  border-right: 1px solid var(--border-color);
 }

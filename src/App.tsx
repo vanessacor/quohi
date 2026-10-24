@@ -2,6 +2,7 @@ import { useState } from 'react'
 import EventPanel from './components/EventPanel/EventPanel'
 import Filters from './components/Filters/Filters'
 import Map from './components/Map/Map'
+import Sidebar from './components/Sidebar/Sidebar'
 import { city } from './config/city'
 import { events } from './data/events'
 import { eventToMarker } from './utils/eventToMarker'
@@ -36,7 +37,7 @@ export default function App() {
 
   return (
     <div className={styles.app}>
-      <div className={styles.sidebar}>
+      <Sidebar title="Historical Events" subtitle={city.name}>
         <Filters
           startText={startText}
           endText={endText}
@@ -47,14 +48,16 @@ export default function App() {
           onReset={handleReset}
         />
         <EventPanel event={selectedEvent} onClose={() => setSelectedId(null)} />
+      </Sidebar>
+      <div className={styles.mapArea}>
+        <Map
+          center={city.center}
+          zoom={city.zoom}
+          markers={markers}
+          selectedId={selectedId}
+          onMarkerClick={setSelectedId}
+        />
       </div>
-      <Map
-        center={city.center}
-        zoom={city.zoom}
-        markers={markers}
-        selectedId={selectedId}
-        onMarkerClick={setSelectedId}
-      />
     </div>
   )
 }

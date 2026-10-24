@@ -1,0 +1,33 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 20rem;
+  height: 100%;
+  flex-shrink: 0;
+  background: var(--surface-color);
+  border-right: 1px solid var(--border-color);
+}
+
+.header {
+  padding: var(--space-small);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-size-3);
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin: var(--space-xxs) 0 0;
+  font-size: var(--font-size-4);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
