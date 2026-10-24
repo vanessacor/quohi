@@ -45,7 +45,7 @@ Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on th
 - [x] Research: analyse `ui-inspiration.png`, map its elements to the existing components (sidebar, list, filters, detail card, markers) and decide what is out of scope (search, sort, route line, ratings) [30m]
 - [x] Write ADR-010 (UI design: theme tokens, self-hosted fonts, CSS-filter dark tiles, mobile drawer overriding PRD section 9) [15m]
 - [x] Wire `src/variables.css` into the app (import once in `main.tsx`), add derived `--surface-color` and `--border-color`, set base styles in `index.css` (background, text color, `--text-font`/`--title-font`) [25m]
-- [ ] Load the fonts the tokens reference (Montserrat Variable, IBM Plex Mono); self-hosted via `@fontsource-variable/montserrat` and `@fontsource/ibm-plex-mono` (decided, ADR-010) [15m]
+- [x] Load the fonts the tokens reference (Montserrat Variable, IBM Plex Mono); self-hosted via `@fontsource-variable/montserrat` and `@fontsource/ibm-plex-mono` (decided, ADR-010) [15m]
 - [ ] App layout: fixed-width sidebar (filters + event list) beside a full-height map, using `--screen-size` and spacing tokens [40m]
 - [ ] Collapsible desktop sidebar: toggle button, collapsed state leaves the map full width, the adapter observes its own container with a `ResizeObserver` and calls `invalidateSize` (ADR-005, `MapProps` unchanged); React state only [30m]
 - [ ] Mobile bottom drawer (below a breakpoint): collapsed handle with peek height, expands to one open height, tap on the handle toggles it (drag gesture deferred to backlog); the map stays visible and usable above it; keyboard accessible (button with `aria-expanded`) [60m]

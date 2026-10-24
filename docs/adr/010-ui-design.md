@@ -16,7 +16,7 @@ Milestone 6 restyles the app after `ui-inspiration.png`: a sidebar with a list b
 - **Markers**: round `divIcon` markers styled with CSS, created in the adapter only (ADR-005)
 
 ## Consequences
-- Two new npm dependencies (fonts), both build-time only
+- Two new npm dependencies (fonts), bundled into the build as static assets
 - The mobile drawer overrides PRD section 9; `PRD.md` is not rewritten, this ADR is the record
 - Filtered dark tiles are approximate; the tile-provider follow-up replaces them if they look poor
 - Removing the default Leaflet marker images simplifies `setupLeafletIcons.ts` away
