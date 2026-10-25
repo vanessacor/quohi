@@ -78,6 +78,9 @@ Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on th
 - [ ] Check success criteria in PRD section 10, including a mobile check [15m]
 
 ## Backlog (deferred, not scheduled)
+- [ ] One source for the mobile breakpoint: the 767px literal is repeated in `App.module.css`, `Sidebar.module.css`, `EventDetails.module.css` and `MOBILE_QUERY` in `src/config/layout.ts`, and only a comment keeps them in sync. Share a single variable (CSS cannot read custom properties in media queries, so e.g. PostCSS custom media or a build-time constant) so they cannot drift (Milestone 6 review finding)
+- [ ] Re-sync the sidebar state when the viewport crosses the mobile breakpoint: `isSidebarOpen` is only initialised from `isMobile`, so resizing or rotating from desktop to mobile leaves a 60% drawer covering the map, and the reverse leaves a narrow rail (Milestone 6 review finding)
+- [ ] Focus management for the sidebar and drawer: move focus to the event details when a marker is selected (the full-screen mobile drawer hides the focused marker) and back to the sidebar toggle when the details are closed (the close button unmounts and focus is lost) (Milestone 6 review finding)
 - [ ] Dark/light tile provider (e.g. CARTO Dark Matter / Positron) to replace the CSS-filter dark map: check usage terms and attribution, record in an ADR (follow-up of Milestone 6)
 - [ ] Draggable mobile drawer with snap heights (Milestone 6 ships tap-to-toggle only) [~1h]
 - [ ] Image markers on the map, as in `ui-inspiration.png` (after Milestone 7 images)

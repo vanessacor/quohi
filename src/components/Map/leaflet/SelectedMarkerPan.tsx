@@ -10,7 +10,7 @@ interface SelectedMarkerPanProps {
 const PADDING: [number, number] = [60, 60]
 
 // Moves the map only when the selected marker is outside the view, e.g. when a
-// click hid it or the map was dragged away.
+// click hid it or the map was dragged away, and again after the map resizes.
 export default function SelectedMarkerPan({
   markers,
   selectedId,
@@ -21,8 +21,15 @@ export default function SelectedMarkerPan({
   const lng = position?.lng
 
   useEffect(() => {
-    if (lat !== undefined && lng !== undefined) {
-      map.panInside([lat, lng], { padding: PADDING })
+    if (lat === undefined || lng === undefined) {
+      return
+    }
+    const panIntoView = () => map.panInside([lat, lng], { padding: PADDING })
+    panIntoView()
+    // Selecting can resize the map (the sidebar opens), which moves the view.
+    map.on('resize', panIntoView)
+    return () => {
+      map.off('resize', panIntoView)
     }
   }, [map, lat, lng])
 
