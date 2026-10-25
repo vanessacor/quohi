@@ -44,6 +44,14 @@
     var(--surface-color)
   );
 
+  /* The palette error colors are too dim for text on the surface (about 2.6:1);
+     mixing in the headline color reaches 5:1 in both themes. */
+  --error-text-color: color-mix(
+    in srgb,
+    var(--error-color) 50%,
+    var(--secondary-font-color)
+  );
+
   --screen-size: 1200px;
 }
 

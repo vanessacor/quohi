@@ -63,7 +63,7 @@ Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on th
   - [ ] Delete the temporary files `dark-mode-pallete.png`, `light-mode-palette.png` and `mobile-bug.png` (never committed) once A-D are done [2m]
 - [x] Pan the map to the selected marker when it is selected, desktop only because the mobile drawer is full screen on selection (adapter only, no `MapProps` change) [15m]
 - [x] Dark map via a CSS filter on the OSM tile pane, tuned to the new teal dark palette; restyle Leaflet zoom and attribution controls with the tokens; check that attribution stays visible [25m]
-- [ ] Visual check in dark and light mode (both new palettes), keyboard focus styles, text contrast; check desktop collapsed/expanded and the mobile drawer states (collapsed, open, full screen) at ~375px and 412x924 [40m]
+- [x] Visual check in dark and light mode (both new palettes), keyboard focus styles, text contrast; check desktop collapsed/expanded and the mobile drawer states (collapsed, open, full screen) at ~375px and 412x924 [40m]
 
 ## Milestone 7: Summaries & Images (~2.5h, extra budget, ADR-008/009)
 - [ ] Check hardware requirements; install Ollama + Qwen3 4B [20m]

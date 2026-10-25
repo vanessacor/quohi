@@ -33,7 +33,18 @@ export default function LeafletMap({
           title={marker.title}
           icon={marker.id === selectedId ? selectedIcon : defaultIcon}
           zIndexOffset={marker.id === selectedId ? 1000 : 0}
-          eventHandlers={{ click: () => onMarkerClick?.(marker.id) }}
+          eventHandlers={{
+            click: () => onMarkerClick?.(marker.id),
+            // Leaflet markers are focusable but only fire `keypress` for the
+            // keyboard, never `click`.
+            keypress: (event) => {
+              const { key } = event.originalEvent
+              if (key === 'Enter' || key === ' ') {
+                event.originalEvent.preventDefault()
+                onMarkerClick?.(marker.id)
+              }
+            },
+          }}
         />
       ))}
     </MapContainer>
