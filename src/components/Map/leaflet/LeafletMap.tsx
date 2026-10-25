@@ -3,6 +3,7 @@ import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import type { MapProps } from '../../../types/map'
 import { defaultIcon, selectedIcon } from './markerIcons'
 import MapResizer from './MapResizer'
+import SelectedMarkerPan from './SelectedMarkerPan'
 import styles from './LeafletMap.module.css'
 
 const TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -23,6 +24,7 @@ export default function LeafletMap({
       className={styles.map}
     >
       <MapResizer />
+      <SelectedMarkerPan markers={markers} selectedId={selectedId} />
       <TileLayer url={TILE_URL} attribution={ATTRIBUTION} />
       {markers.map((marker) => (
         <Marker
