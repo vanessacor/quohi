@@ -5,6 +5,8 @@ interface SidebarProps {
   readonly title: string
   readonly subtitle: string
   readonly isOpen: boolean
+  // Mobile only: the open drawer fills the screen.
+  readonly isFull: boolean
   readonly onToggle: () => void
   readonly children: ReactNode
 }
@@ -15,11 +17,14 @@ export default function Sidebar({
   title,
   subtitle,
   isOpen,
+  isFull,
   onToggle,
   children,
 }: SidebarProps) {
   return (
-    <div className={`${styles.sidebar} ${isOpen ? '' : styles.collapsed}`}>
+    <div
+      className={`${styles.sidebar} ${isOpen ? '' : styles.collapsed} ${isFull ? styles.full : ''}`}
+    >
       <header className={styles.header}>
         <div className={styles.heading}>
           <h1 className={styles.title}>{title}</h1>

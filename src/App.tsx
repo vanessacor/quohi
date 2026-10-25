@@ -53,6 +53,7 @@ export default function App() {
         title="Historical Events"
         subtitle={city.name}
         isOpen={isSidebarOpen}
+        isFull={isSidebarOpen && selectedEvent !== null}
         onToggle={() => setIsSidebarOpen((isOpen) => !isOpen)}
       >
         <Filters

@@ -99,6 +99,12 @@
     height: auto;
   }
 
+  .full {
+    height: 100dvh;
+    border-top: none;
+    border-radius: 0;
+  }
+
   /* One scroll area for filters and details, so long text stays reachable. */
   .body {
     overflow-y: auto;
