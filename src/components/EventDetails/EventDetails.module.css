@@ -8,10 +8,12 @@
   font-size: var(--font-size-4);
 }
 
-/* Same highlight as the selected marker on the map. */
+/* Same highlight as the selected marker on the map. The headline color keeps
+   the text readable on the tinted background (paragraph color is too dim). */
 .selected {
   border-left-color: var(--highligth-color);
   background: var(--selected-color);
+  color: var(--secondary-font-color);
 }
 
 .empty {

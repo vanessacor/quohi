@@ -16,13 +16,16 @@
   --font-size-3: clamp(1rem, 4vw, 1.25rem);
   --font-size-4: clamp(0.75rem, 4vw, 1rem);
 
-  --background-color: #0f0e17;
-  --primary-font-color: #a7a9be;
+  --background-color: #004643;
+  --primary-font-color: #abd1c6;
   --secondary-font-color: #fffffe;
-  --secondary-color: #f25f4c;
-  --highligth-color: #ff8906;
-  --highligth-secondary-color: #ff8906;
-  --highligth-tertiary-color: #e53170;
+  --secondary-color: #abd1c6;
+  --highligth-color: #f9bc60;
+  --highligth-secondary-color: #e8e4e6;
+  --highligth-tertiary-color: #e16162;
+  --button-text-color: #001e1d;
+  --stroke-color: #001e1d;
+  --error-color: #e16162;
 
   --surface-color: color-mix(
     in srgb,
@@ -50,8 +53,11 @@
     --primary-font-color: #222525;
     --secondary-font-color: #232323;
     --secondary-color: #f45d48;
-    --highligth-color: #219c90;
+    --highligth-color: #078080;
     --highligth-secondary-color: #fffffe;
-    --highligth-tertiary-color: #ee9322;
+    --highligth-tertiary-color: #f8f5f2;
+    --button-text-color: #232323;
+    --stroke-color: #232323;
+    --error-color: #f45d48;
   }
 }

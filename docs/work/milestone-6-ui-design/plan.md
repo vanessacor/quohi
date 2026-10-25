@@ -81,3 +81,46 @@ Steps sum to ~7h (15 + 25 + 15 + 40 + 30 + 30 + 45 + 45 + 60 + 20 + 45 + 20 + 30
 - The event list did not work well and was removed (step 7 dropped). Selecting a marker shows the event's details in a sidebar section under the filters, on the highlight background (`EventDetails`, replacing the briefly used `EventList`). Markers are the only way to select an event again, so the "results list" backlog item is open again
 - Pan to the selected marker (step 11) now only matters for off-screen markers and is optional
 - ADR-010, `TASKS.md`, `docs/code-standards.md` and `TRD.md` are updated to match
+
+## Revision 3 (`change-ui.md`: palettes, markers, mobile drawer)
+
+Input: `change-ui.md` with `dark-mode-pallete.png`, `light-mode-palette.png` and `mobile-bug.png`. The three PNGs are temporary: they stay untracked in the repo root, are never committed, and are deleted when steps A-D are finished (the palette values are recorded in the table below). Four new steps, A-D, run before the remaining original steps (pan, dark map, visual check, final review). Each is one commit after approval, as before.
+
+### Palettes (from the images)
+
+| Role | Dark | Light |
+| --- | --- | --- |
+| Background | `#004643` | `#f8f5f2` |
+| Headline | `#fffffe` | `#232323` |
+| Paragraph | `#abd1c6` | `#222525` |
+| Button / highlight | `#f9bc60` | `#078080` |
+| Button text | `#001e1d` | `#232323` |
+| Stroke | `#001e1d` | `#232323` |
+| Main | `#e8e4e6` | `#fffffe` |
+| Secondary | `#abd1c6` | `#f45d48` |
+| Tertiary | `#e16162` | `#f8f5f2` |
+
+Mapping onto the existing tokens (approved by the user): `--background-color` = background; `--secondary-font-color` = headline; `--primary-font-color` = paragraph; `--highligth-color` = button/highlight; `--secondary-color` and `--highligth-*-color` keep following the palette's secondary and tertiary values. New tokens: `--button-text-color`, `--stroke-color`, and `--error-color` (dark `#e16162`, light `#f45d48`), because the palettes' "secondary" is not an error color in the dark theme (it equals the paragraph color), so the current use of `--secondary-color` for errors must move to `--error-color`. `--surface-color`, `--border-color` and `--selected-color` stay derived with `color-mix`, so they follow the new palettes.
+
+Contrast pre-check (WCAG ratio, estimated from the derived colors; 4.5 is the AA target for body text, 3 for UI shapes):
+
+- Dark: paragraph on background 6.5, on surface 5.5 (fine); headline on selected 5.4 (fine), but **paragraph on selected 3.3 (fails)**, so the description in the selected details uses the headline color, or the selected mix is lowered
+- Light: paragraph on background 14.2 (fine); selected tint with paragraph 8.4 (fine); highlight teal on surface 3.8 (fine for borders and shapes, not for small text); **button text `#232323` on teal `#078080` is 3.3 (fails)**. Options: keep the palette (fails for small text), or use `#fffffe` on teal (about 4.8). The user approved the plan's default: the palette value for large or bold button text only, with `#fffffe` if any small text needs it
+
+### Steps
+
+- **A. Palette** [30m]. Replace the values in `src/variables.css` (dark default, light under `prefers-color-scheme: light`), add the three tokens, move error styles in `Filters.module.css` to `--error-color`, use the headline color for the description text on the selected background, and amend ADR-010 (palette, token mapping and the contrast decisions). Verify with screenshots in both themes (Chrome headless can emulate `prefers-color-scheme`)
+- **B. Teardrop markers** [30m]. In `markerIcons`: a square rotated 45 degrees with `border-radius: 50% 50% 50% 0`, anchored at the tip (`iconAnchor` bottom center), tooltip offset updated. Every marker has a 1px border in `--stroke-color` (user decision); the selected one differs by the highlight fill and a larger size. Drop the old selected ring. The marker stays inside the adapter (ADR-005)
+- **C. Drawer cannot be reopened** [10m]. Not reproducible in headless Chrome at 412x924: after collapsing, the strip with the chevron stays visible and tapping it reopens the drawer. The user confirmed they cannot scroll in their setup, which matches `mobile-bug.png`: DevTools device mode in an IDE window at 100% zoom, with an emulated viewport (924px) taller than the visible area, so the fixed bottom strip is outside the visible part. Treated as an emulator artifact, not an app bug. The step is only a check: the user sets the DevTools zoom to "Fit to window" (or picks a shorter device) and confirms the strip is visible and reopens the drawer; if it still fails, the user sends a new screenshot and the step becomes a fix. No code change is planned beforehand
+- **D. Full-screen drawer on selection** [35m]. Three drawer sizes on mobile: collapsed (strip), open (60dvh), full (100dvh). Selecting a marker grows the drawer to full screen. Closing the details (the close button) returns the drawer to **open** (60dvh), not full screen and not collapsed (user decision), whatever size it had before. Implementation: derive the mobile height from `isSidebarOpen` and whether an event is selected (full = open and selected), plus closing the details keeps `isSidebarOpen` true; no extra state. The collapse chevron during full screen collapses to the strip and keeps the selection; reopening it shows full screen again. Desktop is unchanged (sidebar opens on selection and stays as is). The pan step is desktop-only afterwards
+
+### Effects on the rest of the plan
+
+- Pan to the selected marker (step 11): desktop only
+- Dark map (step 12): the dark palette is teal, so a gray inverted OSM map may clash; tune the filter (hue, brightness) to the palette and check it against the highlight markers. The tile-provider backlog item gains weight if it looks poor
+- Visual check (step 13) covers both palettes and the three mobile drawer sizes
+- ADR-010 is amended in step A. No other ADR is needed
+
+### Timebox
+
+Steps A-D add 105 minutes (30 + 30 + 10 + 35), and the dark map and visual check grow by 15 minutes. Milestone 6 is now ~9h in `TASKS.md`, against ~7h in revision 1 and ~5.5h at the start. That is over the 50% overrun rule for the milestone, so scope was reassessed with the user: B and D are requirements, C shrank to a check. If a further cut is needed, the pan step and the visual check polish go first.

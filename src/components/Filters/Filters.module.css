@@ -38,7 +38,7 @@
 }
 
 .input[aria-invalid='true'] {
-  border-color: var(--secondary-color);
+  border-color: var(--error-color);
 }
 
 .input:focus-visible,
@@ -57,7 +57,7 @@
 .error {
   flex-basis: 100%;
   margin: 0;
-  color: var(--secondary-color);
+  color: var(--error-color);
 }
 
 .summary {

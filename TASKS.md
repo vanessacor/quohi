@@ -40,7 +40,7 @@ Timebox in brackets. The original MVP budget was ~12h; Milestones 5-7 (data pipe
 - [x] Normalize to the schema, dedupe by QID, validate, export `src/data/events.json` capped at 20 [40m]
 - [x] User reviews and fact-checks the output [30m]
 
-## Milestone 6: UI Design (~7h, extra budget)
+## Milestone 6: UI Design (~9h, extra budget)
 Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on the right, details in the sidebar, round pin markers). Layout requirements: on desktop the sidebar is collapsible; on mobile it becomes a bottom drawer (like a native sheet) instead of a left column. Styling uses only the tokens in `src/variables.css` (spacing, fonts, colors, dark/light via `prefers-color-scheme`); no hard-coded colors or sizes in components.
 - [x] Research: analyse `ui-inspiration.png`, map its elements to the existing components (sidebar, list, filters, detail card, markers) and decide what is out of scope (search, sort, route line, ratings) [30m]
 - [x] Write ADR-010 (UI design: theme tokens, self-hosted fonts, CSS-filter dark tiles, mobile drawer overriding PRD section 9) [15m]
@@ -55,9 +55,15 @@ Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on th
 - [x] Event details in the sidebar under the filters (title, date, description, close button) on a highlight background; one scroll area; replaces the side panel and the floating card (summary, image and source links come in Milestone 7) [45m]
 - [x] Selection feedback: the details section (`--selected-color`) and the selected marker share the highlight color [10m]
 - [x] Custom map markers (round `divIcon` pins, selected state highlighted, default PNG icon setup removed) via the Leaflet adapter only (ADR-005) [30m]
-- [ ] Pan the map to the selected marker when it is selected (adapter only, no `MapProps` change) [15m]
-- [ ] Dark map via a CSS filter on the OSM tile pane; restyle Leaflet zoom and attribution controls with the tokens; check that attribution stays visible [20m]
-- [ ] Visual check in dark and light mode, keyboard focus styles, text contrast; check desktop collapsed/expanded and the mobile drawer states at ~375px width [30m]
+- [ ] UI fixes round 1 (`change-ui.md`), steps A-D of the plan revision 3:
+  - [x] A. Adopt the dark and light color palettes in `src/variables.css` (new tokens `--button-text-color`, `--stroke-color`, `--error-color`; errors and the selected-details text recolored for contrast); amend ADR-010 with the palette and token mapping [30m]
+  - [ ] B. Teardrop map markers anchored at the tip; all markers have a 1px border (`--stroke-color`), the selected one differs by fill and size [30m]
+  - [ ] C. Mobile: confirm the collapsed drawer reopens in DevTools device mode with zoom set to "Fit to window" (the strip was off-screen in the 100% zoom view, not reproducible in headless Chrome); fix only if it still fails [10m]
+  - [ ] D. Mobile: selecting an event grows the drawer to full screen; closing the details returns it to the open size (not full screen, not collapsed) [35m]
+  - [ ] Delete the temporary files `dark-mode-pallete.png`, `light-mode-palette.png` and `mobile-bug.png` (never committed) once A-D are done [2m]
+- [ ] Pan the map to the selected marker when it is selected, desktop only because the mobile drawer is full screen on selection (adapter only, no `MapProps` change) [15m]
+- [ ] Dark map via a CSS filter on the OSM tile pane, tuned to the new teal dark palette; restyle Leaflet zoom and attribution controls with the tokens; check that attribution stays visible [25m]
+- [ ] Visual check in dark and light mode (both new palettes), keyboard focus styles, text contrast; check desktop collapsed/expanded and the mobile drawer states (collapsed, open, full screen) at ~375px and 412x924 [40m]
 
 ## Milestone 7: Summaries & Images (~2.5h, extra budget, ADR-008/009)
 - [ ] Check hardware requirements; install Ollama + Qwen3 4B [20m]
