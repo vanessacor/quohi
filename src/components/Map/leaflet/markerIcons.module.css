@@ -1,7 +1,7 @@
 /* Keep the side lengths in sync with pinIcon() in markerIcons.ts. */
 .marker {
   --pin-side: 20px;
-  --pin-fill: var(--background-color);
+  --pin-fill: var(--secondary-color);
 
   cursor: pointer;
 }
