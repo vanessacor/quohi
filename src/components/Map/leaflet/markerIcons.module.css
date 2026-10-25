@@ -1,12 +1,27 @@
+/* Keep the side lengths in sync with pinIcon() in markerIcons.ts. */
 .marker {
-  box-sizing: border-box;
-  border: 2px solid var(--background-color);
-  border-radius: 50%;
-  background: var(--primary-font-color);
+  --pin-side: 20px;
+  --pin-fill: var(--background-color);
+
   cursor: pointer;
 }
 
 .selected {
-  background: var(--highligth-color);
-  box-shadow: 0 0 0 4px var(--selected-color);
+  --pin-side: 26px;
+  --pin-fill: var(--highligth-color);
+}
+
+/* A square with three round corners, rotated so the sharp corner points down. */
+.pin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  box-sizing: border-box;
+  width: var(--pin-side);
+  height: var(--pin-side);
+  margin: calc(var(--pin-side) / -2) 0 0 calc(var(--pin-side) / -2);
+  border: 1px solid var(--stroke-color);
+  border-radius: 50% 50% 50% 0;
+  background: var(--pin-fill);
+  transform: rotate(-45deg);
 }

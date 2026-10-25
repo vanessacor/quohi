@@ -57,7 +57,7 @@ Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on th
 - [x] Custom map markers (round `divIcon` pins, selected state highlighted, default PNG icon setup removed) via the Leaflet adapter only (ADR-005) [30m]
 - [ ] UI fixes round 1 (`change-ui.md`), steps A-D of the plan revision 3:
   - [x] A. Adopt the dark and light color palettes in `src/variables.css` (new tokens `--button-text-color`, `--stroke-color`, `--error-color`; errors and the selected-details text recolored for contrast); amend ADR-010 with the palette and token mapping [30m]
-  - [ ] B. Teardrop map markers anchored at the tip; all markers have a 1px border (`--stroke-color`), the selected one differs by fill and size [30m]
+  - [x] B. Teardrop map markers anchored at the tip; all markers have a 1px border (`--stroke-color`), the selected one differs by fill and size [30m]
   - [ ] C. Mobile: confirm the collapsed drawer reopens in DevTools device mode with zoom set to "Fit to window" (the strip was off-screen in the 100% zoom view, not reproducible in headless Chrome); fix only if it still fails [10m]
   - [ ] D. Mobile: selecting an event grows the drawer to full screen; closing the details returns it to the open size (not full screen, not collapsed) [35m]
   - [ ] Delete the temporary files `dark-mode-pallete.png`, `light-mode-palette.png` and `mobile-bug.png` (never committed) once A-D are done [2m]
