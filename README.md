@@ -6,21 +6,21 @@ quohi is a frontend-only static site. The event data is prepared offline and bun
 
 ## Purpose
 
-quohi is a personal learning project. The map is the vehicle; the goal is to practice AI-assisted development and agentic workflows:
+quohi is a personal learning project. Quohi is the vehicle; the goal is to practice AI-assisted development and agentic workflows:
 
 - using AI as a development partner, not an authority: it proposes, a person decides, and every decision is recorded in an ADR
 - designing a multi-step process (research, plan, implement, review) with a stop for approval between phases, described in [`docs/rpi-workflow.md`](docs/rpi-workflow.md)
 - breaking work into small, AI-executable slices, one feature per session, within a weekend-sized time budget
 - separating data, logic and UI, and keeping the scope small to avoid premature complexity
 
-Success means shipping the MVP end to end and leaving behind a process that can be reused in future projects. The full context is in [`notes/personal.md`](notes/personal.md).
+Success means shipping the MVP end to end and leaving behind a process that can be reused in future projects.
 
 ## Status
 
 MVP in progress; see [`TASKS.md`](TASKS.md).
 
 - Done: map, markers, side panel, date formatting, year-range filter, data pipeline and a first dataset of 16 events (fact-checking still pending).
-- Next: AI-generated summaries and images in the side panel (Milestone 6), then UI polish and GitHub Pages deployment (Milestone 7).
+- Next: UI design (Milestone 6), AI-generated summaries and images in the event card (Milestone 7), then GitHub Pages deployment (Milestone 8).
 
 ## Stack
 
