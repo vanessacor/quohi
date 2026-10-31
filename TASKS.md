@@ -66,7 +66,7 @@ Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on th
 - [x] Visual check in dark and light mode (both new palettes), keyboard focus styles, text contrast; check desktop collapsed/expanded and the mobile drawer states (collapsed, open, full screen) at ~375px and 412x924 [40m]
 
 ## Milestone 7: Summaries & Images (~2.5h, extra budget, ADR-008/009)
-- [ ] Check hardware requirements; install Ollama + Qwen3 4B [20m]
+- [x] Check hardware requirements; install Ollama + Qwen3 4B (switched to `qwen3:4b-instruct`, see ADR-008 amendment) [20m]
 - [ ] `scripts/generate_summaries.py`: constrained prompt, output validation, cache [75m]
 - [ ] Side panel: summary, image with fallback and attribution, source links [45m]
 - [ ] Verify missing optional fields do not break the UI [15m]
