@@ -23,6 +23,7 @@
     "lat": 34.385,
     "lng": 109.27305555555556,
     "description": "The Terracotta Army is a collection of terracotta sculptures depicting the armies of Qin Shi Huang, the first emperor of China. It is a form of funerary art buried with the emperor in 210–209 BCE in his mausoleum with the purpose of protecting him in his afterlife. The figures, dating from approximately the late 200s BCE, were discovered in 1974 by local farmers in Lintong County, outside Xi'an, Shaanxi, China.",
+    "summary": "Farmers found a group of terracotta figures in 1974 near Xi'an, in a county called Lintong. These figures were part of an army buried around 210 to 209 BCE, meant to protect the first Chinese emperor, Qin Shi Huang, after he died. The army was placed in his mausoleum outside Xi'an. The sculptures are made of terracotta and show soldiers, horses, and other figures. They were discovered by local farmers digging near the area.",
     "image": {
       "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/51714-Terracota-Army.jpg/960px-51714-Terracota-Army.jpg",
       "attribution": "xiquinhosilva",
@@ -40,6 +41,7 @@
     "lat": 34.3416,
     "lng": 108.9428,
     "description": "Zhang Qian was a Chinese diplomat, explorer, and politician who served as an imperial envoy to the world outside of China in the late 2nd century BC during the Western Han dynasty. He was one of the first official diplomats to bring back valuable information about Central Asia, including the Greco-Bactrian remains of the Macedonian Empire as well as the Parthian Empire, to the Han dynasty imperial court, then ruled by Emperor Wu of Han.",
+    "summary": "Zhang Qian was a diplomat and explorer from China who traveled outside the country in the late 2nd century BC. He went on missions for the Han dynasty, reporting back to Emperor Wu about places like Central Asia. He brought information about the Greco-Bactrian and Parthian Empires, which were far away from China at that time. His journeys helped the Han court learn more about regions beyond China’s borders.",
     "image": {
       "url": "https://upload.wikimedia.org/wikipedia/commons/3/38/ZhangQianTravels.jpg",
       "attribution": "PHG",
@@ -74,6 +76,7 @@
     "lat": 34.3446,
     "lng": 108.9398,
     "description": "Emperor Guangwu of Han, personal name Liu Xiu, courtesy name Wenshu, was the founding emperor of the Chinese Eastern Han dynasty. Through the Eastern Han's suppression and conquest of regional warlords, the dynasty's rule over the whole of China proper was consolidated by the time of Emperor Guangwu's death in AD 57. Liu Xiu was one of the many descendants of the Western Han imperial family.",
+    "summary": "Liu Xiu, known as Emperor Guangwu, started the Eastern Han dynasty. He led efforts to bring control over China by defeating local warlords. When he died in AD 57, the Han dynasty had full rule over China proper. Liu Xiu was a descendant of the Western Han royal family.",
     "image": {
       "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Han_Guangwu_Di.jpg/960px-Han_Guangwu_Di.jpg",
       "attribution": "Yan Li-pen",
@@ -91,6 +94,7 @@
     "lat": 34.219769,
     "lng": 108.959335,
     "description": "The Giant Wild Goose Pagoda or Big Wild Goose Pagoda is a seven-storey Buddhist pagoda in the Daci'en Temple complex in southern Xi'an, Shaanxi, China. It was first built in 652, when Xi'an was the Tang capital Chang'an, under the direction of the monk and translator Xuanzang. The original five-storey structure was rebuilt during the reign of Wu Zetian and repaired in later dynasties; the present brick exterior reflects major work carried out during the Ming dynasty.",
+    "summary": "A seven-storey Buddhist pagoda stands in the Daci'en Temple area of southern Xi'an, China. It began construction in 652 when Xi'an was the capital of the Tang dynasty. The monk Xuanzang led the project. The first version had five stories. It was rebuilt during Wu Zetian’s time and fixed in later years. The current brick outer walls were mostly shaped during the Ming dynasty.",
     "image": {
       "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Giant_Wild_Goose_Pagoda.jpg/960px-Giant_Wild_Goose_Pagoda.jpg",
       "attribution": "Alex Kwok",
@@ -110,6 +114,7 @@
     "lat": 34.266666666666666,
     "lng": 108.93333333333334,
     "description": "The Xi'an Incident was a Chinese political crisis that lasted from 12 to 26 December 1936. Generals Zhang Xueliang and Yang Hucheng seized Chiang Kai-shek in Xi'an, demanding the Nationalist government end the Chinese Civil War and ally with the Chinese Communist Party (CCP) against Japanese expansionism, resulting in the Second United Front. The incident took place after months of secret negotiations between the CCP and the Kuomintang (KMT) had stalled.",
+    "summary": "From December 12 to 26, 1936, two generals in Xi'an took control of Chiang Kai-shek. They demanded the Nationalist government stop the civil war and work with the Communist Party to fight Japan. This led to a temporary alliance between the two groups. The talks between the Communist Party and the Kuomintang had not moved forward for months before this.",
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q244941",
       "wikipedia": "https://en.wikipedia.org/wiki/Xi%27an_Incident"
@@ -122,6 +127,7 @@
     "lat": 34.27444444,
     "lng": 109.0475,
     "description": "Banpo is a Neolithic archaeological site located in the Yellow River valley, east of present-day Xi'an, China. Discovered in 1953 by Shi Xingbang, the site represents the first phase of the Yangshao culture (c. 5000 – c. 3000 BCE) and features the remains of several well organized settlements—including Jiangzhai, which has been radiocarbon dated to c. 4700 – c. 3600 BCE).",
+    "summary": "Banpo is an ancient site in the Yellow River valley, east of Xi'an. It was found in 1953 by a person named Shi Xingbang. This place shows early human life from the Yangshao culture, around 5000 to 3000 BCE. The area had organized villages, one of which is Jiangzhai. Radiocarbon dating shows Jiangzhai was used from about 4700 to 3600 BCE.",
     "image": {
       "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Yangshao_Village_Diorama.jpg/960px-Yangshao_Village_Diorama.jpg",
       "attribution": "Gary Todd",
@@ -139,6 +145,7 @@
     "lat": 34.2557,
     "lng": 108.9482,
     "description": "The Xi'an Stele or the Jingjiao Stele, traditionally translated as the \"Nestorian Stele,\" is a Tang Chinese stele erected in 781 that documents 150 years of early Christianity in China. It is a limestone block 279 centimetres (9 ft 2 in) high with text in both Chinese and Syriac describing the existence of Christian communities in several cities in northern China.",
+    "summary": "A stone monument in Xi'an, China, stands 279 centimetres high and was set up in 781. It records about 150 years of early Christianity in China. The stone has writing in both Chinese and Syriac. It talks about Christian groups in several northern Chinese cities. This monument is known as the Xi'an Stele or the Jingjiao Stele. It is traditionally called the Nestorian Stele.",
     "sources": {
       "wikidata": "https://www.wikidata.org/wiki/Q1554020",
       "wikipedia": "https://en.wikipedia.org/wiki/Xi%27an_Stele"
@@ -151,6 +158,7 @@
     "lat": 34.24080277777778,
     "lng": 108.93735833333334,
     "description": "The Small Wild Goose Pagoda or Little Wild Goose Pagoda is a Tang-dynasty brick pagoda in the former Jianfu Temple precinct in Xi'an, Shaanxi, China. It was built between 707 and 709, when the city was the imperial capital Chang'an, and was associated with the temple's translation of Buddhist texts brought from India. The pagoda originally had fifteen storeys.",
+    "summary": "In Xi'an, China, there is a brick pagoda called the Small Wild Goose Pagoda, located in the old area of Jianfu Temple. It was built between 707 and 709 during the Tang dynasty when Xi'an was the capital city. The pagoda was linked to a temple that translated Buddhist texts from India. It started with fifteen storeys.",
     "image": {
       "url": "https://upload.wikimedia.org/wikipedia/commons/4/43/Xi%27anwildgoosepagoda2.JPG",
       "attribution": "Guucancat",
@@ -168,6 +176,7 @@
     "lat": 34.25333888888889,
     "lng": 108.94222611111111,
     "description": "The fortifications of Xi'an in Shaanxi, also known as the Xi'an City Wall, represent one of the oldest, largest, and best preserved Chinese city walls. It was built under the rule of the Hongwu Emperor of the Ming dynasty to protect the city from the Northern Yuan and potential unrest. It exhibits the \"complete features of the rampart architecture of feudal society\".",
+    "summary": "The Xi'an City Wall, in Shaanxi, is one of the oldest, largest, and best kept Chinese city walls. It was built during the Ming dynasty under the Hongwu Emperor to guard the city from the Northern Yuan and possible disturbances. The wall shows full features of ancient rampart design from feudal times.",
     "image": {
       "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/City_wall_of_Xi%27an_51550-Xian_%2827959363326%29.jpg/960px-City_wall_of_Xi%27an_51550-Xian_%2827959363326%29.jpg",
       "attribution": "xiquinhosilva",
@@ -221,6 +230,7 @@
     "lat": 34.21912,
     "lng": 108.95946,
     "description": "Daci'en Temple is a Buddhist temple located in Yanta District, Xi'an, Shaanxi. The temple is the cradle of East Asian Yogācāra in China. It is notable for the Giant Wild Goose Pagoda.",
+    "summary": "Daci'en Temple is in the Yanta District of Xi'an, Shaanxi. It is where East Asian Yogācāra Buddhism began in China. The temple is known for the Giant Wild Goose Pagoda.",
     "image": {
       "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/DaCiEnSi.jpg/960px-DaCiEnSi.jpg",
       "attribution": "Emcc",

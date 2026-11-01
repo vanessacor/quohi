@@ -33,7 +33,7 @@ CACHE_PATH = SCRIPTS_DIR / ".cache" / "summaries.json"
 OLLAMA_URL = "http://localhost:11434"
 DEFAULT_MODEL = "qwen3:4b-instruct"
 # Bump when the prompt changes so cached summaries are regenerated.
-PROMPT_VERSION = 2
+PROMPT_VERSION = 3
 TEMPERATURE = 0.2
 SEED = 1
 MAX_OUTPUT_TOKENS = 300
@@ -59,6 +59,8 @@ PROMPT_TEMPLATE = """You write short summaries of historical events for a map of
 Use ONLY the text between the markers. Do not add facts, dates, names or numbers that are not in it.
 Keep any uncertainty the text expresses (for example "traditionally", "possibly", "around").
 Rewrite it in your own words for a general reader, in simpler and more direct sentences. Do not copy sentences from the text.
+Prefer concrete facts from the text (who, what, where, when) over general praise. Do not add vague filler sentences such as "it remains one of the most famous" or "a bright time for many people".
+Copy every number, date and time span exactly as the text gives it. Never convert, estimate or compute a time span (for example "years ago") yourself.
 Write 50 to 100 words of plain prose in one paragraph: no title, list, markdown or quotation marks.
 If the text does not contain enough information for a summary, reply with exactly {marker}.
 
@@ -248,7 +250,7 @@ def main(argv: list[str] | None = None) -> int:
             invalid.append(event["id"])
         save_cache(cache)
 
-    EVENTS_PATH.write_text(json.dumps(updated, ensure_ascii=False, indent=2), encoding="utf-8")
+    EVENTS_PATH.write_text(json.dumps(updated, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     with_text = sum("summary" in event for event in updated)
     print(f"\n{with_text}/{len(updated)} events have a summary in {EVENTS_PATH}")

@@ -68,8 +68,8 @@ Visual direction: `ui-inspiration.png` (dark left sidebar with a list, map on th
 ## Milestone 7: Summaries & Images (~2.5h, extra budget, ADR-008/009)
 - [x] Check hardware requirements; install Ollama + Qwen3 4B (switched to `qwen3:4b-instruct`, see ADR-008 amendment) [20m]
 - [x] `scripts/generate_summaries.py`: constrained prompt, output validation, cache [75m]
-- [ ] Side panel: summary, image with fallback and attribution, source links [45m]
-- [ ] Verify missing optional fields do not break the UI [15m]
+- [x] Side panel: summary, image with fallback and attribution, source links [45m]
+- [x] Verify missing optional fields do not break the UI [15m]
 
 ## Milestone 8: Finalization (~2.5h)
 - [ ] Final mobile check on a real device or emulator (responsive layout and the drawer are built in Milestone 6) [15m]

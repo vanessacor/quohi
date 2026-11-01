@@ -65,6 +65,43 @@
   line-height: 1.5;
 }
 
+.figure {
+  margin: 0 0 var(--space-extra-small);
+}
+
+/* Fixed ratio box so a late-loading image does not shift the text. */
+.image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--surface-color);
+}
+
+.caption,
+.note {
+  margin: var(--space-xxs) 0 0;
+  font-size: 0.75em;
+  opacity: 0.8;
+}
+
+.sources {
+  display: flex;
+  gap: var(--space-small);
+  margin: var(--space-extra-small) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sources a {
+  color: var(--secondary-font-color);
+}
+
+.sources a:focus-visible {
+  outline: 2px solid var(--highligth-color);
+  outline-offset: 2px;
+}
+
 /* Mobile drawer: the sidebar body scrolls as a whole and the selected event
    comes first, so the description is not squeezed under the filters. */
 @media (max-width: 767px) {
