@@ -1,6 +1,6 @@
 import type { EventSources, HistoricalEvent } from '../../types/event'
 import { formatEventDate } from '../../utils/formatEventDate'
-import EventImage from './EventImage'
+import EventImage from '../EventImage/EventImage'
 import styles from './EventDetails.module.css'
 
 interface EventDetailsProps {

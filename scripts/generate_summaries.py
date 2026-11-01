@@ -133,7 +133,11 @@ def load_cache(path: Path = CACHE_PATH) -> dict[str, dict]:
     """Loads the summary cache keyed by QID; empty when it does not exist yet."""
     if not path.exists():
         return {}
-    return json.loads(path.read_text(encoding="utf-8"))
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        print(f"Warning: {path} is not valid JSON; starting with an empty cache")
+        return {}
 
 
 def save_cache(cache: dict[str, dict], path: Path = CACHE_PATH) -> None:
@@ -161,9 +165,14 @@ def ollama_chat(model: str, prompt: str) -> str:
         )
     except requests.ConnectionError as error:
         raise OllamaError(f"Ollama is not reachable at {OLLAMA_URL}; run `ollama serve`") from error
+    except requests.Timeout as error:
+        raise OllamaError(f"Ollama did not answer within {TIMEOUT_SECONDS}s") from error
+    except requests.RequestException as error:
+        raise OllamaError(f"Ollama request failed: {error}") from error
     if response.status_code == 404:
         raise OllamaError(f"Model {model!r} not found; run `ollama pull {model}`")
-    response.raise_for_status()
+    if not response.ok:
+        raise OllamaError(f"Ollama returned HTTP {response.status_code}: {response.text[:200]}")
     try:
         return response.json()["message"]["content"]
     except (KeyError, ValueError) as error:
@@ -175,9 +184,12 @@ def process_event(
 ) -> tuple[str | None, str]:
     """Returns the summary (or None) and how it was obtained; updates `cache` in place.
 
-    Outcomes: `cached`, `generated`, `insufficient`, or `invalid: <reason>`. Invalid
-    results are not cached, so the next run tries again.
+    Outcomes: `cached`, `generated`, `insufficient`, `skipped: ...` or `invalid: <reason>`.
+    Invalid results are not cached, so the next run tries again. An event without a
+    source link gets no summary: AI text must appear next to a source (business rules).
     """
+    if not any((event.get("sources") or {}).values()):
+        return None, "skipped: no source link"
     key = input_hash(event, model)
     entry = cache.get(event["id"])
     if entry and entry["input_hash"] == key and not force:

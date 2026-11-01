@@ -1,8 +1,12 @@
 """Tests for scripts/generate_summaries.py (rules: ADR-008, ADR-009). Ollama is never called."""
 
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
+
+import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -20,6 +24,7 @@ def make_event(**overrides):
         "lat": 34.38,
         "lng": 109.27,
         "description": "A collection of terracotta sculptures depicting the armies of Qin Shi Huang.",
+        "sources": {"wikipedia": "https://en.wikipedia.org/wiki/Terracotta_Army"},
     }
     return {**event, **overrides}
 
@@ -151,6 +156,43 @@ class ProcessEventTest(unittest.TestCase):
         self.assertIsNone(summary)
         self.assertTrue(outcome.startswith("invalid"))
         self.assertEqual(cache, {})
+
+
+class ProcessEventSourcesTest(unittest.TestCase):
+    def test_an_event_without_a_source_link_is_skipped_without_calling_the_model(self):
+        for sources in (None, {}, {"wikipedia": ""}):
+            with self.subTest(sources=sources):
+                event = make_event(sources=sources)
+                chat = FakeChat(PROSE)
+                summary, outcome = gs.process_event(event, {}, "m", chat, CITY, False)
+                self.assertEqual((summary, outcome, chat.prompts), (None, "skipped: no source link", []))
+
+
+class OllamaChatErrorsTest(unittest.TestCase):
+    def call(self, **post_kwargs):
+        with mock.patch.object(gs.requests, "post", **post_kwargs):
+            return gs.ollama_chat("m", "prompt")
+
+    def test_a_timeout_becomes_an_ollama_error(self):
+        with self.assertRaisesRegex(gs.OllamaError, "did not answer"):
+            self.call(side_effect=requests.ReadTimeout())
+
+    def test_other_request_errors_become_an_ollama_error(self):
+        with self.assertRaisesRegex(gs.OllamaError, "request failed"):
+            self.call(side_effect=requests.RequestException("boom"))
+
+    def test_an_http_error_becomes_an_ollama_error(self):
+        response = mock.Mock(ok=False, status_code=500, text="server error")
+        with self.assertRaisesRegex(gs.OllamaError, "HTTP 500"):
+            self.call(return_value=response)
+
+
+class LoadCacheTest(unittest.TestCase):
+    def test_a_corrupt_cache_file_gives_an_empty_cache(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "summaries.json"
+            path.write_text("{not json", encoding="utf-8")
+            self.assertEqual(gs.load_cache(path), {})
 
 
 class WithSummaryTest(unittest.TestCase):

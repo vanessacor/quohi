@@ -65,20 +65,6 @@
   line-height: 1.5;
 }
 
-.figure {
-  margin: 0 0 var(--space-extra-small);
-}
-
-/* Fixed ratio box so a late-loading image does not shift the text. */
-.image {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  background: var(--surface-color);
-}
-
-.caption,
 .note {
   margin: var(--space-xxs) 0 0;
   font-size: 0.75em;

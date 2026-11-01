@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { EventImage as EventImageData } from '../../types/event'
-import styles from './EventDetails.module.css'
+import styles from './EventImage.module.css'
 
 interface EventImageProps {
   readonly image: EventImageData
